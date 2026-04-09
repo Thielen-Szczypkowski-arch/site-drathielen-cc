@@ -89,8 +89,8 @@
       padding: 3px;
       box-shadow:
         0 0 0 1px rgba(255,255,255,0.06),
-        0 50px 100px rgba(10,6,2,0.55),
-        0 16px 40px rgba(10,6,2,0.30);
+        0 30px 60px rgba(10,6,2,0.22),
+        0 10px 24px rgba(10,6,2,0.12);
     }
     /* Tela */
     .phone-screen {
@@ -310,7 +310,7 @@
       .hero-img-wrap { position: absolute !important; inset: 0 !important; border-radius: 6px 32px 6px 32px !important; overflow: hidden; }
       .hero-img-wrap img { object-position: center 15%; }
       .sobre-grid { grid-template-columns: 1fr; gap: 44px; }
-      .phone-frame { width: 260px; }
+      .phone-frame { width: min(320px, 82vw); }
     }
     @media (max-width: 1100px) {
       .tratamentos-grid-home { grid-template-columns: repeat(3, 1fr); }
@@ -325,7 +325,7 @@
     }
     @media (max-width: 600px) {
       .hero-img-outer { height: 420px; min-height: 420px; }
-      .phone-frame { width: 200px; }
+      .phone-frame { width: min(300px, 80vw); }
       .tratamentos-grid-home { grid-template-columns: 1fr; }
       .blog-grid-home { grid-template-columns: 1fr; }
       .loc-grid { grid-template-columns: 1fr; }
@@ -429,7 +429,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   
   <a href="/blog/">Blog</a>
   <a href="/contato">Contato</a>
-  <a href="/contato" style="color:var(--bronze)">Agendar consulta</a>
+  <a href="/contato" class="nav-cta">Agendar consulta</a>
 </div>
 
 <!-- ══ HERO ══ -->
