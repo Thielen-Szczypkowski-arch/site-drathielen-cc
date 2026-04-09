@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Blog da Dra. Thielen Szczypkowski — artigos sobre varizes, vasinhos, circulação vascular e saúde das pernas.">
+  <title>Blog | Dra. Thielen Szczypkowski</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Blog sobre Varizes e Saúde Vascular | Dra. Thielen Szczypkowski">
+  <meta property="og:description" content="Artigos sobre varizes, vasinhos, circulação e saúde das pernas. Informação confiável de uma cirurgiã vascular especialista em flebologia estética.">
+  <meta property="og:url" content="https://www.drathielen.com.br/blog/">
+  <meta property="og:image" content="https://www.drathielen.com.br/assets/blog-laser-endovenoso.webp">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.drathielen.com.br/blog/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .blog-listing { background: var(--white); padding: 80px 0 100px; }
+    .blog-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 52px; }
+    @media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .blog-grid { grid-template-columns: 1fr; } }
+    .blog-cta-box { background: var(--brown); border-radius: var(--radius-lg); padding: 56px 64px; text-align: center; margin-top: 72px; }
+    .blog-cta-box h2 { color: var(--white); margin-bottom: 12px; }
+    .blog-cta-box p { color: rgba(255,255,255,0.65); max-width: 480px; margin: 0 auto 28px; }
+    @media (max-width: 600px) { .blog-cta-box { padding: 36px 24px; } }
+    .blog-card {
+      background: var(--white); border-radius: var(--radius-md); overflow: hidden;
+      text-decoration: none; color: inherit; display: block;
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s;
+      border: 1px solid rgba(172,146,115,0.12);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .blog-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .blog-thumb {
+      height: 180px;
+      overflow: hidden;
+      position: relative;
+    }
+    .blog-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+    .blog-card:hover .blog-thumb img { transform: scale(1.05); }
+    .blog-thumb::after {
+      content: ''; position: absolute; top: -16px; left: -16px;
+      width: 60px; height: 60px; border-radius: 50%;
+      background: rgba(172,146,115,0.07);
+    }
+    .blog-thumb svg { width: 48px; height: 48px; color: var(--bronze); opacity: 0.55; position: relative; z-index: 1; }
+    .blog-body { padding: 26px; }
+    .blog-meta { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+    .blog-date { font-size: 0.68rem; color: var(--bronze); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .blog-tag { font-size: 0.65rem; background: var(--bronze-pale); color: var(--bronze); padding: 3px 10px; border-radius: 100px; font-weight: 500; }
+    .blog-card h3 { font-size: 0.97rem; font-family: 'Inter', sans-serif; font-weight: 600; line-height: 1.42; color: var(--text-dark); margin-bottom: 10px; }
+    .blog-card p { font-size: 0.8rem; margin-bottom: 16px; }
+    .blog-read { font-size: 0.76rem; font-weight: 600; color: var(--bronze); }
+    .blog-card.hidden { display: none; }
+    .load-more-wrap { text-align: center; margin-top: 48px; }
+    .btn-load-more {
+      display: inline-block; padding: 14px 40px;
+      border: 2px solid var(--bronze); border-radius: 100px;
+      color: var(--bronze); font-size: 0.9rem; font-weight: 600;
+      background: transparent; cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-load-more:hover { background: var(--bronze); color: var(--white); }
+  </style>
+</head>
+<body>
+
+<header id="header" class="header-dark">
+  <div class="container">
+    <div class="header-inner">
+      <a href="../index.html" class="logo">
+        <img src="../assets/logo-original.png" alt="Dra. Thielen Szczypkowski — Cirurgia Vascular · Flebologia" class="logo-img">
+      </a>
+      <nav>
+        <a href="../sobre.html">Sobre</a>
+        <a href="../tratamentos.html">Tratamentos</a>
+        <a href="index.html" class="active">Blog</a>
+        <a href="../contato.html">Contato</a>
+        <a href="../contato.html" class="nav-cta">Agendar consulta</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">&#x2715;</button>
+  <a href="../sobre.html">Sobre</a>
+  <a href="../tratamentos.html">Tratamentos</a>
+  <a href="index.html">Blog</a>
+  <a href="../contato.html">Contato</a>
+  <a href="../contato.html" style="color:var(--bronze)">Agendar consulta</a>
+</div>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <div class="breadcrumb fade-up" style="transition-delay:0s"><a href="../index.html">Início</a><span>/</span><span>Blog</span></div>
+      <span class="section-label fade-up" style="transition-delay:0.08s">Estética das pernas</span>
+      <h1 class="fade-left" style="transition-delay:0.16s">Blog &amp; Conteúdo</h1>
+      <p class="lead fade-up" style="transition-delay:0.24s">Informações confiáveis sobre saúde vascular, varizes e como cuidar das suas pernas.</p>
+    </div>
+  </div>
+  <div class="page-hero-wave wave">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#ffffff"/>
+    </svg>
+  </div>
+</section>
+
+<section class="blog-listing">
+  <div class="container">
+    <div style="text-align:center;">
+      <span class="section-label fade-up" style="transition-delay:0s">Todos os artigos</span>
+      <h2 class="scale-in" style="transition-delay:0.1s">Conhecimento que cuida</h2>
+    </div>
+    <div class="blog-grid">
+
+      <a href="uso-meias.html" class="blog-card fade-left" style="transition-delay:0.08s">
+        <div class="blog-thumb"><img src="../assets/blog-meias.webp" alt="Meias de compressão na atividade física" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">22 Abr 2020</span><span class="blog-tag">Prevenção</span></div>
+          <h3>Uso de meias de compressão na atividade física</h3>
+          <p>Entenda como as meias de compressão funcionam durante o exercício e quando são indicadas para quem tem varizes.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="anticoncepcional.html" class="blog-card fade-up" style="transition-delay:0.16s">
+        <div class="blog-thumb"><img src="../assets/blog-anticoncepcional.webp" alt="Anticoncepcional e varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">31 Jan 2020</span><span class="blog-tag">Saúde Feminina</span></div>
+          <h3>Anticoncepcional pode causar varizes?</h3>
+          <p>Esclareça a relação entre o uso de anticoncepcionais hormonais e o desenvolvimento de varizes.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="varizes-verao.html" class="blog-card fade-right" style="transition-delay:0.24s">
+        <div class="blog-thumb"><img src="../assets/blog-verao.webp" alt="Varizes no verão — dicas para o calor" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">13 Dez 2019</span><span class="blog-tag">Verão</span></div>
+          <h3>Varizes: 5 dicas para evitar incômodos no verão</h3>
+          <p>No verão há aumento de 20 a 30% nas queixas de varizes. Saiba como se prevenir durante as altas temperaturas.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="problemas-varizes.html" class="blog-card fade-up" style="transition-delay:0.32s">
+        <div class="blog-thumb"><img src="../assets/blog-problemas.webp" alt="Problemas causados pelas varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">25 Nov 2019</span><span class="blog-tag">Complicações</span></div>
+          <h3>Além do estético, quais problemas as varizes causam?</h3>
+          <p>As varizes não são apenas um problema estético. Saiba quais complicações podem surgir sem tratamento adequado.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="fatores-risco.html" class="blog-card fade-left" style="transition-delay:0.08s">
+        <div class="blog-thumb"><img src="../assets/blog-fatores-risco.webp" alt="Fatores de risco para varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">22 Out 2019</span><span class="blog-tag">Fatores de Risco</span></div>
+          <h3>Varizes: fatores de risco que você deve se atentar</h3>
+          <p>Hereditariedade, sedentarismo, gravidez… Conheça os principais fatores que favorecem o desenvolvimento de varizes.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="opcoes-tratamento.html" class="blog-card fade-up" style="transition-delay:0.16s">
+        <div class="blog-thumb"><img src="../assets/blog-opcoes-tratamento.webp" alt="Opções de tratamento para varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">30 Set 2019</span><span class="blog-tag">Tratamentos</span></div>
+          <h3>Quais são as opções de tratamentos para varizes?</h3>
+          <p>Independente do seu caso, existem opções de tratamento adequadas. Conheça as principais técnicas disponíveis.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="sintomas-varizes.html" class="blog-card fade-right" style="transition-delay:0.24s">
+        <div class="blog-thumb"><img src="../assets/blog-sintomas.webp" alt="Sintomas das varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">21 Ago 2019</span><span class="blog-tag">Saúde Vascular</span></div>
+          <h3>Quais os sintomas de varizes?</h3>
+          <p>Dor, peso, inchaço e cãibras podem ser sinais de insuficiência venosa. Aprenda a identificar os sintomas das varizes.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="remedios-cremes.html" class="blog-card fade-up" style="transition-delay:0.32s">
+        <div class="blog-thumb"><img src="../assets/blog-remedios.webp" alt="Remédios e cremes para varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">30 Jul 2019</span><span class="blog-tag">Mitos e Verdades</span></div>
+          <h3>Existem remédios e cremes para tratar varizes?</h3>
+          <p>Descubra a verdade sobre produtos que prometem eliminar varizes e o que realmente funciona no tratamento.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="razoes-inverno.html" class="blog-card fade-left" style="transition-delay:0.08s">
+        <div class="blog-thumb"><img src="../assets/blog-razoes-inverno.webp" alt="5 razões para tratar varizes no inverno" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">25 Jun 2019</span><span class="blog-tag">Prevenção</span></div>
+          <h3>5 razões para tratar as varizes no inverno</h3>
+          <p>O frio favorece os tratamentos vasculares por razões clínicas e práticas. Conheça os benefícios de tratar no inverno.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="checkup-vascular.html" class="blog-card fade-up" style="transition-delay:0.16s">
+        <div class="blog-thumb"><img src="../assets/blog-checkup.webp" alt="A importância do check-up vascular" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">24 Mai 2019</span><span class="blog-tag">Prevenção</span></div>
+          <h3>A importância do check-up vascular</h3>
+          <p>O check-up vascular é essencial para prevenir doenças e identificar varizes em estágio inicial, quando o tratamento é mais simples.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="laser-como-funciona.html" class="blog-card fade-right" style="transition-delay:0.24s">
+        <div class="blog-thumb"><img src="../assets/blog-laser.webp" alt="Tratamento de varizes com laser" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">15 Mai 2019</span><span class="blog-tag">Tratamentos</span></div>
+          <h3>Tratamento de varizes com Laser: como funciona?</h3>
+          <p>O laser é uma das técnicas mais modernas para tratar varizes. Saiba como o procedimento é realizado e seus resultados.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="escleroterapia-espuma.html" class="blog-card fade-up" style="transition-delay:0.32s">
+        <div class="blog-thumb"><img src="../assets/blog-espuma.webp" alt="Escleroterapia com espuma" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">11 Abr 2019</span><span class="blog-tag">Tratamentos</span></div>
+          <h3>Conheça a Escleroterapia com Espuma</h3>
+          <p>A escleroterapia com espuma é indicada para varizes de médio calibre e pode substituir a cirurgia em muitos casos.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="laser-endovenoso.html" class="blog-card fade-left" style="transition-delay:0.08s">
+        <div class="blog-thumb"><img src="../assets/blog-laser-endovenoso.webp" alt="Laser endovenoso para varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">26 Fev 2019</span><span class="blog-tag">Tratamentos</span></div>
+          <h3>Tratamento de varizes: conheça o LASER Endovenoso</h3>
+          <p>O LASER Endovenoso é alternativa minimamente invasiva à cirurgia tradicional para varizes de maior calibre.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="microcirurgia-cirurgia.html" class="blog-card fade-up" style="transition-delay:0.16s">
+        <div class="blog-thumb"><img src="../assets/blog-microcirurgia.webp" alt="Microcirurgia e cirurgia de varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">08 Fev 2019</span><span class="blog-tag">Tratamentos</span></div>
+          <h3>Microcirurgia e cirurgia de varizes</h3>
+          <p>Quando as varizes são extensas, microcirurgia e cirurgia convencional são as opções mais indicadas. Saiba como funcionam.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="verao-dicas-2018.html" class="blog-card fade-right" style="transition-delay:0.24s">
+        <div class="blog-thumb"><img src="../assets/blog-verao-dicas.webp" alt="Dicas para curtir o verão com varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">18 Dez 2018</span><span class="blog-tag">Verão</span></div>
+          <h3>Verão: dicas para curtir a estação sem dor de cabeça</h3>
+          <p>O calor intensifica os sintomas das varizes. Veja dicas práticas para aliviar inchaço, dor e cansaço nas pernas no verão.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="varizes-homens.html" class="blog-card fade-up" style="transition-delay:0.32s">
+        <div class="blog-thumb"><img src="../assets/blog-varizes-homens.webp" alt="Varizes e vasinhos em homens" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">22 Nov 2018</span><span class="blog-tag">Saúde Masculina</span></div>
+          <h3>Varizes e vasinhos: tratamentos para homens</h3>
+          <p>Um em cada cinco homens tem varizes. Saiba por que o diagnóstico é tardio e quais tratamentos são indicados.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="tratar-vasinhos.html" class="blog-card fade-left" style="transition-delay:0.08s">
+        <div class="blog-thumb"><img src="../assets/blog-tratar-vasinhos.webp" alt="Por que tratar os vasinhos" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">31 Out 2018</span><span class="blog-tag">Vasinhos</span></div>
+          <h3>Por que devemos tratar os vasinhos?</h3>
+          <p>Os vasinhos não são apenas estéticos — podem indicar insuficiência venosa. Entenda por que tratar é importante.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="mitos-verdades-varizes.html" class="blog-card fade-up" style="transition-delay:0.16s">
+        <div class="blog-thumb"><img src="../assets/blog-mitos-verdades.webp" alt="Mitos e verdades sobre varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">26 Set 2018</span><span class="blog-tag">Mitos e Verdades</span></div>
+          <h3>Mitos e verdades sobre as varizes</h3>
+          <p>Salto alto causa varizes? Creme trata varizes? Descubra o que a ciência diz sobre as crenças mais comuns.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="melhor-tratamento.html" class="blog-card fade-right" style="transition-delay:0.24s">
+        <div class="blog-thumb"><img src="../assets/blog-melhor-tratamento.webp" alt="Qual o melhor tratamento para varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">27 Ago 2018</span><span class="blog-tag">Tratamentos</span></div>
+          <h3>Qual o melhor tratamento para varizes?</h3>
+          <p>A resposta depende do tipo e calibre das varizes. Conheça todas as opções e entenda como é feita a escolha correta.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="inverno-melhor-epoca.html" class="blog-card fade-up" style="transition-delay:0.32s">
+        <div class="blog-thumb"><img src="../assets/blog-inverno-melhor.webp" alt="Inverno: melhor época para tratar varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">16 Jul 2018</span><span class="blog-tag">Prevenção</span></div>
+          <h3>Inverno: a melhor época para tratar varizes</h3>
+          <p>O frio facilita o pós-tratamento e reduz risco de manchas. Saiba por que o inverno é ideal para iniciar os procedimentos.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="vasinhos-rosto.html" class="blog-card fade-left" style="transition-delay:0.08s">
+        <div class="blog-thumb"><img src="../assets/blog-vasinhos-rosto.webp" alt="Vasinhos no rosto — telangiectasias faciais" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">25 Jun 2018</span><span class="blog-tag">Vasinhos</span></div>
+          <h3>O que são os vasinhos no rosto?</h3>
+          <p>As telangiectasias faciais são capilares dilatados na pele do rosto. Conheça causas, riscos e tratamento com laser.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="mitos-meias.html" class="blog-card fade-up" style="transition-delay:0.16s">
+        <div class="blog-thumb"><img src="../assets/blog-mitos-meias.webp" alt="Mitos e verdades sobre meias de compressão" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">06 Jun 2018</span><span class="blog-tag">Mitos e Verdades</span></div>
+          <h3>Mitos e verdades sobre meias de compressão</h3>
+          <p>Qualquer meia serve? A meia perde efeito ao lavar? Esclareça as dúvidas mais comuns sobre as meias compressivas.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="varizes-gravidez.html" class="blog-card fade-right" style="transition-delay:0.24s">
+        <div class="blog-thumb"><img src="../assets/blog-gravidez.webp" alt="Varizes na gravidez" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">02 Mai 2018</span><span class="blog-tag">Saúde Feminina</span></div>
+          <h3>Varizes na gravidez: é normal ter, mas precisa tratar</h3>
+          <p>A gravidez é um dos maiores fatores de risco para varizes. Saiba como prevenir e quando buscar acompanhamento especializado.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="por-que-tratar.html" class="blog-card fade-up" style="transition-delay:0.32s">
+        <div class="blog-thumb"><img src="../assets/blog-por-que-tratar.webp" alt="Por que tratar as varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">21 Mar 2018</span><span class="blog-tag">Saúde Vascular</span></div>
+          <h3>Por que tratar as varizes?</h3>
+          <p>Varizes não tratadas evoluem para complicações sérias. Entenda por que o tratamento é uma necessidade médica, não estética.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="ma-circulacao.html" class="blog-card fade-left" style="transition-delay:0.08s">
+        <div class="blog-thumb"><img src="../assets/blog-ma-circulacao.webp" alt="Má circulação nos braços e pernas" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">28 Fev 2018</span><span class="blog-tag">Saúde Vascular</span></div>
+          <h3>Má circulação nos braços e pernas: como melhorar</h3>
+          <p>Extremidades frias, formigamento e inchaço podem ser sinais de má circulação. Saiba o que fazer para melhorar.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="cirurgia-quando-indicada.html" class="blog-card fade-up" style="transition-delay:0.16s">
+        <div class="blog-thumb"><img src="../assets/blog-cirurgia-quando.webp" alt="Cirurgia de varizes: quando é indicada" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">26 Jan 2018</span><span class="blog-tag">Tratamentos</span></div>
+          <h3>Cirurgia de varizes: quando é indicada</h3>
+          <p>Com tantas alternativas disponíveis, quando a cirurgia ainda é necessária? Entenda as indicações e como é realizada.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="varizes-nao-tem-idade.html" class="blog-card fade-right" style="transition-delay:0.24s">
+        <div class="blog-thumb"><img src="../assets/blog-nao-tem-idade.webp" alt="Varizes não têm idade" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">21 Dez 2017</span><span class="blog-tag">Saúde Vascular</span></div>
+          <h3>Varizes não têm idade</h3>
+          <p>Jovens também desenvolvem varizes. Saiba por que a genética é mais determinante do que a idade e como se proteger.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="meias-prevenir.html" class="blog-card fade-up" style="transition-delay:0.32s">
+        <div class="blog-thumb"><img src="../assets/blog-meias-prevenir.webp" alt="Como as meias de compressão previnem varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">16 Nov 2017</span><span class="blog-tag">Prevenção</span></div>
+          <h3>Como as meias de compressão ajudam a prevenir varizes</h3>
+          <p>As meias compressivas são aliadas na prevenção e tratamento. Saiba como funcionam e quando são indicadas.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="checkup-vascular-2017.html" class="blog-card fade-left" style="transition-delay:0.08s">
+        <div class="blog-thumb"><img src="../assets/blog-checkup-2017.webp" alt="Check-up vascular" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">17 Out 2017</span><span class="blog-tag">Prevenção</span></div>
+          <h3>Check-up vascular: você já fez?</h3>
+          <p>As doenças vasculares estão entre as maiores causas de mortalidade. Saiba com que frequência fazer o check-up vascular.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="vasinhos-rosto-2017.html" class="blog-card fade-up" style="transition-delay:0.16s">
+        <div class="blog-thumb"><img src="../assets/blog-vasinhos-rosto-2017.webp" alt="Vasinhos no rosto têm tratamento" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">05 Set 2017</span><span class="blog-tag">Vasinhos</span></div>
+          <h3>Vasinhos no rosto têm tratamento</h3>
+          <p>Os vasinhos faciais têm tratamento eficaz com laser. Saiba as causas, como funciona o procedimento e os cuidados necessários.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="escleroterapia-cirurgiao.html" class="blog-card fade-right" style="transition-delay:0.24s">
+        <div class="blog-thumb"><img src="../assets/blog-escleroterapia-cirurgiao.webp" alt="Escleroterapia com cirurgião vascular" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">18 Ago 2017</span><span class="blog-tag">Tratamentos</span></div>
+          <h3>Por que fazer escleroterapia com cirurgião vascular?</h3>
+          <p>A escleroterapia realizada por profissional não qualificado pode causar complicações sérias. Entenda a importância do especialista.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="inverno-tratar-2017.html" class="blog-card fade-up" style="transition-delay:0.32s">
+        <div class="blog-thumb"><img src="../assets/blog-inverno-2017.webp" alt="Aproveite o inverno para tratar as varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">07 Jul 2017</span><span class="blog-tag">Prevenção</span></div>
+          <h3>Aproveite o inverno para tratar as varizes</h3>
+          <p>O inverno é o momento ideal para iniciar o tratamento. Saiba por que e conheça todas as opções disponíveis.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="salto-alto.html" class="blog-card fade-left" style="transition-delay:0.08s">
+        <div class="blog-thumb"><img src="../assets/blog-salto-alto.webp" alt="Salto alto e varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">06 Jun 2017</span><span class="blog-tag">Mitos e Verdades</span></div>
+          <h3>Salto alto causa varizes?</h3>
+          <p>A ciência responde: salto alto não causa varizes diretamente, mas pode agravar sintomas. Saiba a verdade sobre calçados e circulação.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="sintomas-varizes-2017.html" class="blog-card fade-up" style="transition-delay:0.16s">
+        <div class="blog-thumb"><img src="../assets/blog-sintomas-2017.webp" alt="Sintomas das varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">16 Mai 2017</span><span class="blog-tag">Saúde Vascular</span></div>
+          <h3>Sintomas das varizes</h3>
+          <p>As varizes causam muito mais do que alteração visual. Conheça todos os sintomas da insuficiência venosa e quando buscar ajuda.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="alimentos-circulacao.html" class="blog-card fade-right" style="transition-delay:0.24s">
+        <div class="blog-thumb"><img src="../assets/blog-alimentos.webp" alt="Alimentos que fazem bem para a circulação" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">27 Abr 2017</span><span class="blog-tag">Saúde Vascular</span></div>
+          <h3>Alimentos que fazem bem para a circulação</h3>
+          <p>A alimentação protege os vasos sanguíneos. Conheça os alimentos que melhoram a circulação e os que prejudicam.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="atividades-fisicas-varizes.html" class="blog-card fade-up" style="transition-delay:0.32s">
+        <div class="blog-thumb"><img src="../assets/blog-atividades-fisicas.webp" alt="Atividades físicas e prevenção de varizes" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">12 Abr 2017</span><span class="blog-tag">Prevenção</span></div>
+          <h3>Como evitar varizes praticando atividades físicas</h3>
+          <p>O exercício regular é um dos melhores aliados da saúde vascular. Saiba quais atividades são mais indicadas para as veias.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="8-dicas-pernas.html" class="blog-card fade-left" style="transition-delay:0.08s">
+        <div class="blog-thumb"><img src="../assets/blog-8-dicas.webp" alt="8 dicas para manter a saúde das pernas" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">27 Mar 2017</span><span class="blog-tag">Saúde Vascular</span></div>
+          <h3>8 dicas para manter a saúde das pernas</h3>
+          <p>Hábitos simples e consistentes podem retardar o surgimento de varizes e manter suas pernas saudáveis por mais tempo.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+      <a href="varizes-causas-tratamentos.html" class="blog-card fade-up" style="transition-delay:0.16s">
+        <div class="blog-thumb"><img src="../assets/blog-varizes-causas.webp" alt="Varizes: causas e tratamentos" loading="lazy"></div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-date">06 Fev 2017</span><span class="blog-tag">Saúde Vascular</span></div>
+          <h3>Varizes: o que são, suas causas e tratamentos</h3>
+          <p>Guia completo sobre varizes: definição, causas reais (e as que não causam), e todos os tratamentos disponíveis atualmente.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+
+    </div>
+    <div class="load-more-wrap" id="loadMoreWrap">
+      <button class="btn-load-more" id="loadMoreBtn">Carregar mais artigos</button>
+    </div>
+    <div class="blog-cta-box fade-up" style="transition-delay:0.1s">
+      <h2>Pronta para cuidar das suas pernas?</h2>
+      <p>Agende uma avaliação e descubra o melhor tratamento para o seu caso com a Dra. Thielen Szczypkowski.</p>
+      <a href="../contato.html" class="btn btn-white">Agendar consulta</a>
+    </div>
+  </div>
+</section>
+
+<div class="wave" style="background:#ffffff;"><svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#524334"/></svg></div>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="../index.html" class="logo"><img src="../assets/logo-branco.png" alt="Dra. Thielen Szczypkowski" class="logo-img"></a>
+        <p>Cirurgiã Vascular especialista em Flebologia Estética. Santo André, SP.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/drathielen.vascular" target="_blank" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <a href="../sobre.html">Sobre</a><a href="../tratamentos.html">Tratamentos</a>
+        <a href="index.html">Blog</a><a href="../contato.html">Contato</a>
+      </div>
+      <div class="footer-col">
+        <h4>Estética das Pernas</h4>
+        <a href="uso-meias.html">Meias de compressão na atividade física</a>
+        <a href="anticoncepcional.html">Anticoncepcional e varizes</a>
+        <a href="varizes-verao.html">Varizes no verão</a>
+        <a href="sintomas-varizes.html">Sintomas de varizes</a>
+        <a href="laser-endovenoso.html">Laser endovenoso</a>
+      </div>
+      <div class="footer-col">
+        <h4>Informações úteis</h4>
+        <a href="tel:+5511943211890">+55 (11) 94321-1890</a>
+        <a href="mailto:contato@drathielen.com.br">contato@drathielen.com.br</a>
+        <a href="#">Av. Industrial, 780 — Sala 2.514<br>Jardim, Santo André – SP</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Copyright &copy; 2026 Dra. Thielen Szczypkowski. Todos os direitos reservados.</p>
+      <div class="footer-bottom-links"><a href="../politica-de-privacidade.html">Política de Privacidade</a></div>
+    </div>
+  </div>
+</footer>
+<a href="https://web.whatsapp.com/send?phone=5511943211890&text=Ol%C3%A1!%20gostaria%20de%20ter%20mais%20informa%C3%A7%C3%B5es." target="_blank" class="wa-float" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+<script src="../js/main.js"></script>
+<script>
+  (function() {
+    var VISIBLE = 8;
+    var cards = Array.from(document.querySelectorAll('.blog-grid .blog-card'));
+    var btn = document.getElementById('loadMoreBtn');
+    var wrap = document.getElementById('loadMoreWrap');
+
+    cards.forEach(function(c, i) { if (i >= VISIBLE) c.classList.add('hidden'); });
+
+    btn.addEventListener('click', function() {
+      var hidden = cards.filter(function(c) { return c.classList.contains('hidden'); });
+      hidden.slice(0, VISIBLE).forEach(function(c) { c.classList.remove('hidden'); });
+      if (cards.filter(function(c) { return c.classList.contains('hidden'); }).length === 0) {
+        wrap.style.display = 'none';
+      }
+    });
+  })();
+</script>
+</body>
+</html>

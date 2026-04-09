@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dra. Thielen Szczypkowski — Cirurgiã Vascular especialista em Flebologia Estética. Tratamento de varizes e vasinhos em Santo André e Região do ABC, SP.">
+  <title>Dra. Thielen Szczypkowski | Cirurgiã Vascular · Flebologia Estética</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Dra. Thielen Szczypkowski | Cirurgiã Vascular · Flebologia Estética">
+  <meta property="og:description" content="Especialista em varizes e vasinhos em Santo André, SP. Escleroterapia, Laser Endovenoso, Microcirurgia. Diagnóstico preciso com Doppler. CRM-SP 99.530.">
+  <meta property="og:url" content="https://www.drathielen.com.br/">
+  <meta property="og:image" content="https://www.drathielen.com.br/assets/hero.webp">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.drathielen.com.br/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── HOME-SPECIFIC ── */
+    /* HERO */
+    #main {
+      min-height: 100vh; background: var(--cream-light); position: relative;
+      display: grid; grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+    .hero-text-col {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 180px 0 160px 0; padding-right: 48px;
+    }
+    .hero-title { margin-bottom: 22px; }
+    .hero-title em { font-style: italic; color: var(--bronze); }
+    .hero-sub { font-size: 1.05rem; max-width: 460px; margin-bottom: 32px; }
+    .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 38px; }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
+    .hero-img-outer {
+      position: relative;
+      height: 100%;
+      min-height: 100vh;
+    }
+    .hero-img-wrap {
+      position: absolute; inset: 0;
+      overflow: hidden;
+    }
+    .hero-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover; object-position: top center;
+      display: block;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); box-shadow: var(--shadow-md); }
+      50% { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
+    }
+    .hero-float {
+      position: absolute; bottom: 140px; left: -32px; z-index: 10;
+      background: var(--white); border-radius: 16px; padding: 14px 18px;
+      box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 12px;
+      animation: float 3s ease-in-out infinite;
+    }
+    .hero-float-icon {
+      width: 38px; height: 38px; background: var(--bronze); border-radius: 11px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .hero-float p { font-size: 0.75rem; font-weight: 600; color: var(--text-dark); line-height: 1.3; }
+    .hero-float span { font-size: 0.65rem; color: var(--text-muted); }
+    .hero-bg-orb {
+      position: absolute; width: clamp(240px, 40vw, 560px); height: clamp(240px, 40vw, 560px); border-radius: 50%;
+      background: radial-gradient(circle, rgba(172,146,115,0.07) 0%, transparent 70%);
+      top: 50%; right: -80px; transform: translateY(-50%); pointer-events: none;
+    }
+    .hero-wave { position: absolute; bottom: -1px; left: 0; right: 0; height: 100px; }
+
+    /* SOBRE PREVIEW */
+    #sobre-preview { background: var(--white); padding: 100px 0 0; }
+    .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+
+    /* MOLDURA IPHONE */
+    .sobre-phone { display: flex; justify-content: center; align-items: center; padding: 20px 40px; }
+    .phone-frame {
+      position: relative;
+      width: 380px;
+      background: #111;
+      border-radius: 48px;
+      padding: 3px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.06),
+        0 50px 100px rgba(10,6,2,0.55),
+        0 16px 40px rgba(10,6,2,0.30);
+    }
+    /* Tela */
+    .phone-screen {
+      border-radius: 42px;
+      overflow: hidden;
+      aspect-ratio: 9/16;
+      background: #000;
+      position: relative;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.8);
+    }
+    .phone-screen iframe {
+      position: absolute;
+      inset: 0; width: 100%; height: 100%;
+      border: none; z-index: 1;
+    }
+    /* Thumbnail cover */
+    .video-cover {
+      position: absolute; inset: 0; z-index: 2;
+      cursor: pointer; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .video-cover-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top center;
+      display: block;
+    }
+    .video-cover-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.15) 0%,
+        rgba(0,0,0,0.05) 40%,
+        rgba(0,0,0,0.45) 100%
+      );
+    }
+    .video-play-btn {
+      position: relative; z-index: 1;
+      background: none; border: none; cursor: pointer;
+      width: 72px; height: 72px;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.18));
+    }
+    .video-play-btn svg { width: 72px; height: 72px; }
+    .video-cover:hover .video-play-btn {
+      transform: scale(1.1);
+      opacity: 0.9;
+    }
+    .video-cover-label {
+      position: absolute; bottom: 28px; left: 0; right: 0;
+      text-align: center; z-index: 1;
+    }
+    .video-cover-label span {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem; font-weight: 500;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    #phoneVideo { position: absolute; inset: 0; width: 100%; height: 100%; border: none; z-index: 1; }
+    #phoneVideo iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+    /* Dynamic Island */
+    .phone-screen::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 72px;
+      height: 22px;
+      background: #000;
+      border-radius: 16px;
+      z-index: 3;
+      pointer-events: none;
+    }
+    /* Home bar */
+    .phone-home-bar {
+      width: 90px; height: 4px;
+      background: rgba(255,255,255,0.22);
+      border-radius: 4px;
+      margin: 10px auto 0;
+    }
+    .sobre-img-deco {
+      position: absolute; bottom: -16px; right: -16px;
+      width: 100px; height: 100px; border-radius: 28px;
+      background: var(--bronze); opacity: 0.12;
+    }
+    .sobre-text .tagline {
+      font-style: italic; color: var(--bronze); font-family: 'Playfair Display', serif;
+      font-size: 1rem; margin-bottom: 22px;
+    }
+    .sobre-text h2 { margin-bottom: 6px; }
+    .sobre-text p { margin-bottom: 18px; }
+    .sobre-badges { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 28px; }
+
+    /* TRATAMENTOS PREVIEW */
+    #tratamentos-preview { background: var(--cream); padding: 100px 0 0; }
+    .tratamentos-header { text-align: center; margin-bottom: 56px; }
+    .tratamentos-grid-wrap {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .tratamentos-grid-home {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px;
+    }
+    .card-glass {
+      background: var(--white); border: none;
+      border-radius: var(--radius-lg); padding: 34px 26px; position: relative;
+      box-shadow: 0 6px 24px rgba(82,67,52,0.13);
+      transition: transform 0.4s cubic-bezier(0.22,1,0.36,1),
+                  box-shadow 0.4s cubic-bezier(0.22,1,0.36,1),
+                  background 0.4s ease,
+                  border-color 0.4s ease;
+      overflow: hidden; cursor: default;
+      display: flex; flex-direction: column;
+    }
+    .card-glass:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 48px rgba(82,67,52,0.22);
+      background: var(--bronze);
+      border-color: var(--bronze);
+    }
+    .card-glass:hover h3,
+    .card-glass:hover .card-context,
+    .card-glass:hover p { color: rgba(255,255,255,0.92); }
+    .card-glass:hover .card-lnk { color: rgba(255,255,255,0.75); }
+    .card-glass:hover .card-icon-wrap { background: rgba(255,255,255,0.18); }
+    .card-glass:hover .card-icon-wrap svg { color: var(--white); }
+    .card-icon-wrap {
+      width: 54px; height: 54px; border-radius: 16px; background: var(--cream);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+      transition: background 0.4s ease;
+    }
+    .card-icon-wrap svg { width: 24px; height: 24px; color: var(--bronze); transition: color 0.4s ease; }
+    .card-glass h3 { font-size: 1.05rem; margin-bottom: 10px; color: var(--text-dark); transition: color 0.4s ease; }
+    .card-glass p { font-size: 0.83rem; line-height: 1.68; margin-bottom: 22px; transition: color 0.4s ease; }
+    .card-context { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bronze); margin-bottom: 10px; transition: color 0.4s ease; }
+    .card-lnk {
+      font-size: 0.78rem; font-weight: 600; color: var(--bronze);
+      text-decoration: none; letter-spacing: 0.04em; transition: color 0.4s ease;
+      margin-top: auto;
+    }
+    .card-lnk:hover { opacity: 0.8; }
+    .tratamentos-cta { text-align: center; margin-top: 40px; }
+
+    /* LOCALIZAÇÃO */
+    #localizacao { background: #F5F0EB; padding: 100px 0 0; }
+    .loc-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .loc-info { display: flex; flex-direction: column; gap: 40px; }
+    .loc-item {
+      display: flex; gap: 18px; align-items: flex-start;
+      background: var(--white); border-radius: 16px; padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .loc-icon {
+      width: 48px; height: 48px; border-radius: 14px; background: var(--cream);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .loc-icon svg { width: 22px; height: 22px; color: var(--bronze); }
+    .loc-item h4 { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bronze); margin-bottom: 4px; font-family: 'Inter', sans-serif; }
+    .loc-item p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
+    .loc-cta { margin-top: 8px; }
+    .loc-map {
+      border-radius: 24px; overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      aspect-ratio: 4/3;
+    }
+    .loc-map iframe { width: 100%; height: 100%; border: none; display: block; }
+    @media (max-width: 900px) {
+      .loc-grid { grid-template-columns: 1fr; }
+      .loc-map { aspect-ratio: 16/9; }
+    }
+
+    /* BLOG PREVIEW */
+    #blog-preview { background: var(--white); padding: 100px 0 0; }
+    .blog-header { text-align: center; margin-bottom: 52px; }
+    .blog-grid-home { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .blog-card {
+      background: var(--white); border-radius: var(--radius-md); overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex; flex-direction: column;
+    }
+    .blog-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .blog-thumb {
+      height: 192px;
+      overflow: hidden;
+      position: relative;
+    }
+    .blog-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+    .blog-card:hover .blog-thumb img { transform: scale(1.05); }
+    .blog-body { padding: 26px; display: flex; flex-direction: column; flex: 1; }
+    .blog-date { font-size: 0.68rem; color: var(--bronze); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .blog-card h3 { font-size: 0.95rem; margin-bottom: 10px; font-family: 'Inter', sans-serif; font-weight: 600; line-height: 1.42; color: var(--text-dark); }
+    .blog-card p { font-size: 0.8rem; margin-bottom: 18px; }
+    .blog-read { font-size: 0.77rem; font-weight: 600; color: var(--bronze); text-decoration: none; margin-top: auto; }
+    .blog-read:hover { color: var(--bronze-dark); }
+    .blog-cta { text-align: center; margin-top: 36px; }
+
+    /* CTA BANNER */
+    .cta-banner {
+      margin: 120px 0 0; background: var(--brown); border-radius: var(--radius-lg);
+      padding: 56px 64px; display: flex; align-items: center; justify-content: space-between;
+      gap: 32px;
+    }
+    .cta-banner-text h2 { color: var(--white); margin-bottom: 10px; }
+    .cta-banner-text p { color: rgba(255,255,255,0.6); max-width: 480px; }
+    .cta-banner-btns { display: flex; gap: 14px; flex-shrink: 0; }
+
+    /* RESPONSIVE HOME */
+    @media (max-width: 1024px) {
+      #main { grid-template-columns: 1fr; }
+      .hero-text-col { padding: 140px 0 60px; }
+      .hero-img-outer { grid-column: 1 !important; min-height: 520px; height: 520px; position: relative; }
+      .hero-img-wrap { position: absolute !important; inset: 0 !important; border-radius: 6px 32px 6px 32px !important; overflow: hidden; }
+      .hero-img-wrap img { object-position: center 15%; }
+      .sobre-grid { grid-template-columns: 1fr; gap: 44px; }
+      .phone-frame { width: 260px; }
+    }
+    @media (max-width: 1100px) {
+      .tratamentos-grid-home { grid-template-columns: repeat(3, 1fr); }
+      .blog-grid-home { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .tratamentos-grid-home { grid-template-columns: repeat(2, 1fr); }
+      .blog-grid-home { grid-template-columns: repeat(2, 1fr); }
+      .cta-banner { flex-direction: column; padding: 36px 28px; text-align: center; }
+      .cta-banner-btns { flex-direction: column; width: 100%; }
+      .hero-float { display: none; }
+    }
+    @media (max-width: 600px) {
+      .hero-img-outer { height: 420px; min-height: 420px; }
+      .phone-frame { width: 200px; }
+      .tratamentos-grid-home { grid-template-columns: 1fr; }
+      .blog-grid-home { grid-template-columns: 1fr; }
+      .loc-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalBusiness",
+      "@id": "https://www.drathielen.com.br/#clinic",
+      "name": "Dra. Thielen Szczypkowski — Cirurgia Vascular",
+      "description": "Consultório de cirurgia vascular e flebologia estética especializado em tratamento de varizes e vasinhos em Santo André, SP.",
+      "url": "https://www.drathielen.com.br",
+      "telephone": "+5511943211890",
+      "email": "contato@drathielen.com.br",
+      "image": "https://www.drathielen.com.br/assets/hero.webp",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Av. Industrial, 780 — Sala 2.514",
+        "addressLocality": "Santo André",
+        "addressRegion": "SP",
+        "postalCode": "09080-500",
+        "addressCountry": "BR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -23.6637,
+        "longitude": -46.5278
+      },
+      "areaServed": [
+        {"@type": "City", "name": "Santo André"},
+        {"@type": "City", "name": "São Bernardo do Campo"},
+        {"@type": "City", "name": "São Caetano do Sul"},
+        {"@type": "City", "name": "Diadema"},
+        {"@type": "City", "name": "São Paulo"}
+      ],
+      "medicalSpecialty": "Vascular Surgery",
+      "sameAs": ["https://www.instagram.com/drathielen.vascular"]
+    },
+    {
+      "@type": "Physician",
+      "@id": "https://www.drathielen.com.br/#physician",
+      "name": "Dra. Thielen Szczypkowski",
+      "jobTitle": "Cirurgiã Vascular e Flebologista",
+      "description": "Cirurgiã Vascular especialista em Flebologia Estética com mais de 25 anos de experiência. CRM-SP 99.530 · RQE 38573.",
+      "image": "https://www.drathielen.com.br/assets/hero.webp",
+      "telephone": "+5511943211890",
+      "url": "https://www.drathielen.com.br",
+      "worksFor": {"@id": "https://www.drathielen.com.br/#clinic"},
+      "medicalSpecialty": "Vascular Surgery",
+      "sameAs": ["https://www.instagram.com/drathielen.vascular"]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+<a href="#main" class="skip-link">Pular para o conteúdo principal</a>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/logo-original.png" alt="Dra. Thielen Szczypkowski — Cirurgia Vascular · Flebologia" class="logo-img">
+      </a>
+      <nav>
+        <a href="sobre.html">Sobre</a>
+        <a href="tratamentos.html">Tratamentos</a>
+        
+        <a href="blog/index.html">Blog</a>
+        <a href="contato.html">Contato</a>
+        <a href="contato.html" class="nav-cta">Agendar consulta</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+  <button class="mobile-close" id="mobileClose">&#x2715;</button>
+  <a href="sobre.html">Sobre</a>
+  <a href="tratamentos.html">Tratamentos</a>
+  
+  <a href="blog/index.html">Blog</a>
+  <a href="contato.html">Contato</a>
+  <a href="contato.html" style="color:var(--bronze)">Agendar consulta</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<section id="main">
+  <div class="hero-bg-orb"></div>
+
+  <!-- COLUNA ESQUERDA: texto -->
+  <div class="container" style="grid-column:1; display:flex; align-items:center; width:100%; max-width:none; padding-left:clamp(24px, 5vw, 80px); padding-right:0; margin:0;">
+    <div class="hero-text-col">
+      <span class="section-label fade-left">Cirurgia Vascular · Flebologia Estética</span>
+      <h1 class="hero-title fade-left" style="transition-delay:0.1s">Liberte suas <em>pernas.</em></h1>
+      <p class="hero-sub fade-left" style="transition-delay:0.2s">Varizes não são só estética. São veias que deixaram de funcionar. Eu trato a causa, com Doppler, diagnóstico preciso e mais de 25 anos de cirurgia vascular.</p>
+      <div class="hero-badges fade-left" style="transition-delay:0.3s">
+        <span class="badge-pill">CRM-SP 99.530</span>
+        <span class="badge-pill">RQE 38573</span>
+        <span class="badge-pill">SBACV · Título de especialista</span>
+      </div>
+      <div class="hero-ctas fade-left" style="transition-delay:0.4s">
+        <a href="https://web.whatsapp.com/send?phone=5511943211890&text=Ol%C3%A1!%20gostaria%20de%20ter%20mais%20informa%C3%A7%C3%B5es." target="_blank" class="btn btn-primary">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Agende sua consulta
+        </a>
+        <a href="tratamentos.html" class="btn btn-outline">Ver tratamentos</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLUNA DIREITA: foto sangra do topo -->
+  <div class="hero-img-outer scale-in" style="grid-column:2; transition-delay:0.15s;">
+    <div class="hero-img-wrap">
+      <img src="assets/hero.webp" alt="Dra. Thielen Szczypkowski — Cirurgiã Vascular">
+    </div>
+    <div class="hero-float">
+      <div class="hero-float-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </div>
+      <div>
+        <p>+25 anos em Cirurgia Vascular</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-wave wave" style="grid-column:1/-1;">
+    <svg viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;width:100%;height:120px;">
+      <path d="M0,0 C360,120 1080,120 1440,0 L1440,120 L0,120 Z" fill="#ffffff"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══ SOBRE PREVIEW ══ -->
+<section id="sobre-preview">
+  <div class="container">
+    <div class="sobre-grid">
+      <div class="sobre-phone fade-right">
+        <div class="phone-frame">
+          <!-- Tela -->
+          <div class="phone-screen">
+            <!-- Thumbnail cover -->
+            <div class="video-cover" id="videoCover" onclick="loadVideo()">
+              <img src="assets/sobre.webp" alt="Dra. Thielen Szczypkowski" class="video-cover-img" loading="lazy">
+              <div class="video-cover-overlay"></div>
+              <button class="video-play-btn" aria-label="Assistir vídeo">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="12" fill="rgba(255,255,255,0.15)" />
+                  <circle cx="12" cy="12" r="11" stroke="rgba(255,255,255,0.6)" stroke-width="0.8"/>
+                  <polygon points="10,8 18,12 10,16" fill="white"/>
+                </svg>
+              </button>
+              <div class="video-cover-label">
+                <span>Assista ao vídeo</span>
+              </div>
+            </div>
+            <!-- iframe carregado ao clicar -->
+            <iframe
+              id="videoIframe"
+              src=""
+              data-src="https://www.youtube-nocookie.com/embed/DthbnxIwAZ0?controls=1&rel=0&playsinline=1&autoplay=1&modestbranding=1&iv_load_policy=3&cc_load_policy=0"
+              title="Dra. Thielen Szczypkowski"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              style="display:none;">
+            </iframe>
+          </div>
+          <!-- Home bar -->
+          <div class="phone-home-bar"></div>
+        </div>
+      </div>
+      <div class="sobre-text fade-left">
+        <span class="section-label">Sobre a médica</span>
+        <h2>Dra. Thielen Szczypkowski</h2>
+        <p class="tagline">Cirurgiã Vascular com título pela SBACV · Flebologia Estética</p>
+        <p>Há mais de 25 anos, minha prática tem uma lógica que não muda: o diagnóstico vem antes da técnica. Cada tratamento começa pelo Doppler venoso, porque tratar o que aparece na pele sem entender o que está por baixo é tratar o efeito, não a causa.</p>
+        <p>Cada veia tem uma indicação. Cada paciente tem uma história. É assim que trabalho.</p>
+        <div class="stats-strip fade-up">
+          <div class="stat-item">
+            <span class="stat-num">25+</span>
+            <span class="stat-label">Anos de experiência</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">7</span>
+            <span class="stat-label">Hospitais credenciados</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">5</span>
+            <span class="stat-label">Técnicas disponíveis</span>
+          </div>
+        </div>
+        <div style="margin-top:28px;">
+          <a href="sobre.html" class="btn btn-primary">Conheça a médica</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wave" style="margin-top:80px;">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,0 C360,80 1080,0 1440,60 L1440,80 L0,80 Z" fill="#f4f0eb"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══ TRATAMENTOS PREVIEW ══ -->
+<section id="tratamentos-preview">
+  <div class="container">
+    <div class="tratamentos-header fade-up">
+      <span class="section-label">O que tratamos</span>
+      <h2>Cada veia pede uma técnica diferente</h2>
+      <p style="max-width:560px;margin:12px auto 0;">A escolha do tratamento não é estética. É clínica. Depende do tipo de veia, do Doppler, do histórico e do que está por trás do que aparece na pele. Aqui, a indicação vem antes da técnica.</p>
+    </div>
+  </div>
+  <div class="tratamentos-grid-wrap">
+    <div class="tratamentos-grid-home">
+      <div class="card-glass fade-up" style="animation-delay:0s">
+        <div class="card-icon-wrap">
+          <!-- Raio laser / feixe de luz -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+        <p class="card-context">Vasos superficiais</p>
+        <h3>Escleroterapia com Laser</h3>
+        <p>Indicada para telangiectasias e vasinhos finos. Sem agulha, sem tempo de recuperação.</p>
+        <a href="tratamentos.html#escleroterapia-laser" class="card-lnk">Saiba mais →</a>
+      </div>
+      <div class="card-glass fade-up" style="animation-delay:0.08s">
+        <div class="card-icon-wrap">
+          <!-- Seringa / agulha fina -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 2l4 4-1.5 1.5-4-4L18 2z"/>
+            <path d="M14.5 5.5l4 4"/>
+            <path d="M6 14l-4 4 1.5 1.5 4-4"/>
+            <path d="M7.5 7.5l9 9"/>
+            <path d="M10 10l-4 4 1.5 1.5 4-4"/>
+            <path d="M13 9l2 2"/>
+          </svg>
+        </div>
+        <p class="card-context">Vasinhos e varizes</p>
+        <h3>Escleroterapia Convencional</h3>
+        <p>Injeção de solução esclerosante diretamente na veia. Técnica precisa, com agulha fina, indicada para vasinhos e varizes de pequeno calibre.</p>
+        <a href="tratamentos.html#escleroterapia-convencional" class="card-lnk">Saiba mais →</a>
+      </div>
+      <div class="card-glass fade-up" style="animation-delay:0.16s">
+        <div class="card-icon-wrap">
+          <!-- Bolha / espuma -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="13" r="5"/>
+            <circle cx="7" cy="8" r="3"/>
+            <circle cx="17" cy="7" r="2.5"/>
+            <circle cx="19.5" cy="13" r="1.5"/>
+          </svg>
+        </div>
+        <p class="card-context">Veias médias e grandes</p>
+        <h3>Escleroterapia com Espuma</h3>
+        <p>Polidocanol em espuma guiado por ultrassom. Eficaz para veias que não respondem ao laser, sem necessidade de cirurgia.</p>
+        <a href="tratamentos.html#escleroterapia-espuma" class="card-lnk">Saiba mais →</a>
+      </div>
+      <div class="card-glass fade-up" style="animation-delay:0.24s">
+        <div class="card-icon-wrap">
+          <!-- Pulso / onda endovenosa -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12h3l2.5-7 3 14 3-10 2 5 1.5-3H22"/>
+          </svg>
+        </div>
+        <p class="card-context">Veia safena</p>
+        <h3>Laser Endovenoso</h3>
+        <p>Alternativa à cirurgia convencional. Guiado por ultrassom, sob anestesia local, com retorno rápido às atividades.</p>
+        <a href="tratamentos.html#laser-endovenoso" class="card-lnk">Saiba mais →</a>
+      </div>
+      <div class="card-glass fade-up" style="animation-delay:0.32s">
+        <div class="card-icon-wrap">
+          <!-- Bisturi / cirurgia -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 4L8.5 15.5"/>
+            <path d="M8.5 15.5C6 18 3.5 19.5 3 20c.5-.5 2-3 4.5-5.5"/>
+            <path d="M15 4h5v5"/>
+            <path d="M8.5 15.5l-2 2"/>
+          </svg>
+        </div>
+        <p class="card-context">Varizes complexas</p>
+        <h3>Microcirurgia e Cirurgia</h3>
+        <p>Para casos com indicação cirúrgica. Realizada em ambiente hospitalar com toda a segurança, precisão e recuperação assistida.</p>
+        <a href="tratamentos.html#microcirurgia" class="card-lnk">Saiba mais →</a>
+      </div>
+    </div>
+  </div>
+  <div class="wave" style="margin-top:80px;">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,60 C480,0 960,80 1440,20 L1440,80 L0,80 Z" fill="#ffffff"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══ BLOG PREVIEW ══ -->
+<section id="blog-preview">
+  <div class="container">
+    <div class="blog-header fade-up" style="transition-delay:0s">
+      <span class="section-label">Estética das Pernas</span>
+      <h2>Entenda o que está acontecendo com a sua circulação</h2>
+      <p style="max-width:500px;margin:10px auto 0;">Conteúdo escrito por quem atende, opera e acompanha. Sem promessas, sem simplificação excessiva.</p>
+    </div>
+    <div class="blog-grid-home">
+      <a href="blog/uso-meias.html" class="blog-card fade-up" style="text-decoration:none;transition-delay:0.08s">
+        <div class="blog-thumb">
+          <img src="assets/blog-meias.webp" alt="Meias de compressão na atividade física" loading="lazy">
+        </div>
+        <div class="blog-body">
+          <p class="blog-date">Saúde vascular</p>
+          <h3>Meia de compressão na atividade física: quando ajuda e quando não faz diferença</h3>
+          <p>O uso correto depende de indicação. Saiba quando a compressão é aliada e quando é desnecessária.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+      <a href="blog/anticoncepcional.html" class="blog-card fade-up" style="text-decoration:none;transition-delay:0.16s">
+        <div class="blog-thumb">
+          <img src="assets/blog-anticoncepcional.webp" alt="Anticoncepcional e varizes" loading="lazy">
+        </div>
+        <div class="blog-body">
+          <p class="blog-date">Hormônios e veias</p>
+          <h3>Anticoncepcional e varizes: o que a literatura mostra e o que vejo na prática</h3>
+          <p>A relação existe, mas é mais complexa do que parece. Entenda os fatores de risco e como avaliar o seu caso.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+      <a href="blog/varizes-verao.html" class="blog-card fade-up" style="text-decoration:none;transition-delay:0.24s">
+        <div class="blog-thumb">
+          <img src="assets/blog-verao.webp" alt="Varizes no verão" loading="lazy">
+        </div>
+        <div class="blog-body">
+          <p class="blog-date">Prevenção</p>
+          <h3>Varizes no verão pioram. Mas o problema não começa no calor</h3>
+          <p>O aumento das queixas no calor tem uma explicação circulatória. Veja o que fazer antes que os sintomas apareçam.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+      <a href="blog/problemas-varizes.html" class="blog-card fade-up" style="text-decoration:none;transition-delay:0.32s">
+        <div class="blog-thumb">
+          <img src="assets/blog-problemas.webp" alt="Problemas causados pelas varizes" loading="lazy">
+        </div>
+        <div class="blog-body">
+          <p class="blog-date">Flebologia</p>
+          <h3>Quando o vasinho vira varize: o que muda no tratamento e no risco</h3>
+          <p>Existe uma progressão. Entender em que estágio você está muda completamente a abordagem clínica.</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>
+    </div>
+    <div class="blog-cta fade-up" style="transition-delay:0.1s">
+      <a href="blog/index.html" class="btn btn-dark">Leia todos os artigos</a>
+    </div>
+  </div>
+  <div class="wave" style="margin-top:80px;">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,20 C480,80 960,0 1440,50 L1440,80 L0,80 Z" fill="#F5F0EB"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══ LOCALIZAÇÃO ══ -->
+<section id="localizacao">
+  <div class="container">
+    <div class="loc-grid">
+      <div class="loc-info fade-left" style="transition-delay:0s">
+        <div class="fade-up" style="transition-delay:0.05s">
+          <span class="section-label">Onde atendo</span>
+          <h2>Consultório em Santo André</h2>
+        </div>
+        <div class="loc-item fade-up" style="transition-delay:0.12s">
+          <div class="loc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Endereço</h4>
+            <p>Av. Industrial, 780 — Sala 2.514<br>Jardim, Santo André — SP<br>CEP 09080-500</p>
+          </div>
+        </div>
+        <div class="loc-item fade-up" style="transition-delay:0.20s">
+          <div class="loc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <path d="M16 2v4M8 2v4M3 10h18"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Horários</h4>
+            <p>Segunda a sexta, das 8h às 18h<br>Sábados mediante agendamento</p>
+          </div>
+        </div>
+        <div class="loc-item fade-up" style="transition-delay:0.28s">
+          <div class="loc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+          </div>
+          <div>
+            <h4>Agendamento</h4>
+            <p>Via WhatsApp ou pelo botão abaixo</p>
+          </div>
+        </div>
+        <div class="loc-cta fade-up" style="transition-delay:0.36s">
+          <a href="contato.html" class="btn btn-primary">Agendar consulta</a>
+        </div>
+      </div>
+      <div class="loc-map fade-right" style="transition-delay:0.1s">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3654.3!2d-46.5281!3d-23.6549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce42b2e3a9b1c7%3A0x1!2sAv.+Industrial%2C+780+-+Jardim%2C+Santo+Andr%C3%A9+-+SP%2C+09080-500!5e0!3m2!1spt-BR!2sbr!4v1"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+
+    <!-- CTA Banner -->
+    <div class="cta-banner fade-up" style="transition-delay:0.05s">
+      <div class="cta-banner-text">
+        <h2>Suas pernas merecem uma avaliação de verdade</h2>
+        <p>O primeiro passo não é o tratamento. É entender o que está acontecendo. Agende uma consulta em Santo André e receba um diagnóstico baseado em exame clínico e Doppler venoso, não em suposição.</p>
+      </div>
+      <div class="cta-banner-btns">
+        <a href="https://web.whatsapp.com/send?phone=5511943211890&text=Ol%C3%A1!%20gostaria%20de%20ter%20mais%20informa%C3%A7%C3%B5es." target="_blank" class="btn btn-primary">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Agendar pelo WhatsApp
+        </a>
+        <a href="contato.html" class="btn btn-white" style="opacity:0.75;font-weight:400;">Prefiro preencher um formulário</a>
+      </div>
+    </div>
+  </div>
+  <div class="wave" style="margin-top:140px;">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#524334"/>
+    </svg>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <img src="assets/logo-branco.png" alt="Dra. Thielen Szczypkowski" class="logo-img">
+        </a>
+        <p>Cirurgiã Vascular especialista em Flebologia Estética. Santo André, SP.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/drathielen.vascular" target="_blank" class="social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="https://web.whatsapp.com/send?phone=5511943211890&text=Ol%C3%A1!" target="_blank" class="social-link" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <a href="sobre.html">Sobre</a>
+        <a href="tratamentos.html">Tratamentos</a>
+        <a href="blog/index.html">Blog</a>
+        <a href="contato.html">Contato</a>
+      </div>
+      <div class="footer-col">
+        <h4>Estética das Pernas</h4>
+        <a href="blog/uso-meias.html">Meias de compressão na atividade física</a>
+        <a href="blog/anticoncepcional.html">Anticoncepcional e varizes</a>
+        <a href="blog/varizes-verao.html">Varizes no verão</a>
+        <a href="blog/sintomas-varizes.html">Sintomas de varizes</a>
+        <a href="blog/laser-endovenoso.html">Laser endovenoso</a>
+      </div>
+      <div class="footer-col">
+        <h4>Informações úteis</h4>
+        <a href="tel:+5511943211890">+55 (11) 94321-1890</a>
+        <a href="mailto:contato@drathielen.com.br">contato@drathielen.com.br</a>
+        <a href="https://maps.google.com/?q=Av.+Industrial+780+Santo+Andre" target="_blank">Av. Industrial, 780 — Sala 2.514<br>Jardim, Santo André – SP</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Copyright &copy; 2026 Dra. Thielen Szczypkowski. Todos os direitos reservados. · CRM-SP 99.530</p>
+      <div class="footer-bottom-links">
+        <a href="politica-de-privacidade.html">Política de Privacidade</a>
+        <a href="politica-de-privacidade.html#cookies">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- WA FLOAT -->
+<a href="https://web.whatsapp.com/send?phone=5511943211890&text=Ol%C3%A1!%20gostaria%20de%20ter%20mais%20informa%C3%A7%C3%B5es." target="_blank" class="wa-float" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+
+<script src="js/main.js"></script>
+<script>
+  function loadVideo() {
+    const cover = document.getElementById('videoCover');
+    const iframe = document.getElementById('videoIframe');
+    iframe.src = iframe.dataset.src;
+    iframe.style.display = 'block';
+    cover.style.display = 'none';
+  }
+</script>
+</body>
+</html>

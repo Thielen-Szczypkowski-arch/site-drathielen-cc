@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Entre em contato com a Dra. Thielen Szczypkowski. Consultório em Santo André, SP — Região do ABC. Agende sua consulta pelo WhatsApp: +55 (11) 94321-1890.">
+  <title>Contato | Dra. Thielen Szczypkowski</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contato e Agendamento | Dra. Thielen Szczypkowski">
+  <meta property="og:description" content="Agende sua avaliação com a Dra. Thielen Szczypkowski. Consultório em Santo André, SP — Região do ABC. WhatsApp: (11) 94321-1890.">
+  <meta property="og:url" content="https://www.drathielen.com.br/contato.html">
+  <meta property="og:image" content="https://www.drathielen.com.br/assets/hero.webp">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.drathielen.com.br/contato.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .contato-main { background: var(--white); padding: 80px 0 100px; }
+    .contato-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: stretch; }
+    .contato-info { display: flex; flex-direction: column; }
+    .wa-cta-box-wrap { margin-top: auto; }
+    .contato-info h2 { margin-bottom: 14px; }
+    .contato-info > p { margin-bottom: 24px; }
+    .info-cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+    .info-card {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: var(--white); border-radius: var(--radius-md); padding: 14px 18px;
+      border: 1px solid rgba(172,146,115,0.12);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .info-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .info-icon {
+      width: 42px; height: 42px; min-width: 42px; border-radius: 12px;
+      background: var(--cream); display: flex; align-items: center; justify-content: center;
+    }
+    .info-icon svg { width: 19px; height: 19px; color: var(--bronze); }
+    .info-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-light); margin-bottom: 3px; }
+    .info-value { font-size: 0.88rem; color: var(--text-dark); font-weight: 500; line-height: 1.5; }
+    .info-value a { color: var(--text-dark); text-decoration: none; }
+    .info-value a:hover { color: var(--bronze); }
+
+    .wa-cta-box {
+      background: #f0fdf4; border: 1px solid rgba(37,211,102,0.2); border-radius: var(--radius-md);
+      padding: 22px; display: flex; align-items: center; gap: 16px; margin-bottom: 0;
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s, border-color 0.3s;
+      cursor: pointer;
+    }
+    .wa-cta-box:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(37,211,102,0.15);
+      border-color: rgba(37,211,102,0.4);
+    }
+    .wa-box-icon { width: 46px; height: 46px; min-width: 46px; background: var(--wa-green); border-radius: 13px; display: flex; align-items: center; justify-content: center; transition: transform 0.3s cubic-bezier(0.22,1,0.36,1); }
+    .wa-cta-box:hover .wa-box-icon { transform: scale(1.1) rotate(-6deg); }
+    .wa-box-icon svg { width: 24px; height: 24px; color: white; }
+    .wa-cta-box p { font-size: 0.83rem; color: #166534; font-weight: 500; margin-bottom: 6px; }
+    .wa-cta-box a { font-size: 0.82rem; font-weight: 700; color: var(--wa-green); text-decoration: none; }
+
+    .map-wrap { border-radius: var(--radius-md); overflow: hidden; height: 280px; }
+    .map-wrap iframe { width: 100%; height: 100%; border: none; }
+
+    .form-box {
+      background: var(--white); border-radius: 24px; padding: 40px;
+      border: 1px solid rgba(172,146,115,0.12); box-shadow: var(--shadow-sm);
+    }
+    .form-box h3 { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 6px; }
+    .form-box > p { font-size: 0.83rem; margin-bottom: 28px; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 0.76rem; font-weight: 600; color: var(--text-dark); margin-bottom: 7px; letter-spacing: 0.03em; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 13px 17px; border-radius: 13px;
+      border: 1.5px solid rgba(172,146,115,0.22); background: var(--white);
+      font-family: 'Inter', sans-serif; font-size: 0.875rem; color: var(--text-dark);
+      transition: border-color 0.2s; outline: none; -webkit-appearance: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--bronze); }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-note { font-size: 0.7rem; color: var(--text-light); margin-top: 10px; text-align: center; }
+
+    @media (max-width: 1024px) { .contato-grid { grid-template-columns: 1fr; gap: 48px; } }
+    @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } .form-box { padding: 28px 20px; } }
+    @media (max-width: 600px) { .map-wrap { height: 220px; } .wa-cta-box { padding: 28px 20px; } }
+  </style>
+</head>
+<body>
+
+<header id="header" class="header-dark">
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/logo-original.png" alt="Dra. Thielen Szczypkowski — Cirurgia Vascular · Flebologia" class="logo-img">
+      </a>
+      <nav>
+        <a href="sobre.html">Sobre</a>
+        <a href="tratamentos.html">Tratamentos</a>
+        <a href="blog/index.html">Blog</a>
+        <a href="contato.html" class="active">Contato</a>
+        <a href="contato.html" class="nav-cta">Agendar consulta</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">&#x2715;</button>
+  <a href="sobre.html">Sobre</a>
+  <a href="tratamentos.html">Tratamentos</a>
+  <a href="blog/index.html">Blog</a>
+  <a href="contato.html">Contato</a>
+  <a href="contato.html" style="color:var(--bronze)">Agendar consulta</a>
+</div>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <div class="breadcrumb fade-up"><a href="index.html">Início</a><span>/</span><span>Contato</span></div>
+      <span class="section-label fade-up">Agende sua avaliação</span>
+      <h1 class="fade-up">O primeiro passo é entender o que está acontecendo.</h1>
+      <p class="lead fade-up">Na consulta, faço o exame clínico, solicito o Doppler quando necessário e defino o melhor caminho para o seu caso. Entre em contato pelo WhatsApp ou pelo formulário abaixo.</p>
+    </div>
+  </div>
+  <div class="page-hero-wave wave">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#ffffff"/>
+    </svg>
+  </div>
+</section>
+
+<section class="contato-main">
+  <div class="container">
+    <div class="contato-grid">
+      <div class="contato-info fade-up">
+        <span class="section-label">Informações</span>
+        <h2>Entre em contato</h2>
+        <p>O agendamento mais rápido é pelo WhatsApp. Se preferir, preencha o formulário ao lado e entro em contato em até 24 horas úteis.</p>
+
+        <div class="info-cards">
+          <div class="info-card">
+            <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+            <div>
+              <div class="info-label">Endereço</div>
+              <div class="info-value">Av. Industrial, 780 — Sala 2.514<br>Bairro Jardim, Santo André – SP<br><small>Região do ABC Paulista</small></div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></div>
+            <div>
+              <div class="info-label">Telefone / WhatsApp</div>
+              <div class="info-value"><a href="tel:+5511943211890">+55 (11) 94321-1890</a></div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+            <div>
+              <div class="info-label">E-mail</div>
+              <div class="info-value"><a href="mailto:contato@drathielen.com.br">contato@drathielen.com.br</a></div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+            <div>
+              <div class="info-label">Instagram</div>
+              <div class="info-value"><a href="https://www.instagram.com/drathielen.vascular" target="_blank">@drathielen.vascular</a></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wa-cta-box-wrap">
+        <div class="wa-cta-box">
+          <div class="wa-box-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          </div>
+          <div>
+            <p>Prefere agendar pelo WhatsApp? É o caminho mais rápido.</p>
+            <a href="https://web.whatsapp.com/send?phone=5511943211890&text=Ol%C3%A1!%20gostaria%20de%20agendar%20uma%20consulta." target="_blank">Clique para iniciar conversa →</a>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="form-box fade-up">
+        <h3>Agende sua avaliação</h3>
+        <p>Preencha os campos abaixo. Responderei pessoalmente em até 24 horas úteis.</p>
+        <form id="contactForm">
+          <div class="form-group">
+            <label for="nome">Nome completo *</label>
+            <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">E-mail *</label>
+              <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="telefone">Telefone</label>
+              <input type="tel" id="telefone" name="telefone" placeholder="(11) 9 0000-0000">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="assunto">Assunto</label>
+            <select id="assunto" name="assunto">
+              <option value="">Selecione um assunto</option>
+              <option>Agendar consulta</option>
+              <option>Dúvida sobre tratamento</option>
+              <option>Escleroterapia com Laser</option>
+              <option>Escleroterapia com Espuma</option>
+              <option>Laser Endovenoso</option>
+              <option>Cirurgia de Varizes</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mensagem">Mensagem *</label>
+            <textarea id="mensagem" name="mensagem" placeholder="Descreva sua situação ou dúvida..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">Enviar mensagem</button>
+          <p class="form-note">Seus dados são confidenciais e usados apenas para retorno de contato. Resposta em até 24h úteis.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave" style="background:#ffffff;"><svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#524334"/></svg></div>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><img src="assets/logo-branco.png" alt="Dra. Thielen Szczypkowski" class="logo-img"></a>
+        <p>Cirurgiã Vascular especialista em Flebologia Estética. Santo André, SP.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/drathielen.vascular" target="_blank" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <a href="sobre.html">Sobre</a><a href="tratamentos.html">Tratamentos</a>
+        <a href="blog/index.html">Blog</a><a href="contato.html">Contato</a>
+      </div>
+      <div class="footer-col">
+        <h4>Estética das Pernas</h4>
+        <a href="blog/uso-meias.html">Meias de compressão na atividade física</a>
+        <a href="blog/anticoncepcional.html">Anticoncepcional e varizes</a>
+        <a href="blog/varizes-verao.html">Varizes no verão</a>
+        <a href="blog/sintomas-varizes.html">Sintomas de varizes</a>
+        <a href="blog/laser-endovenoso.html">Laser endovenoso</a>
+      </div>
+      <div class="footer-col">
+        <h4>Informações úteis</h4>
+        <a href="tel:+5511943211890">+55 (11) 94321-1890</a>
+        <a href="mailto:contato@drathielen.com.br">contato@drathielen.com.br</a>
+        <a href="#">Av. Industrial, 780 — Sala 2.514<br>Jardim, Santo André – SP</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Copyright &copy; 2026 Dra. Thielen Szczypkowski. Todos os direitos reservados. · CRM-SP 99.530</p>
+      <div class="footer-bottom-links"><a href="politica-de-privacidade.html">Política de Privacidade</a><a href="politica-de-privacidade.html#cookies">Cookies</a></div>
+    </div>
+  </div>
+</footer>
+<a href="https://web.whatsapp.com/send?phone=5511943211890&text=Ol%C3%A1!%20gostaria%20de%20ter%20mais%20informa%C3%A7%C3%B5es." target="_blank" class="wa-float" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+<script src="js/main.js"></script>
+</body>
+</html>

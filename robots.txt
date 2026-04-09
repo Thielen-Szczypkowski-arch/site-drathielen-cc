@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.drathielen.com.br/sitemap.xml

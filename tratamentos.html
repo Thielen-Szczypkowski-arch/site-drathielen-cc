@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tratamentos para varizes e vasinhos: Escleroterapia com Laser, Escleroterapia com Espuma, Laser Endovenoso, Microcirurgia de Varizes. Dra. Thielen Szczypkowski.">
+  <title>Tratamentos | Dra. Thielen Szczypkowski</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Tratamentos para Varizes | Dra. Thielen Szczypkowski">
+  <meta property="og:description" content="Escleroterapia com Laser, Escleroterapia com Espuma, Laser Endovenoso e Cirurgia de Varizes em Santo André, SP. Tratamentos minimamente invasivos com diagnóstico preciso.">
+  <meta property="og:url" content="https://www.drathielen.com.br/tratamentos.html">
+  <meta property="og:image" content="https://www.drathielen.com.br/assets/laser-endovenoso.webp">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.drathielen.com.br/tratamentos.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .tratamentos-main { background: var(--cream-light); padding: 80px 0 100px; }
+
+    /* Treatment entry */
+    .tratamento-entry {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center;
+      padding: 72px 0; border-bottom: 1px solid rgba(172,146,115,0.12);
+    }
+    .tratamento-entry:last-child { border-bottom: none; }
+    .tratamento-entry.reverse .entry-text { order: 1; }
+    .tratamento-entry.reverse .entry-img { order: 2; }
+
+    .entry-img {
+      height: 440px; border-radius: 6px 32px 6px 32px;
+      overflow: hidden;
+      filter: drop-shadow(0 16px 40px rgba(20,12,6,0.18)) drop-shadow(0 4px 12px rgba(20,12,6,0.10));
+    }
+    .tratamento-entry.reverse .entry-img { border-radius: 32px 6px 32px 6px; }
+    .entry-img img { width: 100%; height: 100%; object-fit: cover; object-position: top center; filter: sepia(12%) saturate(90%) brightness(1.03) contrast(0.97); }
+    .entry-img.placeholder {
+      background: var(--cream); display: flex; align-items: center; justify-content: center;
+    }
+    .entry-img.placeholder svg { width: 80px; height: 80px; color: var(--bronze-light); }
+
+    .entry-num {
+      font-size: 3.5rem; font-weight: 700; font-family: 'Playfair Display', serif;
+      color: rgba(172,146,115,0.18); line-height: 1; margin-bottom: 8px;
+    }
+    .entry-text h2 { margin-bottom: 16px; }
+    .entry-text p { margin-bottom: 16px; }
+    .entry-text ul {
+      list-style: none; padding: 0; margin: 0 0 28px;
+    }
+    .entry-text ul li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; line-height: 1.6;
+    }
+    .entry-text ul li::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--bronze); flex-shrink: 0; margin-top: 7px;
+    }
+    .entry-tag {
+      display: inline-block; padding: 5px 14px; border-radius: var(--radius-pill);
+      background: var(--bronze-pale); color: var(--bronze); font-size: 0.72rem;
+      font-weight: 600; letter-spacing: 0.06em; margin-bottom: 16px;
+    }
+
+    /* QUICK REFERENCE */
+    .quick-ref { background: var(--white); padding: 80px 0 0; }
+    .quick-ref-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 44px; }
+    .quick-card {
+      background: var(--white);
+      border-radius: var(--radius-md); padding: 24px 18px;
+      text-align: center; border: 1px solid rgba(172,146,115,0.15);
+      transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s, border-color 0.25s;
+      cursor: pointer;
+    }
+    .quick-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(20,12,6,0.12);
+      border-color: var(--bronze);
+    }
+    .quick-card:hover .quick-icon {
+      background: linear-gradient(135deg, var(--bronze-pale) 0%, rgba(172,146,115,0.18) 100%);
+    }
+    .quick-card a { text-decoration: none; color: inherit; display: block; }
+    .quick-icon {
+      width: 54px; height: 54px; border-radius: 16px;
+      background: var(--cream);
+      border: 1px solid rgba(172,146,115,0.15);
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;
+      transition: background 0.25s;
+    }
+    .quick-icon svg { width: 24px; height: 24px; color: var(--bronze); transition: color 0.25s; }
+    .quick-card h4 { font-size: 0.82rem; font-family: 'Inter', sans-serif; font-weight: 600; color: var(--text-dark); line-height: 1.35; }
+
+    @media (max-width: 1024px) {
+      .tratamento-entry { grid-template-columns: 1fr; gap: 40px; }
+      .tratamento-entry.reverse .entry-text { order: 2; }
+      .tratamento-entry.reverse .entry-img { order: 1; }
+      .entry-img { height: 320px; border-radius: 32px 80px 32px 80px !important; }
+      .quick-ref-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .quick-ref-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .entry-img { border-radius: 28px !important; height: 240px; }
+      .quick-ref-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header id="header" class="header-dark">
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/logo-original.png" alt="Dra. Thielen Szczypkowski — Cirurgia Vascular · Flebologia" class="logo-img">
+      </a>
+      <nav>
+        <a href="sobre.html">Sobre</a>
+        <a href="tratamentos.html" class="active">Tratamentos</a>
+        <a href="blog/index.html">Blog</a>
+        <a href="contato.html">Contato</a>
+        <a href="contato.html" class="nav-cta">Agendar consulta</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">&#x2715;</button>
+  <a href="sobre.html">Sobre</a>
+  <a href="tratamentos.html">Tratamentos</a>
+  <a href="blog/index.html">Blog</a>
+  <a href="contato.html">Contato</a>
+  <a href="contato.html" style="color:var(--bronze)">Agendar consulta</a>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <div class="breadcrumb fade-up">
+        <a href="index.html">Início</a><span>/</span><span>Tratamentos</span>
+      </div>
+      <span class="section-label fade-up">O que tratamos</span>
+      <h1 class="fade-up">Cada veia tem uma indicação. Não existe técnica universal.</h1>
+      <p class="lead fade-up">A escolha do tratamento depende do Doppler, do tipo de veia, do calibre e do que está por trás do que aparece na pele. Aqui, a indicação vem antes da técnica, sempre.</p>
+    </div>
+  </div>
+  <div class="page-hero-wave wave">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#ffffff"/>
+    </svg>
+  </div>
+</section>
+
+<!-- QUICK NAV -->
+<section class="quick-ref">
+  <div class="container">
+    <div class="fade-up" style="text-align:center;">
+      <span class="section-label">Navegue pelos tratamentos</span>
+
+    </div>
+    <div class="quick-ref-grid">
+      <div class="quick-card fade-up"><a href="#escleroterapia-laser">
+        <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h4>Escleroterapia com Laser</h4>
+      </a></div>
+      <div class="quick-card fade-up"><a href="#escleroterapia-convencional">
+        <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2l4 4-1.5 1.5-4-4L18 2z"/><path d="M14.5 5.5l4 4"/><path d="M6 14l-4 4 1.5 1.5 4-4"/><path d="M7.5 7.5l9 9"/><path d="M10 10l-4 4 1.5 1.5 4-4"/><path d="M13 9l2 2"/></svg></div>
+        <h4>Escleroterapia Convencional</h4>
+      </a></div>
+      <div class="quick-card fade-up"><a href="#escleroterapia-espuma">
+        <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="5"/><circle cx="7" cy="8" r="3"/><circle cx="17" cy="7" r="2.5"/><circle cx="19.5" cy="13" r="1.5"/></svg></div>
+        <h4>Escleroterapia com Espuma</h4>
+      </a></div>
+      <div class="quick-card fade-up"><a href="#laser-endovenoso">
+        <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l2.5-7 3 14 3-10 2 5 1.5-3H22"/></svg></div>
+        <h4>Laser Endovenoso</h4>
+      </a></div>
+      <div class="quick-card fade-up"><a href="#microcirurgia">
+        <div class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4L8.5 15.5"/><path d="M8.5 15.5C6 18 3.5 19.5 3 20c.5-.5 2-3 4.5-5.5"/><path d="M15 4h5v5"/><path d="M8.5 15.5l-2 2"/></svg></div>
+        <h4>Microcirurgia e Cirurgia</h4>
+      </a></div>
+    </div>
+  </div>
+  <div class="wave" style="margin-top:60px;">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f9f7f4"/>
+    </svg>
+  </div>
+</section>
+
+<!-- TRATAMENTOS DETAIL -->
+<section class="tratamentos-main">
+  <div class="container">
+
+    <!-- 01 -->
+    <div class="tratamento-entry fade-up" id="escleroterapia-laser">
+      <div class="entry-text">
+        <div class="entry-num">01</div>
+        <span class="entry-tag">Vasos superficiais · Sem agulha</span>
+        <h2>Escleroterapia com Laser</h2>
+        <p>Indicada para telangiectasias e vasinhos muito finos, a escleroterapia com laser utiliza luz para destruir o vaso sem necessidade de agulha ou injeção. É um método preciso, com recuperação imediata e sem necessidade de afastamento das atividades. Os resultados surgem de forma gradual, à medida que os vasos são absorvidos pelo organismo. A indicação depende do diâmetro e da profundidade dos vasos, avaliados na consulta.</p>
+        <ul>
+          <li>Procedimento sem agulha, sem incisão</li>
+          <li>Não exige tempo de recuperação</li>
+          <li>Resultados progressivos nas semanas seguintes</li>
+          <li>Indicado após avaliação clínica e Doppler</li>
+        </ul>
+        <a href="https://web.whatsapp.com/send?phone=5511943211890&text=Ol%C3%A1!%20gostaria%20de%20saber%20mais%20sobre%20Escleroterapia%20com%20Laser." target="_blank" class="btn btn-primary">Agendar avaliação</a>
+      </div>
+      <div class="entry-img">
+        <img src="assets/tratamento-a-laser.webp" alt="Escleroterapia com Laser" loading="lazy" style="object-position: center 90%; object-fit: cover; transform: scale(1.15); transform-origin: center 90%;">
+      </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="tratamento-entry reverse fade-up" id="escleroterapia-convencional">
+      <div class="entry-img">
+        <img src="assets/escleroterapia.webp" alt="Escleroterapia Convencional" loading="lazy">
+      </div>
+      <div class="entry-text">
+        <div class="entry-num">02</div>
+        <span class="entry-tag">Vasinhos e varizes de pequeno calibre · Com agulha fina</span>
+        <h2>Escleroterapia Convencional</h2>
+        <p>Técnica consagrada e amplamente estudada. Consiste na injeção de uma solução esclerosante diretamente dentro da veia, provocando sua obliteração. É indicada para vasinhos e varizes de pequeno calibre que não respondem ao laser ou que, pelo diâmetro, têm melhor resultado com injeção. A escolha da solução e da concentração depende do tipo de veia e é definida na avaliação clínica.</p>
+        <ul>
+          <li>Técnica precisa, com agulha de calibre fino</li>
+          <li>Diversas opções de solução esclerosante</li>
+          <li>Indicada para diferentes tipos e calibres de vasos</li>
+          <li>Resultados visíveis e duradouros</li>
+        </ul>
+        <a href="https://web.whatsapp.com/send?phone=5511943211890&text=Ol%C3%A1!%20gostaria%20de%20saber%20mais%20sobre%20Escleroterapia%20Convencional." target="_blank" class="btn btn-primary">Agendar avaliação</a>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="tratamento-entry fade-up" id="escleroterapia-espuma">
+      <div class="entry-text">
+        <div class="entry-num">03</div>
+        <span class="entry-tag">Veias médias e grandes · Guiada por ultrassom</span>
+        <h2>Escleroterapia com Espuma</h2>
+        <p>Utiliza polidocanol em forma de espuma, que ocupa o interior da veia com mais eficiência do que a solução líquida. É guiada por ultrassonografia em tempo real, o que garante precisão na aplicação e segurança no procedimento. Indicada para veias de maior calibre que não respondem ao laser, pode substituir a cirurgia em casos selecionados. A decisão sobre a indicação é feita após o Doppler venoso.</p>
+        <ul>
+          <li>Indicada para veias médias e grandes</li>
+          <li>Guiada por Doppler em tempo real</li>
+          <li>Procedimento ambulatorial</li>
+          <li>Pode substituir a cirurgia em casos selecionados</li>
+        </ul>
+        <a href="https://web.whatsapp.com/send?phone=5511943211890&text=Ol%C3%A1!%20gostaria%20de%20saber%20mais%20sobre%20Escleroterapia%20com%20Espuma." target="_blank" class="btn btn-primary">Agendar avaliação</a>
+      </div>
+      <div class="entry-img">
+        <img src="assets/Escleroterapia-com-Espuma.webp" alt="Escleroterapia com Espuma — mapeamento vascular" loading="lazy">
+      </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="tratamento-entry reverse fade-up" id="laser-endovenoso">
+      <div class="entry-img">
+        <img src="assets/laser-endovenoso.webp" alt="Laser Endovenoso" loading="lazy" style="object-position: center 40%;">
+      </div>
+      <div class="entry-text">
+        <div class="entry-num">04</div>
+        <span class="entry-tag">Veias safenas · Minimamente invasivo</span>
+        <h2>Laser Endovenoso</h2>
+        <p>Desenvolvido para tratar as veias safenas — as veias tronco que, quando falham, alimentam as varizes visíveis. Uma fibra ótica é introduzida dentro da veia e o laser é acionado de dentro para fora, sem necessidade de cortes. O procedimento é realizado sob anestesia local, guiado por ultrassom, com retorno rápido às atividades. A indicação exige Doppler venoso que confirme o refluxo na safena e defina o segmento a ser tratado.</p>
+        <ul>
+          <li>Substitui a cirurgia convencional da veia safena</li>
+          <li>Sob anestesia local</li>
+          <li>Guiado por ultrassonografia</li>
+          <li>Retorno rápido às atividades</li>
+          <li>Indicado após Doppler venoso</li>
+        </ul>
+        <a href="https://web.whatsapp.com/send?phone=5511943211890&text=Ol%C3%A1!%20gostaria%20de%20saber%20mais%20sobre%20Laser%20Endovenoso." target="_blank" class="btn btn-primary">Agendar avaliação</a>
+      </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="tratamento-entry fade-up" id="microcirurgia">
+      <div class="entry-text">
+        <div class="entry-num">05</div>
+        <span class="entry-tag">Varizes complexas · Ambiente hospitalar</span>
+        <h2>Microcirurgia e Cirurgia de Varizes</h2>
+        <p>Em alguns casos, a indicação cirúrgica é a mais adequada para o resultado esperado. Varizes de grande calibre, casos com recidiva ou situações em que os procedimentos minimamente invasivos não são suficientes têm na cirurgia uma solução eficaz e definitiva.</p>
+        <p>Os procedimentos são realizados em ambiente hospitalar, com toda a estrutura necessária para segurança e precisão. Sou credenciada nos principais hospitais de referência da Grande São Paulo, incluindo Albert Einstein, Sírio-Libanês e Oswaldo Cruz. O tempo de recuperação varia conforme o caso e é discutido em detalhes na consulta pré-operatória.</p>
+        <ul>
+          <li>Indicada para varizes complexas ou recidivadas</li>
+          <li>Realizada em hospital de referência</li>
+          <li>Cirurgia de flebectomia com anestesia</li>
+          <li>Microfleboextratora com anzol</li>
+          <li>Ligadura de perfurantes</li>
+        </ul>
+        <a href="https://web.whatsapp.com/send?phone=5511943211890&text=Ol%C3%A1!%20gostaria%20de%20saber%20mais%20sobre%20Cirurgia%20de%20Varizes." target="_blank" class="btn btn-primary">Agendar avaliação</a>
+      </div>
+      <div class="entry-img">
+        <img src="assets/Microcirurgia-e-Cirurgia-de-Varizes.webp" alt="Microcirurgia e Cirurgia de Varizes" loading="lazy">
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div style="background:var(--brown);border-radius:var(--radius-lg);padding:56px 48px;text-align:center;margin-top:72px;box-shadow:var(--shadow-lg);" class="fade-up">
+      <h2 style="color:var(--white);margin-bottom:12px;">Não sabe qual tratamento é indicado para o seu caso?</h2>
+      <p style="color:rgba(255,255,255,0.65);max-width:500px;margin:0 auto 32px;line-height:1.75;">Nenhum tratamento é escolhido antes da avaliação. Na consulta, faço o exame clínico, solicito o Doppler quando necessário e defino o melhor caminho para cada caso. Sem suposição, sem protocolo genérico.</p>
+      <a href="https://web.whatsapp.com/send?phone=5511943211890&text=Ol%C3%A1!%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o." target="_blank" class="btn btn-white">Agendar via WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<div class="wave" style="background:#f9f7f4;"><svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#524334"/></svg></div>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><img src="assets/logo-branco.png" alt="Dra. Thielen Szczypkowski" class="logo-img"></a>
+        <p>Cirurgiã Vascular especialista em Flebologia Estética. Santo André, SP.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/drathielen.vascular" target="_blank" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <a href="sobre.html">Sobre</a><a href="tratamentos.html">Tratamentos</a>
+        <a href="blog/index.html">Blog</a><a href="contato.html">Contato</a>
+      </div>
+      <div class="footer-col">
+        <h4>Estética das Pernas</h4>
+        <a href="blog/uso-meias.html">Meias de compressão na atividade física</a>
+        <a href="blog/anticoncepcional.html">Anticoncepcional e varizes</a>
+        <a href="blog/varizes-verao.html">Varizes no verão</a>
+        <a href="blog/sintomas-varizes.html">Sintomas de varizes</a>
+        <a href="blog/laser-endovenoso.html">Laser endovenoso</a>
+      </div>
+      <div class="footer-col">
+        <h4>Informações úteis</h4>
+        <a href="tel:+5511943211890">+55 (11) 94321-1890</a>
+        <a href="mailto:contato@drathielen.com.br">contato@drathielen.com.br</a>
+        <a href="#">Av. Industrial, 780 — Sala 2.514<br>Jardim, Santo André – SP</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Copyright &copy; 2026 Dra. Thielen Szczypkowski. Todos os direitos reservados. · CRM-SP 99.530</p>
+      <div class="footer-bottom-links"><a href="politica-de-privacidade.html">Política de Privacidade</a><a href="politica-de-privacidade.html#cookies">Cookies</a></div>
+    </div>
+  </div>
+</footer>
+<a href="https://web.whatsapp.com/send?phone=5511943211890&text=Ol%C3%A1!%20gostaria%20de%20ter%20mais%20informa%C3%A7%C3%B5es." target="_blank" class="wa-float" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+<script src="js/main.js"></script>
+</body>
+</html>
