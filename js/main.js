@@ -166,6 +166,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+// ── TOUCH HOVER (mobile) ──
+(function () {
+  const sel = '.card-glass, .blog-card, .quick-card, .valor-card, .info-card';
+  document.querySelectorAll(sel).forEach(card => {
+    card.addEventListener('touchstart', () => card.classList.add('touched'), { passive: true });
+    card.addEventListener('touchend', () => setTimeout(() => card.classList.remove('touched'), 400), { passive: true });
+    card.addEventListener('touchcancel', () => card.classList.remove('touched'), { passive: true });
+  });
+})();
+
 function closeMobileMenu() {
   const m = document.getElementById('mobileMenu');
   const h = document.getElementById('hamburger');
