@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://www.drathielen.com.br/">
   <meta name="theme-color" content="#ac9273">
-  <link rel="preload" as="image" href="/assets/hero.webp">
+  <link rel="preload" as="image" href="/assets/hero.webp" imagesrcset="/assets/hero-mobile.webp 480w, /assets/hero.webp 960w" imagesizes="(max-width: 1024px) 480px, 960px">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -476,7 +476,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- COLUNA DIREITA: foto sangra do topo -->
   <div class="hero-img-outer scale-in" style="grid-column:2; transition-delay:0.15s;">
     <div class="hero-img-wrap">
-      <img src="assets/hero.webp" alt="Dra. Thielen Szczypkowski — Cirurgiã Vascular" fetchpriority="high" width="960" height="1440">
+      <img src="assets/hero.webp"
+           srcset="assets/hero-mobile.webp 480w, assets/hero.webp 960w"
+           sizes="(max-width: 1024px) 480px, 960px"
+           alt="Dra. Thielen Szczypkowski — Cirurgiã Vascular"
+           fetchpriority="high" width="960" height="1440">
     </div>
     <div class="hero-float">
       <div class="hero-float-icon">
