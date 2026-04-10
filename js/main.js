@@ -100,45 +100,49 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ── COOKIE BANNER ──
+  // ── COOKIE BANNER (deferred to after page load) ──
   if (!localStorage.getItem('cookieConsent')) {
-    const banner = document.createElement('div');
-    banner.id = 'cookie-banner';
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const banner = document.createElement('div');
+        banner.id = 'cookie-banner';
 
-    const p = document.createElement('p');
-    p.textContent = 'Utilizamos cookies para melhorar sua experiência de navegação. Ao continuar, você concorda com nossa ';
-    const link = document.createElement('a');
-    link.href = '/politica-de-privacidade.html';
-    link.textContent = 'Política de Privacidade';
-    p.appendChild(link);
-    p.appendChild(document.createTextNode('.'));
+        const p = document.createElement('p');
+        p.textContent = 'Utilizamos cookies para melhorar sua experiência de navegação. Ao continuar, você concorda com nossa ';
+        const link = document.createElement('a');
+        link.href = '/politica-de-privacidade.html';
+        link.textContent = 'Política de Privacidade';
+        p.appendChild(link);
+        p.appendChild(document.createTextNode('.'));
 
-    const btns = document.createElement('div');
-    btns.className = 'cookie-btns';
+        const btns = document.createElement('div');
+        btns.className = 'cookie-btns';
 
-    const btnDecline = document.createElement('button');
-    btnDecline.className = 'cookie-btn-decline';
-    btnDecline.textContent = 'Recusar';
+        const btnDecline = document.createElement('button');
+        btnDecline.className = 'cookie-btn-decline';
+        btnDecline.textContent = 'Recusar';
 
-    const btnAccept = document.createElement('button');
-    btnAccept.className = 'cookie-btn-accept';
-    btnAccept.textContent = 'Aceitar cookies';
+        const btnAccept = document.createElement('button');
+        btnAccept.className = 'cookie-btn-accept';
+        btnAccept.textContent = 'Aceitar cookies';
 
-    btns.appendChild(btnDecline);
-    btns.appendChild(btnAccept);
-    banner.appendChild(p);
-    banner.appendChild(btns);
-    document.body.appendChild(banner);
+        btns.appendChild(btnDecline);
+        btns.appendChild(btnAccept);
+        banner.appendChild(p);
+        banner.appendChild(btns);
+        document.body.appendChild(banner);
 
-    setTimeout(() => banner.classList.add('visible'), 800);
+        setTimeout(() => banner.classList.add('visible'), 300);
 
-    const dismissBanner = (choice) => {
-      localStorage.setItem('cookieConsent', choice);
-      banner.classList.remove('visible');
-      setTimeout(() => banner.remove(), 400);
-    };
-    btnAccept.addEventListener('click', () => dismissBanner('accepted'));
-    btnDecline.addEventListener('click', () => dismissBanner('declined'));
+        const dismissBanner = (choice) => {
+          localStorage.setItem('cookieConsent', choice);
+          banner.classList.remove('visible');
+          setTimeout(() => banner.remove(), 400);
+        };
+        btnAccept.addEventListener('click', () => dismissBanner('accepted'));
+        btnDecline.addEventListener('click', () => dismissBanner('declined'));
+      }, 1000);
+    });
   }
 
   // ── CONTACT FORM ──
