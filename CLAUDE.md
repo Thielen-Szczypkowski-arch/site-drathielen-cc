@@ -4,7 +4,8 @@
 - HTML estático puro — sem build, sem framework
 - CSS inline `<style>` em cada página para estilos específicos, CSS global em `css/style.css`
 - JS compartilhado em `js/main.js`
-- Assets em `assets/` — logo em `assets/logo-original.png`, favicon em `assets/favicon.png`
+- Assets em `assets/` — logo em `assets/logo-original.webp`, favicon em `assets/favicon.png`
+- Fontes hospedadas localmente em `assets/fonts/` (Outfit + Inter, woff2)
 - Blog em subpasta `blog/` — paths de assets usam `../assets/`
 
 ## Seletores críticos
