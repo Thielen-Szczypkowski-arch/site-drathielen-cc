@@ -63,6 +63,45 @@
 }
   </script>
 
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "O tratamento de varizes dói?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Depende do procedimento. A escleroterapia causa um leve ardor passageiro no momento da injeção. O laser endovenoso é feito com anestesia local, então o desconforto é mínimo. A maioria das pacientes relata que foi muito melhor do que esperava."}
+    },
+    {
+      "@type": "Question",
+      "name": "Quantas sessões são necessárias?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Varia conforme o tipo e a quantidade de varizes. Vasinhos finos costumam resolver em 2 a 4 sessões de escleroterapia. Varizes maiores podem exigir um procedimento único de laser ou microcirurgia. O número exato só é definido após o Doppler vascular."}
+    },
+    {
+      "@type": "Question",
+      "name": "Preciso parar de trabalhar após o procedimento?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Para escleroterapia, não — a paciente sai caminhando e pode retomar a rotina no mesmo dia. Para laser endovenoso e microcirurgia, recomenda-se repouso de 1 a 3 dias."}
+    },
+    {
+      "@type": "Question",
+      "name": "Os planos de saúde cobrem o tratamento?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Procedimentos com indicação clínica costumam ter cobertura pelo plano. Tratamentos puramente estéticos geralmente não são cobertos. O consultório é particular, mas emite documentação para reembolso conforme a sua apólice."}
+    },
+    {
+      "@type": "Question",
+      "name": "As varizes voltam depois do tratamento?",
+      "acceptedAnswer": {"@type": "Answer", "text": "As veias tratadas não voltam — elas são eliminadas. Porém, como varizes têm componente genético e de estilo de vida, novas veias podem surgir com o tempo. Por isso, a Dra. Thielen orienta cada paciente sobre prevenção."}
+    },
+    {
+      "@type": "Question",
+      "name": "Consigo fazer a avaliação e já iniciar o tratamento no mesmo dia?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Em alguns casos sim — especialmente para vasinhos com escleroterapia. Para varizes maiores, a avaliação com Doppler precisa ser feita antes de definir o tratamento."}
+    }
+  ]
+}
+  </script>
+
   <style>
     @font-face{font-family:'Inter';font-style:normal;font-weight:400 500 600;font-display:swap;src:url('/assets/fonts/inter-latin.woff2') format('woff2')}
     @font-face{font-family:'Outfit';font-style:normal;font-weight:400 600 700;font-display:swap;src:url('/assets/fonts/outfit-latin.woff2') format('woff2')}
@@ -174,6 +213,63 @@
     .trat-icon svg{width:22px;height:22px;color:var(--bronze)}
     .trat-card h3{font-family:'Outfit',sans-serif;font-size:1rem;font-weight:600;color:var(--text-dark);margin-bottom:5px}
     .trat-card p{font-size:0.8rem;color:var(--text-muted);line-height:1.6}
+
+    /* DEPOIMENTOS */
+    .depoimentos{background:var(--cream);padding:72px 24px}
+    .depo-inner{max-width:1200px;margin:0 auto}
+    .depo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
+    .depo-card{
+      background:var(--white);border:1px solid rgba(172,146,115,0.12);border-radius:20px;
+      padding:28px;display:flex;flex-direction:column;gap:14px;
+    }
+    .depo-stars{display:flex;gap:3px}
+    .depo-stars svg{width:16px;height:16px;color:#f59e0b;fill:#f59e0b}
+    .depo-text{font-size:0.88rem;color:var(--text-muted);line-height:1.75;flex:1}
+    .depo-text strong{color:var(--bronze);font-style:italic}
+    .depo-author{display:flex;align-items:center;gap:10px;margin-top:4px}
+    .depo-avatar{
+      width:36px;height:36px;border-radius:50%;
+      background:var(--bronze);display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;
+    }
+    .depo-avatar span{font-size:0.85rem;font-weight:700;color:white}
+    .depo-name{font-size:0.78rem;font-weight:600;color:var(--text-dark)}
+    .depo-date{font-size:0.7rem;color:var(--text-muted)}
+    .depo-google{display:flex;align-items:center;gap:4px;margin-top:2px}
+    .depo-google svg{width:12px;height:12px}
+    .depo-google span{font-size:0.65rem;color:var(--text-muted)}
+    @media(max-width:900px){.depo-grid{grid-template-columns:1fr}}
+
+    /* FAQ */
+    .faq-section{padding:72px 24px;max-width:1200px;margin:0 auto}
+    .faq-section h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;color:var(--text-dark);margin-bottom:10px}
+    .faq-sub{font-size:0.95rem;color:var(--text-muted);line-height:1.7;max-width:560px;margin-bottom:40px}
+    .faq-list{display:flex;flex-direction:column;gap:10px;max-width:780px}
+    .faq-item{background:var(--white);border:1px solid rgba(172,146,115,0.14);border-radius:16px;overflow:hidden}
+    .faq-question{
+      width:100%;text-align:left;padding:20px 24px;
+      background:none;border:none;cursor:pointer;
+      display:flex;align-items:center;justify-content:space-between;gap:16px;
+      font-family:'Outfit',sans-serif;font-size:1rem;font-weight:600;
+      color:var(--text-dark);line-height:1.3;
+      transition:background 0.2s;
+    }
+    .faq-question:hover{background:rgba(172,146,115,0.05)}
+    .faq-question[aria-expanded="true"]{color:var(--bronze)}
+    .faq-icon{
+      width:24px;height:24px;min-width:24px;
+      border-radius:50%;border:1.5px solid rgba(172,146,115,0.3);
+      display:flex;align-items:center;justify-content:center;
+      transition:transform 0.3s,border-color 0.2s;
+      flex-shrink:0;
+    }
+    .faq-question[aria-expanded="true"] .faq-icon{transform:rotate(45deg);border-color:var(--bronze)}
+    .faq-icon svg{width:12px;height:12px;color:var(--bronze)}
+    .faq-answer{
+      max-height:0;overflow:hidden;
+      transition:max-height 0.35s cubic-bezier(0.22,1,0.36,1);
+    }
+    .faq-answer-inner{padding:0 24px 20px;font-size:0.88rem;color:var(--text-muted);line-height:1.75}
 
     /* FORM */
     .form-section{background:var(--cream);padding:72px 24px}
@@ -407,6 +503,145 @@
   </div>
 </section>
 
+<!-- DEPOIMENTOS -->
+<section class="depoimentos">
+  <div class="depo-inner">
+    <span class="section-label">O que dizem nossas pacientes</span>
+    <h2 class="fade-up">Avaliações reais no Google</h2>
+
+    <div class="depo-grid">
+
+      <div class="depo-card fade-up">
+        <div class="depo-stars">
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="depo-text">"Profissional excelente. Adorei o tratamento que fiz com ela, <strong>vi resultado na primeira sessão</strong>. Resultado final minha perna ficou linda. Parabéns Dra. Thielen pelo trabalho e pelo ótimo atendimento."</p>
+        <div class="depo-author">
+          <div class="depo-avatar" aria-hidden="true"><span>J</span></div>
+          <div>
+            <div class="depo-name">Justina Vera</div>
+            <div class="depo-date">2 meses atrás</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="depo-card fade-up" style="transition-delay:0.08s">
+        <div class="depo-stars">
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="depo-text">"Indico de olhos fechados a Dra e toda a equipe. Além da simpatia, <strong>a Dra atende na hora marcada, responde suas dúvidas no WhatsApp no mesmo minuto</strong>, atenciosa, carinhosa… tudo nota 10! Minha cirurgia foi top e o pós tá sendo bem tranquilo."</p>
+        <div class="depo-author">
+          <div class="depo-avatar" aria-hidden="true"><span>L</span></div>
+          <div>
+            <div class="depo-name">Laisa Guidolin</div>
+            <div class="depo-date">8 meses atrás</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="depo-card fade-up" style="transition-delay:0.16s">
+        <div class="depo-stars">
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="depo-text">"Ela é maravilhosa, estou amando o tratamento de vasinhos e varizes. <strong>Nunca tinha feito um tratamento assim</strong>, ela é muito delicada, tem mais de fada — minhas pernas estão ficando lindas."</p>
+        <div class="depo-author">
+          <div class="depo-avatar" aria-hidden="true"><span>E</span></div>
+          <div>
+            <div class="depo-name">Elaine Stivalli de Sá</div>
+            <div class="depo-date">1 ano atrás</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section style="background:var(--white)">
+  <div class="faq-section">
+    <span class="section-label">Dúvidas frequentes</span>
+    <h2 class="fade-up">Perguntas que a gente ouve toda semana</h2>
+    <p class="faq-sub fade-up">Se a sua dúvida não estiver aqui, é só chamar no WhatsApp — respondemos rapidinho.</p>
+
+    <div class="faq-list" id="faq-list">
+
+      <div class="faq-item fade-up">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-1">
+          O tratamento de varizes dói?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 1v10M1 6h10"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-1" role="region">
+          <p class="faq-answer-inner">Depende do procedimento. A escleroterapia causa um leve ardor passageiro no momento da injeção. O laser endovenoso é feito com anestesia local, então o desconforto é mínimo. A maioria das pacientes relata que foi muito melhor do que esperava. Na consulta, a Dra. Thielen explica exatamente o que sentir em cada etapa.</p>
+        </div>
+      </div>
+
+      <div class="faq-item fade-up" style="transition-delay:0.06s">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-2">
+          Quantas sessões são necessárias?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 1v10M1 6h10"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-2" role="region">
+          <p class="faq-answer-inner">Varia conforme o tipo e a quantidade de varizes. Vasinhos finos costumam resolver em 2 a 4 sessões de escleroterapia. Varizes maiores podem exigir um procedimento único de laser ou microcirurgia. O número exato só é definido após o Doppler vascular, que mapeia todo o sistema venoso.</p>
+        </div>
+      </div>
+
+      <div class="faq-item fade-up" style="transition-delay:0.10s">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-3">
+          Preciso parar de trabalhar após o procedimento?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 1v10M1 6h10"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-3" role="region">
+          <p class="faq-answer-inner">Para escleroterapia, não — a paciente sai caminhando e pode retomar a rotina no mesmo dia, usando meia de compressão. Para laser endovenoso e microcirurgia, recomenda-se repouso de 1 a 3 dias. Em ambos os casos, evita-se esforço intenso e exposição solar por algumas semanas.</p>
+        </div>
+      </div>
+
+      <div class="faq-item fade-up" style="transition-delay:0.14s">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-4">
+          Os planos de saúde cobrem o tratamento?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 1v10M1 6h10"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-4" role="region">
+          <p class="faq-answer-inner">Procedimentos com indicação clínica (varizes com sintomas como dor, inchaço, úlcera) costumam ter cobertura pelo plano. Tratamentos puramente estéticos (vasinhos sem sintomas) geralmente não são cobertos. O consultório é particular, mas emite documentação para reembolso conforme a sua apólice.</p>
+        </div>
+      </div>
+
+      <div class="faq-item fade-up" style="transition-delay:0.18s">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-5">
+          As varizes voltam depois do tratamento?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 1v10M1 6h10"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-5" role="region">
+          <p class="faq-answer-inner">As veias tratadas não voltam — elas são eliminadas. Porém, como varizes têm componente genético e de estilo de vida, novas veias podem surgir com o tempo. Por isso, a Dra. Thielen orienta cada paciente sobre prevenção: uso de meias, movimentação, controle de peso e acompanhamento periódico.</p>
+        </div>
+      </div>
+
+      <div class="faq-item fade-up" style="transition-delay:0.22s">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq-6">
+          Consigo fazer a avaliação e já iniciar o tratamento no mesmo dia?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 1v10M1 6h10"/></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-6" role="region">
+          <p class="faq-answer-inner">Em alguns casos sim — especialmente para vasinhos com escleroterapia. Para varizes maiores, a avaliação com Doppler precisa ser feita antes de definir o tratamento. Na consulta inicial, a Dra. Thielen já apresenta o plano completo para que você saia sabendo exatamente o que será feito e quando.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- FORM -->
 <section class="form-section">
   <div class="form-inner">
@@ -474,6 +709,26 @@
 </a>
 
 <script>
+  // FAQ accordion
+  document.querySelectorAll('.faq-question').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      var answerId = btn.getAttribute('aria-controls');
+      var answer = document.getElementById(answerId);
+      // fechar todos
+      document.querySelectorAll('.faq-question').forEach(function(b) {
+        b.setAttribute('aria-expanded', 'false');
+        var a = document.getElementById(b.getAttribute('aria-controls'));
+        if (a) a.style.maxHeight = '0';
+      });
+      // abrir o clicado (se estava fechado)
+      if (!expanded) {
+        btn.setAttribute('aria-expanded', 'true');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+
   // Fade-in via IntersectionObserver
   const observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(e) {
