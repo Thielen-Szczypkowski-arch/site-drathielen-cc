@@ -745,16 +745,17 @@
   if (form) {
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-      var data = new FormData(form);
-      fetch(form.action, {method:'POST', body:data, headers:{Accept:'application/json'}})
-        .then(function() {
-          document.querySelector('.form-fields').classList.add('hidden');
-          document.getElementById('form-success').classList.add('visible');
-          if (window.dataLayer) { window.dataLayer.push({event:'form_submit_varizes'}); }
-        })
-        .catch(function() {
-          form.submit();
-        });
+      var nome = document.getElementById('nome').value.trim();
+      var telefone = document.getElementById('telefone').value.trim();
+      var mensagem = document.getElementById('mensagem').value.trim();
+      var texto = 'Olá! Recebi um contato pelo site (Google Ads):%0A%0A'
+        + '*Nome:* ' + encodeURIComponent(nome) + '%0A'
+        + '*Telefone:* ' + encodeURIComponent(telefone) + '%0A'
+        + (mensagem ? '*Interesse:* ' + encodeURIComponent(mensagem) : '');
+      if (window.dataLayer) { window.dataLayer.push({event:'form_submit_varizes'}); }
+      window.open('https://wa.me/5511943211890?text=' + texto, '_blank');
+      document.querySelector('.form-fields').classList.add('hidden');
+      document.getElementById('form-success').classList.add('visible');
     });
   }
 </script>
