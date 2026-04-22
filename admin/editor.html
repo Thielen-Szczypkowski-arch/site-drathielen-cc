@@ -495,6 +495,7 @@
   var imgFileName    = null;
   var currentImgPath = null;
   var taxonomias     = { categorias: [], tags: [] };
+  var allPostsMeta   = [];
   var selectedTags   = [];
   var taxFileSha     = null;
 
@@ -914,6 +915,7 @@
   }
 
   function renderPosts(posts) {
+    allPostsMeta = posts || [];
     var count = posts.length;
     postsCount.textContent = count === 0
       ? 'Nenhum post publicado ainda.'
@@ -994,6 +996,11 @@
       })
       .catch(function(){ setLoading(false); showToast('Erro ao carregar post.', true); });
   }
+
+  window._editBySug = function(slug) {
+    var p = allPostsMeta.find(function(x){ return x.slug === slug; });
+    editPost(slug, p ? p.sha : null);
+  };
 
   // ── Excluir ──
   function deletePost(slug, sha) {
@@ -1147,6 +1154,10 @@
     return { ok: status, title: title, desc: desc };
   }
 
+  function makeItemHtml(status, title, descHtml) {
+    return { ok: status, title: title, desc: descHtml, html: true };
+  }
+
   function renderItems(containerId, items) {
     var container = document.getElementById(containerId);
     while (container.firstChild) container.removeChild(container.firstChild);
@@ -1164,7 +1175,8 @@
       if (c.desc) {
         var d = document.createElement('div');
         d.className = 'seo-item-desc';
-        d.textContent = c.desc;
+        if (c.html) d.innerHTML = c.desc;
+        else d.textContent = c.desc;
         body.appendChild(d);
       }
       item.appendChild(dot);
@@ -1344,6 +1356,43 @@
       seoItems.push(makeItem('warn','H1 no corpo do post','O H1 já é o título do post. Remova os H1 do corpo e use H2/H3.'));
     else
       seoItems.push(makeItem('ok','H1 único','O título do post é o único H1 da página. Correto.'));
+
+    // 17. Canibalização de palavra-chave
+    if (kw && allPostsMeta.length > 0) {
+      var canib = allPostsMeta.filter(function(p) {
+        if (p.slug === currentSlug) return false;
+        var pk = (p.focus_keyword || '').toLowerCase().trim();
+        if (!pk) return false;
+        return pk === kw || pk.indexOf(kw) >= 0 || kw.indexOf(pk) >= 0;
+      });
+      if (canib.length > 0) {
+        var canibLinks = canib.map(function(p){ return '"' + (p.title || p.slug) + '"'; }).join(', ');
+        seoItems.push(makeItem('warn','Possível canibalização de keyword','Outros posts usam a mesma palavra-chave: ' + canibLinks + '. Considere diferenciar ou criar pillar content.'));
+      } else {
+        seoItems.push(makeItem('ok','Sem canibalização de keyword','Nenhum outro post compete pela mesma palavra-chave.'));
+      }
+    }
+
+    // 18. Sugestões de links internos
+    if (allPostsMeta.length > 0) {
+      var titleWords = title.toLowerCase().split(/\s+/).filter(function(w){ return w.length > 4; });
+      var kwWords    = kw ? kw.split(/\s+/).filter(function(w){ return w.length > 3; }) : [];
+      var searchTerms = titleWords.concat(kwWords);
+      var suggestions = allPostsMeta.filter(function(p) {
+        if (p.slug === currentSlug) return false;
+        var pt = (p.title || '').toLowerCase();
+        var pk = (p.focus_keyword || '').toLowerCase();
+        return searchTerms.some(function(w){ return pt.indexOf(w) >= 0 || pk.indexOf(w) >= 0; });
+      }).slice(0, 4);
+      if (suggestions.length > 0) {
+        var sugLinks = suggestions.map(function(p){
+          var safeSlug = p.slug.replace(/'/g,"\\'");
+          var safeTitle = (p.title || p.slug).replace(/</g,'&lt;').replace(/>/g,'&gt;');
+          return '<a href="#" style="color:var(--bronze);text-decoration:underline" onclick="event.preventDefault();window._editBySug(\'' + safeSlug + '\')">' + safeTitle + '</a>';
+        }).join(' · ');
+        seoItems.push(makeItemHtml('warn','Sugestões de links internos','Considere linkar para: ' + sugLinks));
+      }
+    }
 
     // ── Aba Legibilidade ──
     var readItems = [];
