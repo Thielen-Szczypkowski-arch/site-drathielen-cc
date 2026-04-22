@@ -73,35 +73,13 @@ Reservada para pacientes com varizes muito dilatadas, em grande quantidade, ou q
 
 ## Comparativo resumido
 
-            Tratamento
-            Indicação
-            Anestesia
-            Recuperação
-
-            Escleroterapia convencional
-            Vasinhos e varizes pequenas
-            Não
-            Imediata
-
-            Laser de superfície
-            Vasinhos finos resistentes
-            Não
-            Imediata
-
-            Escleroterapia com espuma
-            Varizes médias
-            Não
-24–48h
-
-            Laser endovenoso
-            Safenas comprometidas
-            Local tumescente
-2–5 dias
-
-            Cirurgia
-            Casos avançados/grandes
-            Local ou geral
-5–14 dias
+| Tratamento | Indicação | Anestesia | Recuperação |
+|---|---|---|---|
+| Escleroterapia convencional | Vasinhos e varizes pequenas | Não | Imediata |
+| Laser de superfície | Vasinhos finos resistentes | Não | Imediata |
+| Escleroterapia com espuma | Varizes médias | Não | 24–48h |
+| Laser endovenoso | Safenas comprometidas | Local tumescente | 2–5 dias |
+| Cirurgia | Casos avançados/grandes | Local ou geral | 5–14 dias |
 
 ## Qual tratamento é o certo para você?
 
