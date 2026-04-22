@@ -29,7 +29,37 @@
     .article-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
     .article-tag { font-size: 0.68rem; background: var(--bronze-pale); color: var(--bronze); padding: 4px 12px; border-radius: 100px; font-weight: 600; }.article-tag{font-size:0.68rem;background:var(--bronze);color:#fff;padding:4px 12px;border-radius:100px;font-weight:600}.article-tag-secondary{font-size:0.68rem;background:var(--bronze-pale);color:var(--bronze);padding:4px 12px;border-radius:100px;font-weight:600;border:1px solid rgba(172,146,115,0.25)}.article-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;padding-top:20px;border-top:1px solid rgba(172,146,115,0.12)}
     .article-date { font-size: 0.75rem; color: var(--text-light); }
-    .article-cta { background: var(--cream); border-radius: 20px; padding: 32px; margin: 48px 0 0; text-align: center; }
+    .article-layout{display:grid;grid-template-columns:1fr 280px;gap:56px;align-items:start}
+.article-sidebar{position:sticky;top:88px}
+.sidebar-widget{background:var(--cream-light);border-radius:16px;padding:24px;margin-bottom:20px;border:1px solid rgba(172,146,115,0.12)}
+.sidebar-widget-title{font-family:'Outfit',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--bronze);margin-bottom:16px}
+.sidebar-cat-list{list-style:none;padding:0;margin:0}
+.sidebar-cat-list li{border-bottom:1px solid rgba(172,146,115,0.1)}
+.sidebar-cat-list li:last-child{border-bottom:none}
+.sidebar-cat-list a{display:flex;align-items:center;justify-content:space-between;padding:9px 0;font-size:0.82rem;color:var(--text-muted);text-decoration:none;transition:color 0.2s}
+.sidebar-cat-list a:hover{color:var(--bronze)}
+.sidebar-cat-list a.active{color:var(--bronze);font-weight:600}
+.sidebar-cat-count{font-size:0.7rem;background:var(--bronze-pale);color:var(--bronze);padding:2px 8px;border-radius:100px;font-weight:600}
+.sidebar-tags{display:flex;flex-wrap:wrap;gap:6px}
+.sidebar-tag{font-size:0.72rem;background:var(--white);color:var(--text-muted);padding:5px 12px;border-radius:100px;border:1px solid rgba(172,146,115,0.2);text-decoration:none;transition:all 0.2s;font-weight:500}
+.sidebar-tag:hover{background:var(--bronze-pale);color:var(--bronze);border-color:rgba(172,146,115,0.35)}
+.post-nav{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px;padding-top:32px;border-top:1px solid rgba(172,146,115,0.12)}
+.post-nav-item{display:flex;flex-direction:column;gap:4px;padding:16px 20px;background:var(--cream-light);border-radius:12px;text-decoration:none;border:1px solid rgba(172,146,115,0.12);transition:all 0.2s}
+.post-nav-item:hover{border-color:var(--bronze);background:var(--bronze-pale)}
+.post-nav-item.next{text-align:right}
+.post-nav-label{font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--bronze)}
+.post-nav-title{font-size:0.82rem;color:var(--text-dark);font-weight:500;line-height:1.4}
+.post-nav-item.prev .post-nav-label::before{content:'← '}
+.post-nav-item.next .post-nav-label::after{content:' →'}
+@media(max-width:900px){
+  .article-layout{grid-template-columns:1fr}
+  .article-sidebar{position:static}
+  .sidebar-widget{padding:20px}
+}
+@media(max-width:600px){
+  .post-nav{grid-template-columns:1fr}
+}
+.article-cta { background: var(--cream); border-radius: 20px; padding: 32px; margin: 48px 0 0; text-align: center; }
     .article-cta h3 { font-size: 1.3rem; margin-bottom: 10px; }
     .article-cta p { margin-bottom: 20px; max-width: 440px; margin-left: auto; margin-right: auto; }
     .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--bronze); text-decoration: none; font-weight: 600; margin-bottom: 32px; }
@@ -95,6 +125,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="container" style="padding-top:0;margin-top:-20px;padding-bottom:0"><div class="article-hero-img"><img src="../assets/blog-nao-tem-idade.webp" alt="Varizes não têm idade — jovens também desenvolvem varizes"></div></div>
 <section class="article-body">
   <div class="container">
+    <div class="article-layout">
     <div class="article-content">
       <a href="/blog/" class="back-link">← Voltar ao Blog</a>
 
@@ -144,12 +175,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </ul>
 
       
+      <nav class="post-nav" aria-label="Navegação entre posts"><a href="/blog/meias-prevenir.html" class="post-nav-item prev"><span class="post-nav-label">Anterior</span><span class="post-nav-title">Como as meias de compressão ajudam a prevenir varizes</span></a><a href="/blog/cirurgia-quando-indicada.html" class="post-nav-item next"><span class="post-nav-label">Próximo</span><span class="post-nav-title">Cirurgia de varizes: quando é indicada</span></a></nav>
       <div class="article-tags"><span class="article-tag-secondary">varizes</span><span class="article-tag-secondary">prevenção</span></div>
       <div class="article-cta">
         <h3>Nunca é cedo demais para cuidar das suas pernas</h3>
         <p>Se você tem histórico familiar de varizes ou já percebe os primeiros sinais, agende uma avaliação. A prevenção e o diagnóstico precoce fazem toda a diferença.</p>
         <a href="https://wa.me/5511943211890?text=Ol%C3%A1!%20gostaria%20de%20ter%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer" class="btn btn-primary">Agendar avaliação</a>
       </div>
+    </div>
+    <aside class="article-sidebar"><div class="sidebar-widget"><p class="sidebar-widget-title">Categorias</p><ul class="sidebar-cat-list"><li><a href="/blog/?cat=saúde-vascular" class="active">Saúde Vascular<span class="sidebar-cat-count">12</span></a></li><li><a href="/blog/?cat=tratamentos">Tratamentos<span class="sidebar-cat-count">9</span></a></li><li><a href="/blog/?cat=estética">Estética<span class="sidebar-cat-count">3</span></a></li><li><a href="/blog/?cat=prevenção">Prevenção<span class="sidebar-cat-count">6</span></a></li><li><a href="/blog/?cat=dicas">Dicas<span class="sidebar-cat-count">8</span></a></li></ul></div><div class="sidebar-widget"><p class="sidebar-widget-title">Tags</p><div class="sidebar-tags"><a href="/blog/?tag=varizes" class="sidebar-tag" style="background:var(--bronze-pale);color:var(--bronze);border-color:rgba(172,146,115,0.35)">varizes</a><a href="/blog/?tag=circulação" class="sidebar-tag">circulação</a><a href="/blog/?tag=prevenção" class="sidebar-tag" style="background:var(--bronze-pale);color:var(--bronze);border-color:rgba(172,146,115,0.35)">prevenção</a><a href="/blog/?tag=vasinhos" class="sidebar-tag">vasinhos</a><a href="/blog/?tag=escleroterapia" class="sidebar-tag">escleroterapia</a><a href="/blog/?tag=laser" class="sidebar-tag">laser</a><a href="/blog/?tag=inverno" class="sidebar-tag">inverno</a><a href="/blog/?tag=meias-de-compressão" class="sidebar-tag">meias de compressão</a><a href="/blog/?tag=verão" class="sidebar-tag">verão</a><a href="/blog/?tag=gravidez" class="sidebar-tag">gravidez</a></div></div></aside>
     </div>
   </div>
 </section>
