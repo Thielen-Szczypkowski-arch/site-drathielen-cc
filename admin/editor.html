@@ -241,7 +241,7 @@
       display:flex; align-items:center; gap:14px; margin-bottom:16px;
     }
     .seo-score-ring {
-      position:relative; width:56px; height:56px; flex-shrink:0;
+      position:relative; width:64px; height:64px; flex-shrink:0;
     }
     .seo-score-ring svg { transform:rotate(-90deg) }
     .seo-score-ring circle { fill:none; stroke-width:5; stroke-linecap:round }
@@ -249,26 +249,45 @@
     .seo-score-ring .ring-fill { transition:stroke-dashoffset 0.5s, stroke 0.5s }
     .seo-score-num {
       position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-      font-size:0.82rem; font-weight:700; color:var(--text-dark);
+      font-size:0.85rem; font-weight:700; color:var(--text-dark);
     }
     .seo-panel-info { flex:1 }
     .seo-panel-title { font-size:0.78rem; font-weight:700; color:var(--text-dark); margin-bottom:2px; text-transform:uppercase; letter-spacing:0.05em }
     .seo-panel-status { font-size:0.75rem; color:var(--text-muted) }
-    .seo-items { display:grid; grid-template-columns:1fr 1fr; gap:7px }
-    @media(max-width:640px){ .seo-items { grid-template-columns:1fr } }
-    .seo-item {
-      display:flex; align-items:center; gap:8px;
-      padding:7px 10px; border-radius:10px; font-size:0.75rem;
+    .seo-kw-row { display:flex; gap:8px; align-items:center; margin-bottom:14px }
+    .seo-kw-input {
+      flex:1; padding:8px 12px; border:1.5px solid rgba(172,146,115,0.3);
+      border-radius:10px; font-size:0.82rem; font-family:'Inter',sans-serif;
+      color:var(--text-dark); outline:none; background:var(--cream-light);
     }
-    .seo-item.ok   { background:rgba(34,197,94,0.08);  color:#166534 }
-    .seo-item.warn { background:rgba(234,179,8,0.1);   color:#854d0e }
-    .seo-item.bad  { background:rgba(239,68,68,0.08);  color:#991b1b }
+    .seo-kw-input:focus { border-color:var(--bronze); background:var(--white) }
+    .seo-kw-label { font-size:0.72rem; font-weight:600; color:var(--text-muted); white-space:nowrap; text-transform:uppercase; letter-spacing:0.04em }
+    .seo-tabs { display:flex; gap:0; margin-bottom:14px; border-bottom:2px solid rgba(172,146,115,0.15) }
+    .seo-tab {
+      padding:6px 16px; font-size:0.75rem; font-weight:600; cursor:pointer;
+      border:none; background:none; font-family:'Inter',sans-serif;
+      color:var(--text-muted); border-bottom:2px solid transparent; margin-bottom:-2px; transition:color 0.2s;
+    }
+    .seo-tab.active { color:var(--bronze); border-bottom-color:var(--bronze) }
+    .seo-tab-pane { display:none }
+    .seo-tab-pane.active { display:block }
+    .seo-items { display:flex; flex-direction:column; gap:6px }
+    .seo-item {
+      display:flex; align-items:flex-start; gap:10px;
+      padding:8px 12px; border-radius:10px; font-size:0.75rem; line-height:1.4;
+    }
+    .seo-item.ok   { background:rgba(34,197,94,0.07);  color:#166534 }
+    .seo-item.warn { background:rgba(234,179,8,0.09);  color:#854d0e }
+    .seo-item.bad  { background:rgba(239,68,68,0.07);  color:#991b1b }
     .seo-item-dot {
-      width:8px; height:8px; border-radius:50%; flex-shrink:0;
+      width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:3px;
     }
     .seo-item.ok   .seo-item-dot { background:#22c55e }
     .seo-item.warn .seo-item-dot { background:#eab308 }
     .seo-item.bad  .seo-item-dot { background:#ef4444 }
+    .seo-item-body { flex:1 }
+    .seo-item-title { font-weight:600; margin-bottom:1px }
+    .seo-item-desc { font-size:0.7rem; opacity:0.8; margin-top:2px }
 
     /* Toast */
     .toast {
@@ -417,20 +436,33 @@
         <!-- SEO PANEL -->
         <div class="seo-panel" id="seoPanel">
           <div class="seo-panel-header">
-            <div class="seo-score-ring" id="seoRing">
-              <svg width="56" height="56" viewBox="0 0 56 56">
-                <circle class="ring-bg" cx="28" cy="28" r="24"/>
-                <circle class="ring-fill" id="seoRingFill" cx="28" cy="28" r="24"
-                  stroke-dasharray="150.8" stroke-dashoffset="150.8" stroke="#22c55e"/>
+            <div class="seo-score-ring">
+              <svg width="64" height="64" viewBox="0 0 64 64">
+                <circle class="ring-bg" cx="32" cy="32" r="27"/>
+                <circle class="ring-fill" id="seoRingFill" cx="32" cy="32" r="27"
+                  stroke-dasharray="169.6" stroke-dashoffset="169.6" stroke="#22c55e"/>
               </svg>
-              <div class="seo-score-num" id="seoScoreNum">0%</div>
+              <div class="seo-score-num" id="seoScoreNum">–</div>
             </div>
             <div class="seo-panel-info">
               <div class="seo-panel-title">Análise SEO</div>
-              <div class="seo-panel-status" id="seoStatus">Preencha o formulário para ver a análise.</div>
+              <div class="seo-panel-status" id="seoStatus">Defina a palavra-chave foco para começar.</div>
             </div>
           </div>
-          <div class="seo-items" id="seoItems"></div>
+          <div class="seo-kw-row">
+            <span class="seo-kw-label">Palavra-chave foco:</span>
+            <input type="text" class="seo-kw-input" id="fKw" placeholder="Ex: varizes nas pernas">
+          </div>
+          <div class="seo-tabs">
+            <button type="button" class="seo-tab active" data-tab="seo">SEO</button>
+            <button type="button" class="seo-tab" data-tab="read">Legibilidade</button>
+          </div>
+          <div class="seo-tab-pane active" id="seoTabSeo">
+            <div class="seo-items" id="seoItemsSeo"></div>
+          </div>
+          <div class="seo-tab-pane" id="seoTabRead">
+            <div class="seo-items" id="seoItemsRead"></div>
+          </div>
         </div>
 
         <div class="form-actions">
@@ -753,6 +785,7 @@
       document.getElementById('fLead').value     = data.lead     || '';
       descInput.value                            = data.description || '';
       document.getElementById('fImgAlt').value   = data.image_alt || '';
+      document.getElementById('fKw').value       = data.focus_keyword || '';
       document.getElementById('fCtaTitle').value = data.cta_title || 'Quer avaliar seu caso?';
       document.getElementById('fCtaText').value  = data.cta_text  || '';
       descCount.textContent = (data.description || '').length + ' / 150 caracteres';
@@ -770,6 +803,7 @@
       document.getElementById('fLead').value     = '';
       descInput.value = '';
       document.getElementById('fImgAlt').value   = '';
+      document.getElementById('fKw').value       = '';
       document.getElementById('fCtaTitle').value = 'Quer avaliar seu caso?';
       document.getElementById('fCtaText').value  = 'Agende uma avaliação vascular e descubra o melhor tratamento para você.';
       descCount.textContent = '0 / 150 caracteres';
@@ -971,6 +1005,8 @@
     var slug    = currentSlug || slugify(title);
     var imgPath = imgFileName ? 'assets/' + slug + '-' + imgFileName : '';
 
+    var kw = document.getElementById('fKw').value.trim();
+
     var fm = [
       '---',
       'title: "' + title.replace(/"/g,'\\"') + '"',
@@ -981,6 +1017,7 @@
       'description: "' + desc.replace(/"/g,'\\"') + '"',
       'image: "' + imgPath + '"',
       'image_alt: "' + imgAlt.replace(/"/g,'\\"') + '"',
+      'focus_keyword: "' + kw.replace(/"/g,'\\"') + '"',
       'cta_title: "' + ctaTitle.replace(/"/g,'\\"') + '"',
       'cta_text: "' + ctaText.replace(/"/g,'\\"') + '"',
       '---', '', body
@@ -1022,19 +1059,94 @@
     });
   }
 
-  // ── SEO Analysis ──
-  function extractKeyword(title) {
-    if (!title) return '';
-    var stopwords = ['como','para','que','com','uma','dos','das','nos','nas','por','mais','muito','sobre','entre','quando','onde','quem','qual','este','esta','esse','essa','aqui','pelo','pela','num','numa','ser','ter','mas'];
-    var words = title.toLowerCase().replace(/[^a-záéíóúãõàêôü\s]/g,'').split(/\s+/);
-    for (var i = 0; i < words.length; i++) {
-      if (words[i].length >= 4 && stopwords.indexOf(words[i]) < 0) return words[i];
-    }
-    return words[0] || '';
+  // ── SEO Analysis (Yoast-aligned) ──
+
+  // Abas SEO / Legibilidade
+  document.querySelectorAll('.seo-tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.seo-tab').forEach(function(t){ t.classList.remove('active'); });
+      document.querySelectorAll('.seo-tab-pane').forEach(function(p){ p.classList.remove('active'); });
+      tab.classList.add('active');
+      document.getElementById('seoTab' + (tab.dataset.tab === 'seo' ? 'Seo' : 'Read')).classList.add('active');
+    });
+  });
+
+  function plainText(html) {
+    var d = document.createElement('div');
+    d.innerHTML = html;
+    return (d.textContent || d.innerText || '').replace(/\s+/g,' ').trim();
   }
 
   function countWords(text) {
-    return text.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim().split(' ').filter(function(w){ return w.length > 0; }).length;
+    return text.trim().split(/\s+/).filter(function(w){ return w.length > 0; }).length;
+  }
+
+  function kwDensity(text, kw) {
+    if (!kw || !text) return 0;
+    var words = text.toLowerCase().split(/\s+/).filter(function(w){ return w.length > 0; });
+    if (!words.length) return 0;
+    var kwWords = kw.toLowerCase().split(/\s+/);
+    var count = 0;
+    for (var i = 0; i <= words.length - kwWords.length; i++) {
+      var match = true;
+      for (var j = 0; j < kwWords.length; j++) {
+        if (words[i+j].replace(/[^a-záéíóúãõàêôü]/g,'') !== kwWords[j].replace(/[^a-záéíóúãõàêôü]/g,'')) { match = false; break; }
+      }
+      if (match) count++;
+    }
+    return (count / words.length) * 100;
+  }
+
+  function getSentences(text) {
+    return text.split(/[.!?]+/).map(function(s){ return s.trim(); }).filter(function(s){ return s.length > 0; });
+  }
+
+  function getParagraphs(html) {
+    var d = document.createElement('div');
+    d.innerHTML = html;
+    var paras = [];
+    d.querySelectorAll('p, h2, h3, li, blockquote').forEach(function(el){
+      var t = (el.textContent || '').trim();
+      if (t) paras.push(t);
+    });
+    if (!paras.length && d.textContent.trim()) paras.push(d.textContent.trim());
+    return paras;
+  }
+
+  function hasTransitionWords(text) {
+    var tw = ['portanto','além disso','no entanto','por isso','assim','também','contudo','todavia','porém','embora','pois','logo','então','consequentemente','finalmente','em seguida','de fato','por exemplo','ou seja','em resumo','primeiro','segundo','terceiro','por outro lado','ao mesmo tempo','dessa forma'];
+    var lower = text.toLowerCase();
+    return tw.some(function(w){ return lower.indexOf(w) >= 0; });
+  }
+
+  function makeItem(status, title, desc) {
+    return { ok: status, title: title, desc: desc };
+  }
+
+  function renderItems(containerId, items) {
+    var container = document.getElementById(containerId);
+    while (container.firstChild) container.removeChild(container.firstChild);
+    items.forEach(function(c){
+      var item = document.createElement('div');
+      item.className = 'seo-item ' + c.ok;
+      var dot = document.createElement('span');
+      dot.className = 'seo-item-dot';
+      var body = document.createElement('div');
+      body.className = 'seo-item-body';
+      var t = document.createElement('div');
+      t.className = 'seo-item-title';
+      t.textContent = c.title;
+      body.appendChild(t);
+      if (c.desc) {
+        var d = document.createElement('div');
+        d.className = 'seo-item-desc';
+        d.textContent = c.desc;
+        body.appendChild(d);
+      }
+      item.appendChild(dot);
+      item.appendChild(body);
+      container.appendChild(item);
+    });
   }
 
   function seoCheck() {
@@ -1042,114 +1154,225 @@
     var desc     = descInput.value.trim();
     var lead     = document.getElementById('fLead').value.trim();
     var imgAlt   = document.getElementById('fImgAlt').value.trim();
-    var bodyText = richEditor.innerText || richEditor.textContent || '';
-    var hasImg   = !!imgBase64 || (document.getElementById('imgName').textContent !== '');
-    var kw       = extractKeyword(title);
-    var kwLow    = kw.toLowerCase();
-    var titleLen = title.length;
-    var descLen  = desc.length;
-    var wordCount= countWords(bodyText);
+    var kw       = (document.getElementById('fKw').value || '').trim().toLowerCase();
+    var bodyHtml = richEditor.innerHTML;
+    var bodyText = plainText(bodyHtml);
+    var hasImg   = !!imgBase64 || (document.getElementById('imgName').textContent.trim() !== '');
+    var slug     = currentSlug || slugify(title);
 
-    var checks = [];
+    var titleLen  = title.length;
+    var descLen   = desc.length;
+    var wordCount = countWords(bodyText);
+    var titleLow  = title.toLowerCase();
+    var descLow   = desc.toLowerCase();
+    var leadLow   = lead.toLowerCase();
+    var altLow    = imgAlt.toLowerCase();
 
-    // Título
-    if (titleLen >= 50 && titleLen <= 60)
-      checks.push({ ok:'ok',   text: 'Título: ' + titleLen + ' caracteres (ideal)' });
-    else if (titleLen >= 30 && titleLen < 50)
-      checks.push({ ok:'warn', text: 'Título: ' + titleLen + ' chars (ideal: 50–60)' });
-    else if (titleLen > 60 && titleLen <= 70)
-      checks.push({ ok:'warn', text: 'Título: ' + titleLen + ' chars (ideal: 50–60)' });
-    else if (titleLen > 0)
-      checks.push({ ok:'bad',  text: 'Título: ' + titleLen + ' chars (ideal: 50–60)' });
+    // ── Aba SEO ──
+    var seoItems = [];
+
+    // 1. Palavra-chave foco
+    if (!kw) {
+      seoItems.push(makeItem('warn','Palavra-chave foco não definida','Informe a palavra-chave principal do post no campo acima.'));
+    }
+
+    // 2. Palavra-chave no título SEO
+    if (kw) {
+      if (titleLow.indexOf(kw) >= 0)
+        seoItems.push(makeItem('ok','Palavra-chave no título','A palavra-chave aparece no título do post.'));
+      else
+        seoItems.push(makeItem('bad','Palavra-chave ausente no título','Inclua "' + kw + '" no título do post.'));
+    }
+
+    // 3. Palavra-chave na descrição SEO
+    if (kw) {
+      if (descLow.indexOf(kw) >= 0)
+        seoItems.push(makeItem('ok','Palavra-chave na descrição SEO','A palavra-chave aparece na meta descrição.'));
+      else
+        seoItems.push(makeItem('bad','Palavra-chave ausente na descrição SEO','Inclua "' + kw + '" na descrição SEO.'));
+    }
+
+    // 4. Palavra-chave no lead (introdução)
+    if (kw) {
+      if (leadLow.indexOf(kw) >= 0)
+        seoItems.push(makeItem('ok','Palavra-chave no lead','A palavra-chave aparece nos primeiros parágrafos.'));
+      else
+        seoItems.push(makeItem('warn','Palavra-chave ausente no lead','O Yoast recomenda usar a palavra-chave na introdução do post.'));
+    }
+
+    // 5. Palavra-chave no corpo
+    if (kw) {
+      if (bodyText.toLowerCase().indexOf(kw) >= 0)
+        seoItems.push(makeItem('ok','Palavra-chave no corpo do post','A palavra-chave aparece no conteúdo.'));
+      else
+        seoItems.push(makeItem('bad','Palavra-chave ausente no corpo','Mencione "' + kw + '" ao longo do texto.'));
+    }
+
+    // 6. Densidade da palavra-chave (0.5% – 3%)
+    if (kw && wordCount > 0) {
+      var density = kwDensity(bodyText + ' ' + title + ' ' + lead, kw);
+      var densityStr = density.toFixed(1) + '%';
+      if (density >= 0.5 && density <= 3)
+        seoItems.push(makeItem('ok','Densidade da palavra-chave: ' + densityStr,'Dentro do ideal (0,5%–3%).'));
+      else if (density > 3)
+        seoItems.push(makeItem('warn','Densidade alta: ' + densityStr,'Acima de 3% pode parecer spam para o Google. Reduza um pouco.'));
+      else
+        seoItems.push(makeItem('warn','Densidade baixa: ' + densityStr,'Abaixo de 0,5%. Use a palavra-chave um pouco mais no texto.'));
+    }
+
+    // 7. Palavra-chave em subtítulo H2/H3
+    if (kw) {
+      var d2 = document.createElement('div');
+      d2.innerHTML = bodyHtml;
+      var headings = d2.querySelectorAll('h2, h3');
+      var kwInH = false;
+      headings.forEach(function(h){ if ((h.textContent||'').toLowerCase().indexOf(kw) >= 0) kwInH = true; });
+      if (headings.length === 0)
+        seoItems.push(makeItem('warn','Nenhum subtítulo (H2/H3)','Use subtítulos para organizar o conteúdo e incluir a palavra-chave.'));
+      else if (kwInH)
+        seoItems.push(makeItem('ok','Palavra-chave em subtítulo','A palavra-chave aparece em pelo menos um H2 ou H3.'));
+      else
+        seoItems.push(makeItem('warn','Palavra-chave ausente nos subtítulos','Tente incluir "' + kw + '" em algum H2 ou H3.'));
+    }
+
+    // 8. Alt da imagem contém palavra-chave
+    if (kw) {
+      if (!imgAlt)
+        seoItems.push(makeItem('bad','Alt da imagem vazio','Preencha o texto alternativo da imagem de capa.'));
+      else if (altLow.indexOf(kw) >= 0)
+        seoItems.push(makeItem('ok','Palavra-chave no alt da imagem','O texto alt contém a palavra-chave.'));
+      else
+        seoItems.push(makeItem('warn','Palavra-chave ausente no alt da imagem','Considere incluir "' + kw + '" no alt da imagem.'));
+    } else if (!imgAlt) {
+      seoItems.push(makeItem('bad','Alt da imagem vazio','Preencha o texto alternativo da imagem de capa.'));
+    }
+
+    // 9. Slug contém palavra-chave
+    if (kw && slug) {
+      var slugNorm = slug.toLowerCase();
+      var kwSlug   = kw.replace(/\s+/g,'-');
+      if (slugNorm.indexOf(kwSlug) >= 0 || slugNorm.indexOf(kw.replace(/\s+/g,'')) >= 0)
+        seoItems.push(makeItem('ok','Palavra-chave no slug (URL)','O endereço do post contém a palavra-chave.'));
+      else
+        seoItems.push(makeItem('warn','Palavra-chave ausente no slug','O título gera o slug automaticamente — tente incluir a palavra-chave no título.'));
+    }
+
+    // 10. Tamanho do título (máx. 60 chars)
+    if (titleLen === 0)
+      seoItems.push(makeItem('bad','Título vazio','Preencha o título do post.'));
+    else if (titleLen <= 60)
+      seoItems.push(makeItem('ok','Título: ' + titleLen + ' caracteres','Dentro do limite de 60 caracteres recomendado pelo Google.'));
     else
-      checks.push({ ok:'bad',  text: 'Título vazio' });
+      seoItems.push(makeItem('warn','Título longo: ' + titleLen + ' caracteres','O Google pode cortar títulos acima de 60 caracteres nos resultados.'));
 
-    // Descrição SEO
-    if (descLen >= 120 && descLen <= 155)
-      checks.push({ ok:'ok',   text: 'Descrição: ' + descLen + ' chars (ideal)' });
-    else if (descLen >= 100 && descLen < 120)
-      checks.push({ ok:'warn', text: 'Descrição: ' + descLen + ' chars (ideal: 120–155)' });
-    else if (descLen > 155 && descLen <= 165)
-      checks.push({ ok:'warn', text: 'Descrição: ' + descLen + ' chars (ideal: 120–155)' });
-    else if (descLen > 0)
-      checks.push({ ok:'bad',  text: 'Descrição: ' + descLen + ' chars (ideal: 120–155)' });
+    // 11. Tamanho da descrição SEO (120–155 chars)
+    if (descLen === 0)
+      seoItems.push(makeItem('bad','Descrição SEO vazia','Preencha a meta descrição para aparecer no Google.'));
+    else if (descLen >= 120 && descLen <= 155)
+      seoItems.push(makeItem('ok','Descrição SEO: ' + descLen + ' caracteres','Dentro do ideal (120–155 caracteres).'));
+    else if (descLen < 120)
+      seoItems.push(makeItem('warn','Descrição curta: ' + descLen + ' caracteres','O ideal é entre 120 e 155 caracteres. Adicione mais detalhes.'));
     else
-      checks.push({ ok:'bad',  text: 'Descrição SEO vazia' });
+      seoItems.push(makeItem('warn','Descrição longa: ' + descLen + ' caracteres','Acima de 155 pode ser cortada no Google. Reduza um pouco.'));
 
-    // Palavra-chave no título
-    if (kw && title.toLowerCase().indexOf(kwLow) >= 0)
-      checks.push({ ok:'ok',   text: 'Palavra-chave "' + kw + '" no título' });
-    else if (kw)
-      checks.push({ ok:'bad',  text: 'Palavra-chave "' + kw + '" ausente no título' });
-
-    // Palavra-chave no lead
-    if (kw && lead.toLowerCase().indexOf(kwLow) >= 0)
-      checks.push({ ok:'ok',   text: 'Palavra-chave no lead' });
-    else if (kw)
-      checks.push({ ok:'warn', text: 'Palavra-chave ausente no lead' });
-
-    // Palavra-chave no corpo
-    if (kw && bodyText.toLowerCase().indexOf(kwLow) >= 0)
-      checks.push({ ok:'ok',   text: 'Palavra-chave no corpo' });
-    else if (kw)
-      checks.push({ ok:'bad',  text: 'Palavra-chave ausente no corpo' });
-
-    // Alt da imagem
-    if (imgAlt.length >= 5)
-      checks.push({ ok:'ok',   text: 'Alt da imagem preenchido' });
-    else if (imgAlt.length > 0)
-      checks.push({ ok:'warn', text: 'Alt da imagem muito curto' });
-    else
-      checks.push({ ok:'bad',  text: 'Alt da imagem vazio' });
-
-    // Contagem de palavras
+    // 12. Comprimento do post
     if (wordCount >= 300)
-      checks.push({ ok:'ok',   text: wordCount + ' palavras no corpo' });
+      seoItems.push(makeItem('ok','Texto: ' + wordCount + ' palavras','Bom comprimento para SEO (mínimo 300 palavras).'));
     else if (wordCount >= 150)
-      checks.push({ ok:'warn', text: wordCount + ' palavras (recomendado: 300+)' });
+      seoItems.push(makeItem('warn','Texto curto: ' + wordCount + ' palavras','O Yoast recomenda pelo menos 300 palavras para posts de blog.'));
     else
-      checks.push({ ok:'bad',  text: wordCount + ' palavras (recomendado: 300+)' });
+      seoItems.push(makeItem('bad','Texto muito curto: ' + wordCount + ' palavras','Posts com menos de 150 palavras têm dificuldade de ranquear.'));
 
-    // Imagem de capa
+    // 13. Imagem de capa
     if (hasImg)
-      checks.push({ ok:'ok',   text: 'Imagem de capa adicionada' });
+      seoItems.push(makeItem('ok','Imagem de capa presente','O post tem imagem de destaque.'));
     else
-      checks.push({ ok:'bad',  text: 'Imagem de capa ausente' });
+      seoItems.push(makeItem('bad','Imagem de capa ausente','Adicione uma imagem de capa ao post.'));
 
-    // Score
-    var okCount   = checks.filter(function(c){ return c.ok === 'ok'; }).length;
-    var warnCount = checks.filter(function(c){ return c.ok === 'warn'; }).length;
-    var score = Math.round((okCount + warnCount * 0.5) / checks.length * 100);
+    // ── Aba Legibilidade ──
+    var readItems = [];
+    var sentences = getSentences(bodyText);
+    var paragraphs = getParagraphs(bodyHtml);
 
-    // Render ring
-    var circumference = 150.8;
+    // Frases longas (> 20 palavras)
+    if (sentences.length > 0) {
+      var longSentences = sentences.filter(function(s){ return countWords(s) > 20; });
+      var pctLong = Math.round((longSentences.length / sentences.length) * 100);
+      if (pctLong <= 25)
+        readItems.push(makeItem('ok','Comprimento das frases','Menos de 25% das frases são longas demais. Boa legibilidade.'));
+      else if (pctLong <= 50)
+        readItems.push(makeItem('warn', pctLong + '% das frases são longas','O Yoast recomenda máx. 25% de frases acima de 20 palavras. Tente dividir algumas.'));
+      else
+        readItems.push(makeItem('bad', pctLong + '% das frases são muito longas','Divida as frases longas. Frases curtas são mais fáceis de ler.'));
+    }
+
+    // Parágrafos longos (> 150 palavras)
+    if (paragraphs.length > 0) {
+      var longParas = paragraphs.filter(function(p){ return countWords(p) > 150; });
+      if (longParas.length === 0)
+        readItems.push(makeItem('ok','Parágrafos com tamanho adequado','Nenhum parágrafo ultrapassa 150 palavras.'));
+      else
+        readItems.push(makeItem('warn', longParas.length + ' parágrafo(s) muito longo(s)','Divida parágrafos com mais de 150 palavras para facilitar a leitura.'));
+    }
+
+    // Subtítulos (H2/H3) — presença e distribuição
+    var d3 = document.createElement('div');
+    d3.innerHTML = bodyHtml;
+    var allHeadings = d3.querySelectorAll('h2, h3');
+    if (allHeadings.length === 0 && wordCount > 150)
+      readItems.push(makeItem('bad','Sem subtítulos','Use H2 e H3 para dividir o conteúdo em seções — facilita a leitura e o SEO.'));
+    else if (allHeadings.length >= 1)
+      readItems.push(makeItem('ok', allHeadings.length + ' subtítulo(s) encontrado(s)','O conteúdo está dividido em seções. Boa estrutura.'));
+
+    // Palavras de transição
+    if (bodyText.length > 100) {
+      if (hasTransitionWords(bodyText))
+        readItems.push(makeItem('ok','Palavras de transição presentes','Conectivos como "portanto", "além disso", "no entanto" melhoram o fluxo do texto.'));
+      else
+        readItems.push(makeItem('warn','Palavras de transição ausentes','Use conectivos para ligar parágrafos e melhorar o fluxo do texto.'));
+    }
+
+    // Voz passiva — heurística simples
+    if (bodyText.length > 100) {
+      var passivePatterns = ['é feito','são feitos','foi feito','foram feitos','é realizado','são realizados','é indicado','é recomendado','é utilizado','é usado'];
+      var passiveCount = passivePatterns.filter(function(p){ return bodyText.toLowerCase().indexOf(p) >= 0; }).length;
+      if (passiveCount <= 1)
+        readItems.push(makeItem('ok','Pouca voz passiva','O texto usa predominantemente voz ativa. Mais dinâmico para o leitor.'));
+      else
+        readItems.push(makeItem('warn','Voz passiva detectada','Tente usar mais voz ativa ("a médica recomenda" em vez de "é recomendado pela médica").'));
+    }
+
+    // Comprimento do lead
+    if (lead.length === 0)
+      readItems.push(makeItem('bad','Lead vazio','Preencha o lead com 1–2 frases que resumem o post.'));
+    else if (lead.length <= 160)
+      readItems.push(makeItem('ok','Lead com bom comprimento','Conciso e direto ao ponto.'));
+    else
+      readItems.push(makeItem('warn','Lead muito longo','Tente manter o lead em até 160 caracteres.'));
+
+    // ── Score combinado ──
+    var allItems = seoItems.concat(readItems);
+    var okCount   = allItems.filter(function(c){ return c.ok === 'ok'; }).length;
+    var warnCount = allItems.filter(function(c){ return c.ok === 'warn'; }).length;
+    var score = allItems.length > 0 ? Math.round((okCount + warnCount * 0.5) / allItems.length * 100) : 0;
+
+    var circumference = 169.6;
     var offset = circumference - (score / 100) * circumference;
     var fill = document.getElementById('seoRingFill');
     fill.style.strokeDashoffset = offset;
-    fill.style.stroke = score >= 80 ? '#22c55e' : score >= 50 ? '#eab308' : '#ef4444';
+    fill.style.stroke = score >= 75 ? '#22c55e' : score >= 45 ? '#eab308' : '#ef4444';
     document.getElementById('seoScoreNum').textContent = score + '%';
+    document.getElementById('seoStatus').textContent = score >= 75
+      ? 'Ótimo! Post bem otimizado.'
+      : score >= 45 ? 'Bom, mas há pontos a melhorar.'
+      : kw ? 'Precisa de ajustes antes de publicar.' : 'Defina a palavra-chave foco para começar.';
 
-    var statusMap = { 80: 'Ótimo! Post bem otimizado para SEO.', 50: 'Bom, mas há pontos a melhorar.', 0: 'Precisa de ajustes antes de publicar.' };
-    var statusText = score >= 80 ? statusMap[80] : score >= 50 ? statusMap[50] : statusMap[0];
-    document.getElementById('seoStatus').textContent = statusText;
-
-    // Render items
-    var container = document.getElementById('seoItems');
-    while (container.firstChild) container.removeChild(container.firstChild);
-    checks.forEach(function(c){
-      var item = document.createElement('div');
-      item.className = 'seo-item ' + c.ok;
-      var dot = document.createElement('span');
-      dot.className = 'seo-item-dot';
-      var txt = document.createTextNode(c.text);
-      item.appendChild(dot);
-      item.appendChild(txt);
-      container.appendChild(item);
-    });
+    renderItems('seoItemsSeo',  seoItems);
+    renderItems('seoItemsRead', readItems);
   }
 
-  // Triggers de atualização SEO
-  ['fTitle','fDesc','fLead','fImgAlt'].forEach(function(id){
+  // Triggers
+  ['fTitle','fDesc','fLead','fImgAlt','fKw'].forEach(function(id){
     document.getElementById(id).addEventListener('input', seoCheck);
   });
   richEditor.addEventListener('input', seoCheck);
