@@ -350,6 +350,24 @@
         <select id="filterCat">
           <option value="">Todas as categorias</option>
         </select>
+        <select id="filterYear">
+          <option value="">Todos os anos</option>
+        </select>
+        <select id="filterMonth">
+          <option value="">Todos os meses</option>
+          <option value="01">Janeiro</option>
+          <option value="02">Fevereiro</option>
+          <option value="03">Março</option>
+          <option value="04">Abril</option>
+          <option value="05">Maio</option>
+          <option value="06">Junho</option>
+          <option value="07">Julho</option>
+          <option value="08">Agosto</option>
+          <option value="09">Setembro</option>
+          <option value="10">Outubro</option>
+          <option value="11">Novembro</option>
+          <option value="12">Dezembro</option>
+        </select>
         <select id="filterOrder">
           <option value="newest">Mais recente</option>
           <option value="oldest">Mais antigo</option>
@@ -527,6 +545,8 @@
   var postsCount  = document.getElementById('postsCount');
   var filterSearch = document.getElementById('filterSearch');
   var filterCat    = document.getElementById('filterCat');
+  var filterYear   = document.getElementById('filterYear');
+  var filterMonth  = document.getElementById('filterMonth');
   var filterOrder  = document.getElementById('filterOrder');
   var editorTitle= document.getElementById('editorTitle');
   var richEditor = document.getElementById('richEditor');
@@ -954,17 +974,34 @@
       filterCat.appendChild(opt);
     });
 
+    // Popular dropdown de anos
+    var years = [];
+    allPostsMeta.forEach(function(p){ if (p.date) { var y = p.date.slice(0,4); if (years.indexOf(y) < 0) years.push(y); } });
+    years.sort(function(a,b){ return b.localeCompare(a); });
+    var currentYear = filterYear.value;
+    while (filterYear.options.length > 1) filterYear.remove(1);
+    years.forEach(function(y){
+      var opt = document.createElement('option');
+      opt.value = y; opt.textContent = y;
+      if (y === currentYear) opt.selected = true;
+      filterYear.appendChild(opt);
+    });
+
     renderFilteredPosts();
   }
 
   function renderFilteredPosts() {
     var search = filterSearch.value.trim().toLowerCase();
     var cat    = filterCat.value;
+    var year   = filterYear.value;
+    var month  = filterMonth.value;
     var order  = filterOrder.value;
 
     var filtered = allPostsMeta.filter(function(p) {
       if (search && (p.title || p.slug).toLowerCase().indexOf(search) < 0) return false;
       if (cat && p.category !== cat) return false;
+      if (year && (!p.date || p.date.slice(0,4) !== year)) return false;
+      if (month && (!p.date || p.date.slice(5,7) !== month)) return false;
       return true;
     });
 
@@ -1587,6 +1624,8 @@
   // ── Event listeners ──
   filterSearch.addEventListener('input', renderFilteredPosts);
   filterCat.addEventListener('change', renderFilteredPosts);
+  filterYear.addEventListener('change', renderFilteredPosts);
+  filterMonth.addEventListener('change', renderFilteredPosts);
   filterOrder.addEventListener('change', renderFilteredPosts);
 
   document.getElementById('btnNewPost').addEventListener('click', function(){ showEditor(null); });
