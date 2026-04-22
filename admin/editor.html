@@ -668,26 +668,29 @@
     setTimeout(seoCheck, 50);
   });
 
-  function getMarkdown() {
-    var h = richEditor.innerHTML;
-    // Converter tabelas HTML para Markdown antes dos outros replaces
-    h = h.replace(/<table[\s\S]*?<\/table>/gi, function(table) {
-      var rows = [];
-      var trMatches = table.match(/<tr[\s\S]*?<\/tr>/gi) || [];
-      trMatches.forEach(function(tr, idx) {
-        var cells = [];
-        var cellMatches = tr.match(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi) || [];
-        cellMatches.forEach(function(cell) {
-          var content = cell.replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').trim();
-          cells.push(content || ' ');
-        });
-        if (cells.length) {
-          rows.push('| ' + cells.join(' | ') + ' |');
-          if (idx === 0) rows.push('|' + cells.map(function(){ return '---|'; }).join(''));
-        }
+  function tableToMarkdown(tableEl) {
+    var rows = [];
+    var allRows = tableEl.querySelectorAll('tr');
+    allRows.forEach(function(tr, idx) {
+      var cells = [];
+      tr.querySelectorAll('th, td').forEach(function(cell) {
+        cells.push((cell.textContent || '').replace(/\s+/g,' ').trim() || ' ');
       });
-      return '\n' + rows.join('\n') + '\n';
+      if (!cells.length) return;
+      rows.push('| ' + cells.join(' | ') + ' |');
+      if (idx === 0) rows.push('|' + cells.map(function(){ return '---|'; }).join(''));
     });
+    return '\n' + rows.join('\n') + '\n';
+  }
+
+  function getMarkdown() {
+    // Clonar o editor e converter tabelas via DOM antes de serializar
+    var clone = richEditor.cloneNode(true);
+    clone.querySelectorAll('table').forEach(function(t) {
+      var md = document.createTextNode(tableToMarkdown(t));
+      t.parentNode.replaceChild(md, t);
+    });
+    var h = clone.innerHTML;
     return h
       .replace(/<h2[^>]*>(.*?)<\/h2>/gi,'\n## $1\n')
       .replace(/<h3[^>]*>(.*?)<\/h3>/gi,'\n### $1\n')
