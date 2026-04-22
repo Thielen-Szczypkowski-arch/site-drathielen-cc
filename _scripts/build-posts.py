@@ -187,7 +187,7 @@ def build_post_html(meta, body_md, slug, sidebar_html_str="", post_nav_html=""):
       <p class="lead fade-up" style="margin-top:20px;">{lead}</p>
     </div>
   </div>
-  {"<div class='article-hero-img fade-up'><img src='" + image_src + "' alt='" + image_alt + "'></div>" if image_src else ""}
+  {"<div class='container'><div class='article-hero-img fade-up'><img src='" + image_src + "' alt='" + image_alt + "'></div></div>" if image_src else ""}
   <div class="page-hero-wave wave"><svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#ffffff"/></svg></div>
 </section>
 
