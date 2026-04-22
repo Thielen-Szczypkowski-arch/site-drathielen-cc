@@ -1,0 +1,78 @@
+backend:
+  name: github
+  repo: Thielen-Szczypkowski-arch/site-drathielen-cc
+  branch: main
+
+media_folder: assets
+public_folder: /assets
+
+locale: pt
+
+collections:
+  - name: blog
+    label: Posts do Blog
+    label_singular: Post
+    folder: _posts/blog
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - label: Título
+        name: title
+        widget: string
+        hint: "Título principal do post — aparece no topo da página"
+
+      - label: Data de publicação
+        name: date
+        widget: datetime
+        format: "YYYY-MM-DD"
+        date_format: "DD/MM/YYYY"
+        time_format: false
+        default: ""
+
+      - label: Categoria
+        name: category
+        widget: select
+        options:
+          - Saúde Vascular
+          - Tratamentos
+          - Estética
+          - Prevenção
+          - Dicas
+        default: Saúde Vascular
+
+      - label: Lead (subtítulo)
+        name: lead
+        widget: string
+        hint: "1-2 frases que resumem o post — aparecem abaixo do título"
+
+      - label: Descrição (SEO)
+        name: description
+        widget: string
+        hint: "Resumo para o Google e redes sociais — máx. 150 caracteres"
+
+      - label: Imagem de capa
+        name: image
+        widget: image
+        hint: "Formato .webp, dimensões 1200x500px, tamanho máx. 200kb"
+
+      - label: Alt da imagem
+        name: image_alt
+        widget: string
+        hint: "Descrição da imagem para acessibilidade"
+
+      - label: Corpo do post
+        name: body
+        widget: markdown
+        hint: "Conteúdo completo do post"
+
+      - label: Texto do CTA
+        name: cta_title
+        widget: string
+        default: "Quer avaliar seu caso?"
+        hint: "Chamada para ação no final do post"
+
+      - label: Subtexto do CTA
+        name: cta_text
+        widget: string
+        default: "Agende uma avaliação vascular e descubra o melhor tratamento para você."
+        hint: "Texto de apoio abaixo do título do CTA"
