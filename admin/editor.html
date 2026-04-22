@@ -231,6 +231,45 @@
     }
     .btn-cancel:hover { border-color:var(--bronze); color:var(--bronze) }
 
+    /* SEO Panel */
+    .seo-panel {
+      grid-column:1/-1; background:var(--white);
+      border:1.5px solid rgba(172,146,115,0.2); border-radius:var(--radius-sm);
+      padding:20px 24px; margin-bottom:4px;
+    }
+    .seo-panel-header {
+      display:flex; align-items:center; gap:14px; margin-bottom:16px;
+    }
+    .seo-score-ring {
+      position:relative; width:56px; height:56px; flex-shrink:0;
+    }
+    .seo-score-ring svg { transform:rotate(-90deg) }
+    .seo-score-ring circle { fill:none; stroke-width:5; stroke-linecap:round }
+    .seo-score-ring .ring-bg { stroke:rgba(172,146,115,0.15) }
+    .seo-score-ring .ring-fill { transition:stroke-dashoffset 0.5s, stroke 0.5s }
+    .seo-score-num {
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+      font-size:0.82rem; font-weight:700; color:var(--text-dark);
+    }
+    .seo-panel-info { flex:1 }
+    .seo-panel-title { font-size:0.78rem; font-weight:700; color:var(--text-dark); margin-bottom:2px; text-transform:uppercase; letter-spacing:0.05em }
+    .seo-panel-status { font-size:0.75rem; color:var(--text-muted) }
+    .seo-items { display:grid; grid-template-columns:1fr 1fr; gap:7px }
+    @media(max-width:640px){ .seo-items { grid-template-columns:1fr } }
+    .seo-item {
+      display:flex; align-items:center; gap:8px;
+      padding:7px 10px; border-radius:10px; font-size:0.75rem;
+    }
+    .seo-item.ok   { background:rgba(34,197,94,0.08);  color:#166534 }
+    .seo-item.warn { background:rgba(234,179,8,0.1);   color:#854d0e }
+    .seo-item.bad  { background:rgba(239,68,68,0.08);  color:#991b1b }
+    .seo-item-dot {
+      width:8px; height:8px; border-radius:50%; flex-shrink:0;
+    }
+    .seo-item.ok   .seo-item-dot { background:#22c55e }
+    .seo-item.warn .seo-item-dot { background:#eab308 }
+    .seo-item.bad  .seo-item-dot { background:#ef4444 }
+
     /* Toast */
     .toast {
       position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px);
@@ -375,6 +414,25 @@
           <label for="fCtaText">Texto de apoio</label>
           <input type="text" id="fCtaText" value="Agende uma avaliação vascular e descubra o melhor tratamento para você.">
         </div>
+        <!-- SEO PANEL -->
+        <div class="seo-panel" id="seoPanel">
+          <div class="seo-panel-header">
+            <div class="seo-score-ring" id="seoRing">
+              <svg width="56" height="56" viewBox="0 0 56 56">
+                <circle class="ring-bg" cx="28" cy="28" r="24"/>
+                <circle class="ring-fill" id="seoRingFill" cx="28" cy="28" r="24"
+                  stroke-dasharray="150.8" stroke-dashoffset="150.8" stroke="#22c55e"/>
+              </svg>
+              <div class="seo-score-num" id="seoScoreNum">0%</div>
+            </div>
+            <div class="seo-panel-info">
+              <div class="seo-panel-title">Análise SEO</div>
+              <div class="seo-panel-status" id="seoStatus">Preencha o formulário para ver a análise.</div>
+            </div>
+          </div>
+          <div class="seo-items" id="seoItems"></div>
+        </div>
+
         <div class="form-actions">
           <button type="button" class="btn-cancel" id="btnCancel">Cancelar</button>
           <button type="button" class="btn-save" id="btnSave">Publicar post</button>
@@ -721,6 +779,7 @@
       imgBase64 = null; imgFileName = null;
       currentSlug = null; currentFileSha = null;
     }
+    setTimeout(seoCheck, 50);
   }
 
   function resetImgArea() {
@@ -962,6 +1021,139 @@
       showToast('Erro: ' + err.message, true);
     });
   }
+
+  // ── SEO Analysis ──
+  function extractKeyword(title) {
+    if (!title) return '';
+    var stopwords = ['como','para','que','com','uma','dos','das','nos','nas','por','mais','muito','sobre','entre','quando','onde','quem','qual','este','esta','esse','essa','aqui','pelo','pela','num','numa','ser','ter','mas'];
+    var words = title.toLowerCase().replace(/[^a-záéíóúãõàêôü\s]/g,'').split(/\s+/);
+    for (var i = 0; i < words.length; i++) {
+      if (words[i].length >= 4 && stopwords.indexOf(words[i]) < 0) return words[i];
+    }
+    return words[0] || '';
+  }
+
+  function countWords(text) {
+    return text.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim().split(' ').filter(function(w){ return w.length > 0; }).length;
+  }
+
+  function seoCheck() {
+    var title    = document.getElementById('fTitle').value.trim();
+    var desc     = descInput.value.trim();
+    var lead     = document.getElementById('fLead').value.trim();
+    var imgAlt   = document.getElementById('fImgAlt').value.trim();
+    var bodyText = richEditor.innerText || richEditor.textContent || '';
+    var hasImg   = !!imgBase64 || (document.getElementById('imgName').textContent !== '');
+    var kw       = extractKeyword(title);
+    var kwLow    = kw.toLowerCase();
+    var titleLen = title.length;
+    var descLen  = desc.length;
+    var wordCount= countWords(bodyText);
+
+    var checks = [];
+
+    // Título
+    if (titleLen >= 50 && titleLen <= 60)
+      checks.push({ ok:'ok',   text: 'Título: ' + titleLen + ' caracteres (ideal)' });
+    else if (titleLen >= 30 && titleLen < 50)
+      checks.push({ ok:'warn', text: 'Título: ' + titleLen + ' chars (ideal: 50–60)' });
+    else if (titleLen > 60 && titleLen <= 70)
+      checks.push({ ok:'warn', text: 'Título: ' + titleLen + ' chars (ideal: 50–60)' });
+    else if (titleLen > 0)
+      checks.push({ ok:'bad',  text: 'Título: ' + titleLen + ' chars (ideal: 50–60)' });
+    else
+      checks.push({ ok:'bad',  text: 'Título vazio' });
+
+    // Descrição SEO
+    if (descLen >= 120 && descLen <= 155)
+      checks.push({ ok:'ok',   text: 'Descrição: ' + descLen + ' chars (ideal)' });
+    else if (descLen >= 100 && descLen < 120)
+      checks.push({ ok:'warn', text: 'Descrição: ' + descLen + ' chars (ideal: 120–155)' });
+    else if (descLen > 155 && descLen <= 165)
+      checks.push({ ok:'warn', text: 'Descrição: ' + descLen + ' chars (ideal: 120–155)' });
+    else if (descLen > 0)
+      checks.push({ ok:'bad',  text: 'Descrição: ' + descLen + ' chars (ideal: 120–155)' });
+    else
+      checks.push({ ok:'bad',  text: 'Descrição SEO vazia' });
+
+    // Palavra-chave no título
+    if (kw && title.toLowerCase().indexOf(kwLow) >= 0)
+      checks.push({ ok:'ok',   text: 'Palavra-chave "' + kw + '" no título' });
+    else if (kw)
+      checks.push({ ok:'bad',  text: 'Palavra-chave "' + kw + '" ausente no título' });
+
+    // Palavra-chave no lead
+    if (kw && lead.toLowerCase().indexOf(kwLow) >= 0)
+      checks.push({ ok:'ok',   text: 'Palavra-chave no lead' });
+    else if (kw)
+      checks.push({ ok:'warn', text: 'Palavra-chave ausente no lead' });
+
+    // Palavra-chave no corpo
+    if (kw && bodyText.toLowerCase().indexOf(kwLow) >= 0)
+      checks.push({ ok:'ok',   text: 'Palavra-chave no corpo' });
+    else if (kw)
+      checks.push({ ok:'bad',  text: 'Palavra-chave ausente no corpo' });
+
+    // Alt da imagem
+    if (imgAlt.length >= 5)
+      checks.push({ ok:'ok',   text: 'Alt da imagem preenchido' });
+    else if (imgAlt.length > 0)
+      checks.push({ ok:'warn', text: 'Alt da imagem muito curto' });
+    else
+      checks.push({ ok:'bad',  text: 'Alt da imagem vazio' });
+
+    // Contagem de palavras
+    if (wordCount >= 300)
+      checks.push({ ok:'ok',   text: wordCount + ' palavras no corpo' });
+    else if (wordCount >= 150)
+      checks.push({ ok:'warn', text: wordCount + ' palavras (recomendado: 300+)' });
+    else
+      checks.push({ ok:'bad',  text: wordCount + ' palavras (recomendado: 300+)' });
+
+    // Imagem de capa
+    if (hasImg)
+      checks.push({ ok:'ok',   text: 'Imagem de capa adicionada' });
+    else
+      checks.push({ ok:'bad',  text: 'Imagem de capa ausente' });
+
+    // Score
+    var okCount   = checks.filter(function(c){ return c.ok === 'ok'; }).length;
+    var warnCount = checks.filter(function(c){ return c.ok === 'warn'; }).length;
+    var score = Math.round((okCount + warnCount * 0.5) / checks.length * 100);
+
+    // Render ring
+    var circumference = 150.8;
+    var offset = circumference - (score / 100) * circumference;
+    var fill = document.getElementById('seoRingFill');
+    fill.style.strokeDashoffset = offset;
+    fill.style.stroke = score >= 80 ? '#22c55e' : score >= 50 ? '#eab308' : '#ef4444';
+    document.getElementById('seoScoreNum').textContent = score + '%';
+
+    var statusMap = { 80: 'Ótimo! Post bem otimizado para SEO.', 50: 'Bom, mas há pontos a melhorar.', 0: 'Precisa de ajustes antes de publicar.' };
+    var statusText = score >= 80 ? statusMap[80] : score >= 50 ? statusMap[50] : statusMap[0];
+    document.getElementById('seoStatus').textContent = statusText;
+
+    // Render items
+    var container = document.getElementById('seoItems');
+    while (container.firstChild) container.removeChild(container.firstChild);
+    checks.forEach(function(c){
+      var item = document.createElement('div');
+      item.className = 'seo-item ' + c.ok;
+      var dot = document.createElement('span');
+      dot.className = 'seo-item-dot';
+      var txt = document.createTextNode(c.text);
+      item.appendChild(dot);
+      item.appendChild(txt);
+      container.appendChild(item);
+    });
+  }
+
+  // Triggers de atualização SEO
+  ['fTitle','fDesc','fLead','fImgAlt'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', seoCheck);
+  });
+  richEditor.addEventListener('input', seoCheck);
+  imgInput.addEventListener('change', function(){ setTimeout(seoCheck, 100); });
 
   // ── Event listeners ──
   document.getElementById('btnNewPost').addEventListener('click', function(){ showEditor(null); });
