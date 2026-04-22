@@ -5,7 +5,210 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Admin — Blog Dra. Thielen</title>
-  <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+  <style>
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400 500;
+      font-display: swap;
+      src: url('/assets/fonts/inter-latin.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Outfit';
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+      src: url('/assets/fonts/outfit-latin.woff2') format('woff2');
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bronze: #ac9273;
+      --bronze-dark: #8a7358;
+      --bronze-light: #c4ab8e;
+      --bronze-pale: rgba(172,146,115,0.12);
+      --brown: #524334;
+      --cream: #f4f0eb;
+      --cream-light: #f9f7f4;
+      --white: #ffffff;
+      --text-dark: #2a1f14;
+      --text-muted: #7a6a5a;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--cream-light);
+      color: var(--text-dark);
+    }
+
+    /* Tela de login — visível até o CMS carregar */
+    #login-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      background: var(--cream-light);
+      background-image:
+        radial-gradient(ellipse at 80% 20%, rgba(172,146,115,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(172,146,115,0.07) 0%, transparent 60%);
+    }
+
+    .login-card {
+      background: var(--white);
+      border-radius: 28px;
+      padding: 48px 44px 40px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 8px 40px rgba(82,67,52,0.10), 0 1px 0 rgba(172,146,115,0.15);
+      border: 1px solid rgba(172,146,115,0.15);
+      text-align: center;
+    }
+
+    .login-logo {
+      margin: 0 auto 32px;
+      display: block;
+      height: 72px;
+      width: auto;
+    }
+
+    .login-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--bronze-pale);
+      margin: 0 auto 24px;
+      border-radius: 2px;
+    }
+
+    .login-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .login-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .login-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 28px;
+      background: var(--brown);
+      color: var(--white);
+      border: none;
+      border-radius: 100px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .login-btn:hover {
+      background: #3d3025;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(82,67,52,0.18);
+    }
+    .login-btn:active { transform: scale(0.97); }
+
+    .login-btn svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .login-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 28px;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .login-badge::before, .login-badge::after {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: rgba(172,146,115,0.3);
+    }
+
+    /* Oculta a tela quando o CMS carrega */
+    body.cms-loaded #login-screen { display: none; }
+
+    /* Garante que o CMS ocupe a tela toda */
+    [data-sveltia-cms] { height: 100vh; }
+  </style>
 </head>
-<body></body>
+<body>
+
+  <!-- Tela de login customizada -->
+  <div id="login-screen">
+    <div class="login-card">
+      <img
+        src="/assets/logo-original.webp"
+        alt="Dra. Thielen Szczypkowski"
+        class="login-logo"
+        width="529"
+        height="226"
+      >
+      <div class="login-divider"></div>
+      <p class="login-title">Área restrita</p>
+      <p class="login-subtitle">
+        Painel de publicação do blog.<br>
+        Acesso exclusivo à equipe da clínica.
+      </p>
+      <button class="login-btn" id="loginBtn">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+        Entrar com GitHub
+      </button>
+      <div class="login-badge">Blog · Dra. Thielen Szczypkowski</div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+  <script>
+    // Quando o CMS terminar de carregar, oculta a tela de login customizada
+    window.addEventListener('load', function () {
+      var observer = new MutationObserver(function () {
+        var cms = document.querySelector('[data-sveltia-cms], #nc-root, .nc-app-root');
+        if (cms) {
+          document.body.classList.add('cms-loaded');
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+
+      // Fallback: oculta após 4s mesmo que o observer não dispare
+      setTimeout(function () {
+        document.body.classList.add('cms-loaded');
+      }, 4000);
+    });
+
+    // Botão de login dispara o fluxo do Sveltia
+    document.getElementById('loginBtn').addEventListener('click', function () {
+      var btn = document.querySelector('[data-sveltia-cms] button, button[class*="login"], button[class*="Login"]');
+      if (btn) btn.click();
+    });
+  </script>
+</body>
 </html>
