@@ -459,6 +459,33 @@
             <button type="button" id="btnQuote" title="Destaque">❝</button>
             <div class="sep"></div>
             <button type="button" id="btnClear" title="Remover formatação" style="font-size:0.7rem">T×</button>
+            <div class="sep"></div>
+            <button type="button" id="btnTable" title="Inserir tabela" style="font-size:0.7rem">⊞ Tabela</button>
+          </div>
+
+          <!-- Modal tabela -->
+          <div id="tableModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:300;align-items:center;justify-content:center">
+            <div style="background:#fff;border-radius:16px;padding:28px 32px;width:340px;box-shadow:0 16px 48px rgba(0,0,0,0.18)">
+              <div style="font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:20px">Inserir tabela</div>
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <div>
+                  <label style="font-size:0.72rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;display:block;margin-bottom:6px">Número de colunas</label>
+                  <input type="number" id="tableCols" min="2" max="8" value="3" style="width:100%;padding:9px 12px;border:1.5px solid rgba(172,146,115,0.25);border-radius:10px;font-size:0.88rem;outline:none;font-family:'Inter',sans-serif">
+                </div>
+                <div>
+                  <label style="font-size:0.72rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;display:block;margin-bottom:6px">Nomes das colunas (separados por vírgula)</label>
+                  <input type="text" id="tableHeaders" placeholder="Ex: Tratamento, Indicação, Recuperação" style="width:100%;padding:9px 12px;border:1.5px solid rgba(172,146,115,0.25);border-radius:10px;font-size:0.88rem;outline:none;font-family:'Inter',sans-serif">
+                </div>
+                <div>
+                  <label style="font-size:0.72rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;display:block;margin-bottom:6px">Número de linhas</label>
+                  <input type="number" id="tableRows" min="1" max="20" value="3" style="width:100%;padding:9px 12px;border:1.5px solid rgba(172,146,115,0.25);border-radius:10px;font-size:0.88rem;outline:none;font-family:'Inter',sans-serif">
+                </div>
+              </div>
+              <div style="display:flex;gap:10px;margin-top:24px;justify-content:flex-end">
+                <button type="button" id="tableCancelBtn" style="padding:9px 20px;background:transparent;border:1.5px solid rgba(172,146,115,0.25);border-radius:100px;font-size:0.8rem;cursor:pointer;font-family:'Inter',sans-serif">Cancelar</button>
+                <button type="button" id="tableInsertBtn" style="padding:9px 20px;background:var(--bronze);color:#fff;border:none;border-radius:100px;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif">Inserir</button>
+              </div>
+            </div>
           </div>
           <div class="rich-editor" id="richEditor" contenteditable="true"></div>
         </div>
@@ -607,8 +634,60 @@
   document.getElementById('btnQuote').addEventListener('click', function(){ richEditor.focus(); document.execCommand('formatBlock',false,'blockquote'); });
   document.getElementById('btnClear').addEventListener('click', function(){ richEditor.focus(); document.execCommand('removeFormat',false,null); document.execCommand('formatBlock',false,'p'); });
 
+  var tableModal = document.getElementById('tableModal');
+  document.getElementById('btnTable').addEventListener('click', function(){
+    tableModal.style.display = 'flex';
+    document.getElementById('tableHeaders').value = '';
+    document.getElementById('tableCols').value = '3';
+    document.getElementById('tableRows').value = '3';
+  });
+  document.getElementById('tableCancelBtn').addEventListener('click', function(){ tableModal.style.display = 'none'; });
+  tableModal.addEventListener('click', function(e){ if (e.target === tableModal) tableModal.style.display = 'none'; });
+  document.getElementById('tableInsertBtn').addEventListener('click', function(){
+    var cols = Math.max(2, Math.min(8, parseInt(document.getElementById('tableCols').value) || 3));
+    var rows = Math.max(1, Math.min(20, parseInt(document.getElementById('tableRows').value) || 3));
+    var headerInput = document.getElementById('tableHeaders').value.trim();
+    var headers = headerInput ? headerInput.split(',').map(function(h){ return h.trim(); }) : [];
+    while (headers.length < cols) headers.push('Coluna ' + (headers.length + 1));
+    headers = headers.slice(0, cols);
+
+    // Monta HTML da tabela
+    var html = '<table><thead><tr>';
+    headers.forEach(function(h){ html += '<th>' + h + '</th>'; });
+    html += '</tr></thead><tbody>';
+    for (var r = 0; r < rows; r++) {
+      html += '<tr>';
+      for (var c = 0; c < cols; c++) html += '<td>&nbsp;</td>';
+      html += '</tr>';
+    }
+    html += '</tbody></table><p><br></p>';
+
+    richEditor.focus();
+    document.execCommand('insertHTML', false, html);
+    tableModal.style.display = 'none';
+    setTimeout(seoCheck, 50);
+  });
+
   function getMarkdown() {
     var h = richEditor.innerHTML;
+    // Converter tabelas HTML para Markdown antes dos outros replaces
+    h = h.replace(/<table[\s\S]*?<\/table>/gi, function(table) {
+      var rows = [];
+      var trMatches = table.match(/<tr[\s\S]*?<\/tr>/gi) || [];
+      trMatches.forEach(function(tr, idx) {
+        var cells = [];
+        var cellMatches = tr.match(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi) || [];
+        cellMatches.forEach(function(cell) {
+          var content = cell.replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').trim();
+          cells.push(content || ' ');
+        });
+        if (cells.length) {
+          rows.push('| ' + cells.join(' | ') + ' |');
+          if (idx === 0) rows.push('|' + cells.map(function(){ return '---|'; }).join(''));
+        }
+      });
+      return '\n' + rows.join('\n') + '\n';
+    });
     return h
       .replace(/<h2[^>]*>(.*?)<\/h2>/gi,'\n## $1\n')
       .replace(/<h3[^>]*>(.*?)<\/h3>/gi,'\n### $1\n')
