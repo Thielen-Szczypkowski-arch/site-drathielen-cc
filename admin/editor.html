@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Editor — Blog Dra. Thielen</title>
+  <style>
+    @font-face { font-family:'Inter'; font-style:normal; font-weight:400 500; font-display:swap; src:url('/assets/fonts/inter-latin.woff2') format('woff2') }
+    @font-face { font-family:'Outfit'; font-style:normal; font-weight:400 700; font-display:swap; src:url('/assets/fonts/outfit-latin.woff2') format('woff2') }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0 }
+    :root {
+      --bronze:#ac9273; --bronze-dark:#8a7358; --bronze-light:#c4ab8e;
+      --bronze-pale:rgba(172,146,115,0.12); --brown:#524334;
+      --cream:#f4f0eb; --cream-light:#f9f7f4; --white:#fff;
+      --text-dark:#2a1f14; --text-muted:#7a6a5a; --text-light:#a89880;
+      --radius-sm:12px; --radius-md:20px; --radius-pill:100px;
+      --shadow-sm:0 2px 10px rgba(82,67,52,0.05);
+      --shadow-md:0 8px 28px rgba(82,67,52,0.08);
+    }
+    html, body { height:100%; font-family:'Inter',sans-serif; background:var(--cream-light); color:var(--text-dark) }
+
+    /* HEADER */
+    .admin-header {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      background:var(--brown); height:60px;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 28px; box-shadow:0 2px 12px rgba(0,0,0,0.12);
+    }
+    .admin-header .logo { height:36px; width:auto; display:block }
+    .header-right { display:flex; align-items:center; gap:12px }
+    .btn-new {
+      display:inline-flex; align-items:center; gap:7px;
+      padding:8px 18px; background:var(--bronze); color:var(--white);
+      border:none; border-radius:var(--radius-pill); font-family:'Inter',sans-serif;
+      font-size:0.78rem; font-weight:600; cursor:pointer; transition:background 0.2s;
+    }
+    .btn-new:hover { background:var(--bronze-dark) }
+    .btn-logout {
+      padding:8px 16px; background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7);
+      border:1px solid rgba(255,255,255,0.2); border-radius:var(--radius-pill);
+      font-family:'Inter',sans-serif; font-size:0.75rem; cursor:pointer; transition:all 0.2s;
+    }
+    .btn-logout:hover { background:rgba(255,255,255,0.18); color:#fff }
+
+    /* LAYOUT */
+    .admin-body { padding-top:60px; min-height:100vh }
+    .admin-wrap { max-width:900px; margin:0 auto; padding:40px 24px }
+
+    /* LISTA */
+    #view-list { display:block }
+    #view-editor { display:none }
+    .view-title { font-family:'Outfit',sans-serif; font-size:1.5rem; font-weight:700; margin-bottom:6px }
+    .view-sub { font-size:0.82rem; color:var(--text-muted); margin-bottom:32px }
+    .posts-list { display:flex; flex-direction:column; gap:10px }
+    .post-item {
+      display:flex; align-items:center; justify-content:space-between;
+      background:var(--white); border-radius:var(--radius-sm); padding:16px 20px;
+      border:1px solid rgba(172,146,115,0.12); box-shadow:var(--shadow-sm);
+      transition:box-shadow 0.2s;
+    }
+    .post-item:hover { box-shadow:var(--shadow-md) }
+    .post-item-info { flex:1; min-width:0 }
+    .post-item-title { font-size:0.9rem; font-weight:600; color:var(--text-dark); margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+    .post-item-meta { font-size:0.72rem; color:var(--text-light) }
+    .post-item-tag { display:inline-block; padding:2px 8px; background:var(--bronze-pale); color:var(--bronze); border-radius:100px; font-size:0.65rem; font-weight:600; margin-left:8px }
+    .post-item-actions { display:flex; gap:8px; flex-shrink:0; margin-left:16px }
+    .btn-edit {
+      padding:6px 14px; background:var(--bronze-pale); color:var(--bronze);
+      border:none; border-radius:var(--radius-pill); font-size:0.75rem; font-weight:600;
+      cursor:pointer; transition:background 0.2s;
+    }
+    .btn-edit:hover { background:rgba(172,146,115,0.22) }
+    .btn-delete {
+      padding:6px 12px; background:transparent; color:var(--text-light);
+      border:1px solid rgba(172,146,115,0.2); border-radius:var(--radius-pill);
+      font-size:0.75rem; cursor:pointer; transition:all 0.2s;
+    }
+    .btn-delete:hover { background:#fff0f0; color:#c0392b; border-color:#f5c6cb }
+    .empty-state { text-align:center; padding:60px 24px; color:var(--text-muted) }
+    .empty-state p { font-size:0.9rem; margin-top:12px }
+
+    /* FORMULÁRIO */
+    .editor-header { display:flex; align-items:center; gap:12px; margin-bottom:32px }
+    .btn-back-list {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:8px 16px; background:transparent; color:var(--text-muted);
+      border:1px solid rgba(172,146,115,0.25); border-radius:var(--radius-pill);
+      font-size:0.78rem; font-weight:500; cursor:pointer; transition:all 0.2s;
+    }
+    .btn-back-list:hover { border-color:var(--bronze); color:var(--bronze) }
+    .editor-title { font-family:'Outfit',sans-serif; font-size:1.4rem; font-weight:700 }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px }
+    .form-full { grid-column:1/-1 }
+    .field { display:flex; flex-direction:column; gap:6px }
+    .field label { font-size:0.75rem; font-weight:600; color:var(--text-muted); letter-spacing:0.04em; text-transform:uppercase }
+    .field input, .field select, .field textarea {
+      padding:11px 14px; border:1.5px solid rgba(172,146,115,0.25);
+      border-radius:var(--radius-sm); font-family:'Inter',sans-serif;
+      font-size:0.88rem; color:var(--text-dark); background:var(--white);
+      transition:border-color 0.2s, box-shadow 0.2s; outline:none;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color:var(--bronze); box-shadow:0 0 0 3px rgba(172,146,115,0.12);
+    }
+    .field textarea { resize:vertical; min-height:80px; line-height:1.6 }
+    .field .hint { font-size:0.72rem; color:var(--text-light); margin-top:2px }
+
+    /* Upload */
+    .img-upload-area {
+      border:2px dashed rgba(172,146,115,0.3); border-radius:var(--radius-sm);
+      padding:24px; text-align:center; cursor:pointer;
+      transition:border-color 0.2s, background 0.2s; background:var(--cream-light);
+    }
+    .img-upload-area:hover { border-color:var(--bronze); background:var(--cream) }
+    .img-upload-area.has-image { padding:0; overflow:hidden; border-style:solid; border-color:rgba(172,146,115,0.3) }
+    .img-preview { width:100%; height:180px; object-fit:cover; display:block; border-radius:10px }
+    .img-change-btn {
+      display:block; width:100%; padding:8px; background:rgba(0,0,0,0.45);
+      color:#fff; font-size:0.75rem; font-weight:600; text-align:center;
+      cursor:pointer; border:none; font-family:'Inter',sans-serif;
+    }
+    .img-upload-placeholder { pointer-events:none }
+    .img-upload-icon { width:32px; height:32px; color:var(--bronze-light); margin:0 auto 10px; display:block }
+    .img-upload-text { font-size:0.8rem; color:var(--text-muted) }
+    .img-upload-text strong { color:var(--bronze); font-weight:600 }
+    #imgInput { display:none }
+
+    /* Editor rico */
+    .rich-toolbar {
+      display:flex; gap:4px; padding:8px 10px; background:var(--cream);
+      border:1.5px solid rgba(172,146,115,0.25); border-bottom:none;
+      border-radius:var(--radius-sm) var(--radius-sm) 0 0; flex-wrap:wrap;
+    }
+    .rich-toolbar button {
+      padding:5px 10px; border:none; background:transparent; border-radius:8px;
+      font-family:'Inter',sans-serif; font-size:0.78rem; font-weight:600;
+      color:var(--text-muted); cursor:pointer; transition:background 0.15s, color 0.15s; min-width:32px;
+    }
+    .rich-toolbar button:hover { background:rgba(172,146,115,0.15); color:var(--bronze) }
+    .rich-toolbar .sep { width:1px; background:rgba(172,146,115,0.2); margin:4px; align-self:stretch }
+    .rich-editor {
+      min-height:280px; padding:16px;
+      border:1.5px solid rgba(172,146,115,0.25);
+      border-radius:0 0 var(--radius-sm) var(--radius-sm);
+      font-family:'Inter',sans-serif; font-size:0.9rem; line-height:1.8;
+      color:var(--text-dark); background:var(--white); outline:none; overflow-y:auto;
+    }
+    .rich-editor:focus { border-color:var(--bronze); box-shadow:0 0 0 3px rgba(172,146,115,0.12) }
+    .rich-editor h2 { font-family:'Outfit',sans-serif; font-size:1.3rem; margin:20px 0 8px }
+    .rich-editor h3 { font-family:'Inter',sans-serif; font-size:1.05rem; font-weight:600; margin:16px 0 6px }
+    .rich-editor p { margin-bottom:12px }
+    .rich-editor ul { padding-left:20px; margin-bottom:12px }
+    .rich-editor li { margin-bottom:4px }
+    .rich-editor blockquote { border-left:3px solid var(--bronze); padding:10px 16px; margin:16px 0; background:var(--cream-light); border-radius:0 8px 8px 0; font-style:italic }
+    .section-sep { grid-column:1/-1; border:none; border-top:1px solid rgba(172,146,115,0.15); margin:8px 0 4px }
+    .section-label-row { grid-column:1/-1; font-size:0.7rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--bronze) }
+    .form-actions { grid-column:1/-1; display:flex; gap:12px; justify-content:flex-end; padding-top:8px }
+    .btn-save {
+      padding:13px 36px; background:var(--bronze); color:var(--white);
+      border:none; border-radius:var(--radius-pill); font-family:'Inter',sans-serif;
+      font-size:0.88rem; font-weight:600; cursor:pointer; transition:background 0.2s, transform 0.2s;
+    }
+    .btn-save:hover { background:var(--bronze-dark); transform:translateY(-1px) }
+    .btn-save:disabled { opacity:0.6; cursor:not-allowed; transform:none }
+    .btn-cancel {
+      padding:13px 28px; background:transparent; color:var(--text-muted);
+      border:1.5px solid rgba(172,146,115,0.25); border-radius:var(--radius-pill);
+      font-family:'Inter',sans-serif; font-size:0.88rem; cursor:pointer; transition:all 0.2s;
+    }
+    .btn-cancel:hover { border-color:var(--bronze); color:var(--bronze) }
+
+    /* Toast */
+    .toast {
+      position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px);
+      background:var(--brown); color:#fff; padding:12px 24px; border-radius:var(--radius-pill);
+      font-size:0.84rem; font-weight:500; opacity:0; transition:all 0.3s; pointer-events:none; z-index:999; white-space:nowrap;
+    }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(0) }
+    .toast.error { background:#c0392b }
+
+    /* Loading */
+    .loading-overlay {
+      display:none; position:fixed; inset:0; background:rgba(249,247,244,0.85);
+      backdrop-filter:blur(4px); z-index:200; align-items:center; justify-content:center; flex-direction:column; gap:16px;
+    }
+    .loading-overlay.show { display:flex }
+    .spinner { width:40px; height:40px; border:3px solid rgba(172,146,115,0.2); border-top-color:var(--bronze); border-radius:50%; animation:spin 0.8s linear infinite }
+    @keyframes spin { to { transform:rotate(360deg) } }
+    .loading-text { font-size:0.88rem; color:var(--text-muted); font-weight:500 }
+
+    @media (max-width:640px) {
+      .form-grid { grid-template-columns:1fr }
+      .form-full, .section-sep, .section-label-row, .form-actions { grid-column:1 }
+      .admin-wrap { padding:28px 16px }
+    }
+  </style>
+</head>
+<body>
+
+<header class="admin-header">
+  <img src="/assets/logo-branco.webp" alt="Dra. Thielen" class="logo" width="529" height="226">
+  <div class="header-right">
+    <button class="btn-new" id="btnNewPost">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Novo post
+    </button>
+    <button class="btn-logout" id="btnLogout">Sair</button>
+  </div>
+</header>
+
+<div class="admin-body">
+  <div class="admin-wrap">
+
+    <!-- LISTA -->
+    <div id="view-list">
+      <h1 class="view-title">Posts do blog</h1>
+      <p class="view-sub" id="postsCount">Carregando…</p>
+      <div class="posts-list" id="postsList"></div>
+    </div>
+
+    <!-- EDITOR -->
+    <div id="view-editor">
+      <div class="editor-header">
+        <button class="btn-back-list" id="btnBackList">← Voltar</button>
+        <h2 class="editor-title" id="editorTitle">Novo post</h2>
+      </div>
+
+      <div class="form-grid">
+        <div class="field form-full">
+          <label for="fTitle">Título do post *</label>
+          <input type="text" id="fTitle" placeholder="Ex: Como prevenir varizes no verão">
+        </div>
+        <div class="field">
+          <label for="fDate">Data de publicação *</label>
+          <input type="date" id="fDate">
+        </div>
+        <div class="field">
+          <label for="fCategory">Categoria *</label>
+          <select id="fCategory">
+            <option value="Saúde Vascular">Saúde Vascular</option>
+            <option value="Tratamentos">Tratamentos</option>
+            <option value="Estética">Estética</option>
+            <option value="Prevenção">Prevenção</option>
+            <option value="Dicas">Dicas</option>
+          </select>
+        </div>
+        <div class="field form-full">
+          <label for="fLead">Lead / subtítulo *</label>
+          <input type="text" id="fLead" placeholder="1-2 frases que resumem o post">
+        </div>
+        <div class="field form-full">
+          <label for="fDesc">Descrição SEO *</label>
+          <input type="text" id="fDesc" placeholder="Resumo para o Google — máx. 150 caracteres" maxlength="160">
+          <span class="hint" id="descCount">0 / 150 caracteres</span>
+        </div>
+        <div class="field form-full">
+          <label>Imagem de capa *</label>
+          <div class="img-upload-area" id="imgArea">
+            <div class="img-upload-placeholder">
+              <svg class="img-upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              <p class="img-upload-text"><strong>Clique para fazer upload</strong><br>WebP recomendado · 1200×500px · máx. 200kb</p>
+            </div>
+          </div>
+          <input type="file" id="imgInput" accept="image/*">
+          <span class="hint" id="imgName"></span>
+        </div>
+        <div class="field form-full">
+          <label for="fImgAlt">Descrição da imagem (alt) *</label>
+          <input type="text" id="fImgAlt" placeholder="Ex: Médica examinando pernas de paciente">
+          <span class="hint">Importante para acessibilidade e SEO</span>
+        </div>
+        <div class="field form-full">
+          <label>Corpo do post *</label>
+          <div class="rich-toolbar">
+            <button type="button" id="btnBold" title="Negrito"><b>N</b></button>
+            <button type="button" id="btnItalic" title="Itálico"><i>I</i></button>
+            <div class="sep"></div>
+            <button type="button" id="btnH2" title="Título de seção">H2</button>
+            <button type="button" id="btnH3" title="Subtítulo">H3</button>
+            <div class="sep"></div>
+            <button type="button" id="btnList" title="Lista">≡</button>
+            <button type="button" id="btnQuote" title="Destaque">❝</button>
+            <div class="sep"></div>
+            <button type="button" id="btnClear" title="Remover formatação" style="font-size:0.7rem">T×</button>
+          </div>
+          <div class="rich-editor" id="richEditor" contenteditable="true"></div>
+        </div>
+        <hr class="section-sep">
+        <span class="section-label-row">Chamada para ação (CTA)</span>
+        <div class="field">
+          <label for="fCtaTitle">Título do CTA</label>
+          <input type="text" id="fCtaTitle" value="Quer avaliar seu caso?">
+        </div>
+        <div class="field">
+          <label for="fCtaText">Texto de apoio</label>
+          <input type="text" id="fCtaText" value="Agende uma avaliação vascular e descubra o melhor tratamento para você.">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" id="btnCancel">Cancelar</button>
+          <button type="button" class="btn-save" id="btnSave">Publicar post</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <p class="loading-text" id="loadingText">Publicando post…</p>
+</div>
+
+<script>
+(function () {
+  var REPO   = 'Thielen-Szczypkowski-arch/site-drathielen-cc';
+  var BRANCH = 'main';
+
+  var token = sessionStorage.getItem('gh_token');
+  if (!token) { window.location.href = '/admin/'; return; }
+
+  var currentSlug    = null;
+  var currentFileSha = null;
+  var imgBase64      = null;
+  var imgFileName    = null;
+
+  // ── DOM refs ──
+  var viewList   = document.getElementById('view-list');
+  var viewEditor = document.getElementById('view-editor');
+  var postsList  = document.getElementById('postsList');
+  var postsCount = document.getElementById('postsCount');
+  var editorTitle= document.getElementById('editorTitle');
+  var richEditor = document.getElementById('richEditor');
+  var imgArea    = document.getElementById('imgArea');
+  var imgInput   = document.getElementById('imgInput');
+  var descInput  = document.getElementById('fDesc');
+  var descCount  = document.getElementById('descCount');
+  var btnSave    = document.getElementById('btnSave');
+  var toastEl    = document.getElementById('toast');
+  var loadingEl  = document.getElementById('loadingOverlay');
+  var loadingTxt = document.getElementById('loadingText');
+
+  // ── Helpers ──
+  function api(path, opts) {
+    return fetch('https://api.github.com' + path, Object.assign({
+      headers: {
+        'Authorization': 'token ' + token,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      }
+    }, opts || {}));
+  }
+
+  function slugify(str) {
+    return str.toLowerCase()
+      .normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9\s-]/g, '').trim()
+      .replace(/\s+/g, '-').slice(0, 60);
+  }
+
+  function b64encode(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+  }
+
+  function showToast(msg, isErr) {
+    toastEl.textContent = msg;
+    toastEl.className = 'toast show' + (isErr ? ' error' : '');
+    setTimeout(function () { toastEl.className = 'toast'; }, 3500);
+  }
+
+  function setLoading(on, txt) {
+    loadingEl.className = 'loading-overlay' + (on ? ' show' : '');
+    if (txt) loadingTxt.textContent = txt;
+  }
+
+  function escAttr(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ── Rich editor ──
+  function fmt(cmd) { richEditor.focus(); document.execCommand(cmd, false, null); }
+
+  document.getElementById('btnBold').addEventListener('click',  function(){ fmt('bold'); });
+  document.getElementById('btnItalic').addEventListener('click', function(){ fmt('italic'); });
+  document.getElementById('btnH2').addEventListener('click',    function(){ richEditor.focus(); document.execCommand('formatBlock',false,'h2'); });
+  document.getElementById('btnH3').addEventListener('click',    function(){ richEditor.focus(); document.execCommand('formatBlock',false,'h3'); });
+  document.getElementById('btnList').addEventListener('click',  function(){ fmt('insertUnorderedList'); });
+  document.getElementById('btnQuote').addEventListener('click', function(){ richEditor.focus(); document.execCommand('formatBlock',false,'blockquote'); });
+  document.getElementById('btnClear').addEventListener('click', function(){ richEditor.focus(); document.execCommand('removeFormat',false,null); document.execCommand('formatBlock',false,'p'); });
+
+  function getMarkdown() {
+    var h = richEditor.innerHTML;
+    return h
+      .replace(/<h2[^>]*>(.*?)<\/h2>/gi,'\n## $1\n')
+      .replace(/<h3[^>]*>(.*?)<\/h3>/gi,'\n### $1\n')
+      .replace(/<blockquote[^>]*>([\s\S]*?)<\/blockquote>/gi, function(_,c){
+        return '\n> ' + c.replace(/<[^>]+>/g,'').trim() + '\n';
+      })
+      .replace(/<strong[^>]*>(.*?)<\/strong>/gi,'**$1**')
+      .replace(/<b[^>]*>(.*?)<\/b>/gi,'**$1**')
+      .replace(/<em[^>]*>(.*?)<\/em>/gi,'*$1*')
+      .replace(/<i[^>]*>(.*?)<\/i>/gi,'*$1*')
+      .replace(/<li[^>]*>(.*?)<\/li>/gi,'- $1\n')
+      .replace(/<ul[^>]*>|<\/ul>/gi,'\n')
+      .replace(/<p[^>]*>(.*?)<\/p>/gi,'\n$1\n')
+      .replace(/<br\s*\/?>/gi,'\n')
+      .replace(/<[^>]+>/g,'')
+      .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&nbsp;/g,' ').replace(/&#160;/g,' ')
+      .replace(/\n{3,}/g,'\n\n').trim();
+  }
+
+  function setEditorContent(md) {
+    var html = md
+      .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+      .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+      .replace(/^> (.+)$/gm,'<blockquote><p>$1</p></blockquote>')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,'<em>$1</em>')
+      .replace(/^- (.+)$/gm,'<li>$1</li>');
+    richEditor.innerHTML = html;
+  }
+
+  // ── Upload de imagem ──
+  imgArea.addEventListener('click', function () { imgInput.click(); });
+
+  imgInput.addEventListener('change', function () {
+    var file = this.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function (ev) {
+      imgBase64    = ev.target.result.split(',')[1];
+      imgFileName  = file.name.replace(/\s+/g,'-').toLowerCase();
+
+      // Limpa a área e adiciona preview usando DOM (sem innerHTML de dados externos)
+      while (imgArea.firstChild) imgArea.removeChild(imgArea.firstChild);
+      imgArea.classList.add('has-image');
+
+      var previewImg = document.createElement('img');
+      previewImg.src       = ev.target.result;
+      previewImg.alt       = 'Preview';
+      previewImg.className = 'img-preview';
+
+      var changeBtn = document.createElement('button');
+      changeBtn.type      = 'button';
+      changeBtn.className = 'img-change-btn';
+      changeBtn.textContent = 'Trocar imagem';
+      changeBtn.addEventListener('click', function(e){ e.stopPropagation(); imgInput.click(); });
+
+      imgArea.appendChild(previewImg);
+      imgArea.appendChild(changeBtn);
+
+      document.getElementById('imgName').textContent = file.name + ' (' + (file.size/1024).toFixed(0) + ' kb)';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  descInput.addEventListener('input', function () {
+    descCount.textContent = this.value.length + ' / 150 caracteres';
+  });
+
+  // ── Navegação ──
+  function showList() {
+    viewList.style.display   = 'block';
+    viewEditor.style.display = 'none';
+    currentSlug = null; currentFileSha = null;
+  }
+
+  function showEditor(data) {
+    viewList.style.display   = 'none';
+    viewEditor.style.display = 'block';
+
+    if (data) {
+      editorTitle.textContent = 'Editar post';
+      document.getElementById('fTitle').value    = data.title    || '';
+      document.getElementById('fDate').value     = data.date     || '';
+      document.getElementById('fCategory').value = data.category || 'Saúde Vascular';
+      document.getElementById('fLead').value     = data.lead     || '';
+      descInput.value                            = data.description || '';
+      document.getElementById('fImgAlt').value   = data.image_alt || '';
+      document.getElementById('fCtaTitle').value = data.cta_title || 'Quer avaliar seu caso?';
+      document.getElementById('fCtaText').value  = data.cta_text  || '';
+      descCount.textContent = (data.description || '').length + ' / 150 caracteres';
+      setEditorContent(data.body || '');
+      currentSlug    = data.slug;
+      currentFileSha = data.sha;
+    } else {
+      editorTitle.textContent = 'Novo post';
+      document.getElementById('fTitle').value    = '';
+      document.getElementById('fDate').value     = new Date().toISOString().slice(0,10);
+      document.getElementById('fCategory').value = 'Saúde Vascular';
+      document.getElementById('fLead').value     = '';
+      descInput.value = '';
+      document.getElementById('fImgAlt').value   = '';
+      document.getElementById('fCtaTitle').value = 'Quer avaliar seu caso?';
+      document.getElementById('fCtaText').value  = 'Agende uma avaliação vascular e descubra o melhor tratamento para você.';
+      descCount.textContent = '0 / 150 caracteres';
+      richEditor.innerHTML  = '';
+      resetImgArea();
+      imgBase64 = null; imgFileName = null;
+      currentSlug = null; currentFileSha = null;
+    }
+  }
+
+  function resetImgArea() {
+    while (imgArea.firstChild) imgArea.removeChild(imgArea.firstChild);
+    imgArea.classList.remove('has-image');
+    document.getElementById('imgName').textContent = '';
+
+    var placeholder = document.createElement('div');
+    placeholder.className = 'img-upload-placeholder';
+
+    var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('class','img-upload-icon');
+    svg.setAttribute('viewBox','0 0 24 24');
+    svg.setAttribute('fill','none');
+    svg.setAttribute('stroke','currentColor');
+    svg.setAttribute('stroke-width','1.5');
+    var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d','M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z');
+    svg.appendChild(path);
+
+    var p = document.createElement('p');
+    p.className = 'img-upload-text';
+    var strong = document.createElement('strong');
+    strong.textContent = 'Clique para fazer upload';
+    p.appendChild(strong);
+    p.appendChild(document.createElement('br'));
+    p.appendChild(document.createTextNode('WebP recomendado · 1200×500px · máx. 200kb'));
+
+    placeholder.appendChild(svg);
+    placeholder.appendChild(p);
+    imgArea.appendChild(placeholder);
+  }
+
+  // ── Listar posts ──
+  function loadPosts() {
+    api('/repos/' + REPO + '/contents/_posts/blog?ref=' + BRANCH)
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (files) {
+        if (!Array.isArray(files)) { renderPosts([]); return; }
+        var mds = files.filter(function(f){ return f.name.endsWith('.md'); });
+        if (!mds.length) { renderPosts([]); return; }
+        return Promise.all(mds.map(function (f) {
+          return api('/repos/' + REPO + '/contents/' + f.path + '?ref=' + BRANCH)
+            .then(function(r){ return r.json(); })
+            .then(function(data){
+              var raw = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+              var meta = parseFrontmatter(raw);
+              meta.slug = f.name.replace('.md','');
+              meta.sha  = data.sha;
+              return meta;
+            });
+        }));
+      })
+      .then(function(posts){
+        if (!posts) return;
+        posts.sort(function(a,b){ return (b.date||'').localeCompare(a.date||''); });
+        renderPosts(posts);
+      })
+      .catch(function(){ renderPosts([]); });
+  }
+
+  function parseFrontmatter(text) {
+    var match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)/);
+    if (!match) return { body: text };
+    var meta = {};
+    match[1].split('\n').forEach(function(line){
+      var i = line.indexOf(':');
+      if (i < 0) return;
+      var key = line.slice(0,i).trim();
+      var val = line.slice(i+1).trim().replace(/^["']|["']$/g,'');
+      meta[key] = val;
+    });
+    meta.body = match[2].trim();
+    return meta;
+  }
+
+  function renderPosts(posts) {
+    var count = posts.length;
+    postsCount.textContent = count === 0
+      ? 'Nenhum post publicado ainda.'
+      : count + ' post' + (count !== 1 ? 's' : '') + ' publicado' + (count !== 1 ? 's' : '') + '.';
+
+    while (postsList.firstChild) postsList.removeChild(postsList.firstChild);
+
+    if (count === 0) {
+      var empty = document.createElement('div');
+      empty.className = 'empty-state';
+      var ep = document.createElement('p');
+      ep.textContent = 'Nenhum post ainda. Clique em "Novo post" para começar.';
+      empty.appendChild(ep);
+      postsList.appendChild(empty);
+      return;
+    }
+
+    posts.forEach(function(p) {
+      var dateStr = p.date
+        ? new Date(p.date + 'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'})
+        : '';
+
+      var item = document.createElement('div');
+      item.className = 'post-item';
+
+      var info = document.createElement('div');
+      info.className = 'post-item-info';
+
+      var titleEl = document.createElement('div');
+      titleEl.className = 'post-item-title';
+      titleEl.textContent = p.title || p.slug;
+
+      var metaEl = document.createElement('div');
+      metaEl.className = 'post-item-meta';
+      metaEl.textContent = dateStr;
+
+      var tag = document.createElement('span');
+      tag.className = 'post-item-tag';
+      tag.textContent = p.category || '';
+      metaEl.appendChild(tag);
+
+      info.appendChild(titleEl);
+      info.appendChild(metaEl);
+
+      var actions = document.createElement('div');
+      actions.className = 'post-item-actions';
+
+      var editBtn = document.createElement('button');
+      editBtn.className = 'btn-edit';
+      editBtn.textContent = 'Editar';
+      editBtn.addEventListener('click', (function(slug, sha){ return function(){ editPost(slug, sha); }; })(p.slug, p.sha));
+
+      var delBtn = document.createElement('button');
+      delBtn.className = 'btn-delete';
+      delBtn.textContent = 'Excluir';
+      delBtn.addEventListener('click', (function(slug, sha){ return function(){ deletePost(slug, sha); }; })(p.slug, p.sha));
+
+      actions.appendChild(editBtn);
+      actions.appendChild(delBtn);
+      item.appendChild(info);
+      item.appendChild(actions);
+      postsList.appendChild(item);
+    });
+  }
+
+  // ── Editar ──
+  function editPost(slug, sha) {
+    setLoading(true, 'Carregando post…');
+    api('/repos/' + REPO + '/contents/_posts/blog/' + slug + '.md?ref=' + BRANCH)
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        setLoading(false);
+        var raw  = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+        var meta = parseFrontmatter(raw);
+        meta.slug = slug;
+        meta.sha  = data.sha;
+        showEditor(meta);
+      })
+      .catch(function(){ setLoading(false); showToast('Erro ao carregar post.', true); });
+  }
+
+  // ── Excluir ──
+  function deletePost(slug, sha) {
+    if (!confirm('Excluir o post "' + slug + '"? Esta ação não pode ser desfeita.')) return;
+    setLoading(true, 'Excluindo post…');
+    api('/repos/' + REPO + '/contents/_posts/blog/' + slug + '.md', {
+      method: 'DELETE',
+      body: JSON.stringify({ message: 'Remove post: ' + slug, sha: sha, branch: BRANCH })
+    }).then(function(r){
+      setLoading(false);
+      if (r.ok) { showToast('Post excluído.'); loadPosts(); }
+      else { showToast('Erro ao excluir.', true); }
+    }).catch(function(){ setLoading(false); showToast('Erro ao excluir.', true); });
+  }
+
+  // ── Salvar ──
+  function savePost() {
+    var title    = document.getElementById('fTitle').value.trim();
+    var date     = document.getElementById('fDate').value;
+    var category = document.getElementById('fCategory').value;
+    var lead     = document.getElementById('fLead').value.trim();
+    var desc     = descInput.value.trim();
+    var imgAlt   = document.getElementById('fImgAlt').value.trim();
+    var ctaTitle = document.getElementById('fCtaTitle').value.trim();
+    var ctaText  = document.getElementById('fCtaText').value.trim();
+    var body     = getMarkdown();
+
+    if (!title || !date || !lead || !desc || !body) {
+      showToast('Preencha todos os campos obrigatórios.', true); return;
+    }
+
+    var slug    = currentSlug || slugify(title);
+    var imgPath = imgFileName ? 'assets/' + slug + '-' + imgFileName : '';
+
+    var fm = [
+      '---',
+      'title: "' + title.replace(/"/g,'\\"') + '"',
+      'date: ' + date,
+      'category: "' + category + '"',
+      'lead: "' + lead.replace(/"/g,'\\"') + '"',
+      'description: "' + desc.replace(/"/g,'\\"') + '"',
+      'image: "' + imgPath + '"',
+      'image_alt: "' + imgAlt.replace(/"/g,'\\"') + '"',
+      'cta_title: "' + ctaTitle.replace(/"/g,'\\"') + '"',
+      'cta_text: "' + ctaText.replace(/"/g,'\\"') + '"',
+      '---', '', body
+    ].join('\n');
+
+    btnSave.disabled = true;
+    setLoading(true, 'Publicando post…');
+
+    var chain = Promise.resolve();
+
+    if (imgBase64 && imgFileName) {
+      chain = chain.then(function(){
+        return api('/repos/' + REPO + '/contents/' + imgPath, {
+          method: 'PUT',
+          body: JSON.stringify({ message: 'Upload imagem: ' + imgPath, content: imgBase64, branch: BRANCH })
+        }).then(function(r){ if (!r.ok) return r.json().then(function(d){ throw new Error(d.message); }); });
+      });
+    }
+
+    chain = chain.then(function(){
+      var payload = { message: (currentFileSha ? 'Atualiza' : 'Publica') + ' post: ' + slug, content: b64encode(fm), branch: BRANCH };
+      if (currentFileSha) payload.sha = currentFileSha;
+      return api('/repos/' + REPO + '/contents/_posts/blog/' + slug + '.md', {
+        method: 'PUT',
+        body: JSON.stringify(payload)
+      }).then(function(r){ if (!r.ok) return r.json().then(function(d){ throw new Error(d.message); }); });
+    });
+
+    chain.then(function(){
+      setLoading(false);
+      btnSave.disabled = false;
+      showToast('Post publicado! O site será atualizado em ~1 minuto.');
+      imgBase64 = null; imgFileName = null;
+      setTimeout(function(){ showList(); loadPosts(); }, 1500);
+    }).catch(function(err){
+      setLoading(false);
+      btnSave.disabled = false;
+      showToast('Erro: ' + err.message, true);
+    });
+  }
+
+  // ── Event listeners ──
+  document.getElementById('btnNewPost').addEventListener('click', function(){ showEditor(null); });
+  document.getElementById('btnBackList').addEventListener('click', showList);
+  document.getElementById('btnCancel').addEventListener('click', showList);
+  document.getElementById('btnSave').addEventListener('click', savePost);
+  document.getElementById('btnLogout').addEventListener('click', function(){
+    sessionStorage.removeItem('gh_token');
+    window.location.href = '/admin/';
+  });
+
+  // ── Init ──
+  loadPosts();
+})();
+</script>
+</body>
+</html>
