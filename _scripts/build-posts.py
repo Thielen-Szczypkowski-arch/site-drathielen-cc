@@ -37,14 +37,14 @@ HEADER_HTML = """<header id="header" class="header-dark">
   <div class="container">
     <div class="header-inner">
       <a href="/" class="logo"><img src="../assets/logo-original.webp" alt="Dra. Thielen Szczypkowski" class="logo-img" width="529" height="226"></a>
-      <nav><a href="/sobre">Sobre</a><a href="/tratamentos">Tratamentos</a><a href="/blog/" class="active">Blog</a><a href="/contato" class="nav-cta">Agendar consulta</a></nav>
+      <nav><a href="/sobre">Sobre</a><a href="/tratamentos">Tratamentos</a><a href="/blog/" class="active">Blog</a><a href="/contato">Contato</a><a href="/contato" class="nav-cta">Agendar consulta</a></nav>
       <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
 </header>
 <div class="mobile-menu" id="mobileMenu">
   <button class="mobile-close" id="mobileClose">&#x2715;</button>
-  <a href="/sobre">Sobre</a><a href="/tratamentos">Tratamentos</a><a href="/blog/">Blog</a><a href="/contato" class="nav-cta">Agendar consulta</a>
+  <a href="/sobre">Sobre</a><a href="/tratamentos">Tratamentos</a><a href="/blog/">Blog</a><a href="/contato">Contato</a><a href="/contato" class="nav-cta">Agendar consulta</a>
 </div>"""
 
 FOOTER_HTML = """<div class="wave"><svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#524334"/></svg></div>
