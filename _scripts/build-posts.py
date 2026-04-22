@@ -428,37 +428,6 @@ def main():
 
     update_sitemap(posts)
     print("Sitemap atualizado")
-    """Insere ou atualiza entradas de posts novos no sitemap.xml."""
-    from datetime import date as _date
-
-    today = _date.today().strftime("%Y-%m-%d")
-
-    with open(SITEMAP_FILE, "r", encoding="utf-8") as f:
-        content = f.read()
-
-    for post_path in post_paths:
-        slug = slugify(post_path)
-        url = f"{BASE_URL_SITEMAP}/blog/{slug}.html"
-        entry = f"""  <url>
-    <loc>{url}</loc>
-    <lastmod>{today}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>"""
-
-        # Se já existe, atualiza lastmod
-        if f"<loc>{url}</loc>" in content:
-            content = re.sub(
-                rf'(<loc>{re.escape(url)}</loc>\s*<lastmod>)[^<]*(</lastmod>)',
-                rf'\g<1>{today}\g<2>',
-                content
-            )
-        else:
-            # Insere antes do fechamento </urlset>
-            content = content.replace("</urlset>", entry + "\n\n</urlset>")
-
-    with open(SITEMAP_FILE, "w", encoding="utf-8") as f:
-        f.write(content)
 
 
 if __name__ == "__main__":
