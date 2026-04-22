@@ -36,7 +36,7 @@ ARTICLE_CSS = """.article-hero{background:var(--cream-light);padding:160px 0 80p
 HEADER_HTML = """<header id="header" class="header-dark">
   <div class="container">
     <div class="header-inner">
-      <a href="/" class="logo"><img src="../assets/logo-branco.webp" alt="Dra. Thielen Szczypkowski" class="logo-img" width="529" height="226"></a>
+      <a href="/" class="logo"><img src="../assets/logo-original.webp" alt="Dra. Thielen Szczypkowski" class="logo-img" width="529" height="226"></a>
       <nav><a href="/sobre">Sobre</a><a href="/tratamentos">Tratamentos</a><a href="/blog/" class="active">Blog</a><a href="/contato" class="nav-cta">Agendar consulta</a></nav>
       <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
