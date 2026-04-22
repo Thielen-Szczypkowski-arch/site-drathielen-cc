@@ -1289,6 +1289,38 @@
     else
       seoItems.push(makeItem('bad','Imagem de capa ausente','Adicione uma imagem de capa ao post.'));
 
+    // 14. Links internos
+    var d4 = document.createElement('div');
+    d4.innerHTML = bodyHtml;
+    var allLinks = d4.querySelectorAll('a[href]');
+    var internalLinks = 0, externalLinks = 0;
+    allLinks.forEach(function(a){
+      var href = a.getAttribute('href') || '';
+      if (href.indexOf('drathielen.com.br') >= 0 || (href.indexOf('http') < 0 && href.length > 1))
+        internalLinks++;
+      else if (href.indexOf('http') === 0)
+        externalLinks++;
+    });
+    if (internalLinks >= 1)
+      seoItems.push(makeItem('ok','Links internos: ' + internalLinks,'O post contém links para outras páginas do site.'));
+    else
+      seoItems.push(makeItem('warn','Sem links internos','Adicione links para outras páginas do site (ex: outros posts ou página de tratamentos).'));
+
+    // 15. Links externos
+    if (externalLinks >= 1)
+      seoItems.push(makeItem('ok','Links externos: ' + externalLinks,'O post cita fontes externas confiáveis.'));
+    else
+      seoItems.push(makeItem('warn','Sem links externos','Considere citar pelo menos uma fonte externa confiável (ex: artigo científico, CFM).'));
+
+    // 16. H1 único — título do post é o H1; verificar se há H1 manual no corpo
+    var d5 = document.createElement('div');
+    d5.innerHTML = bodyHtml;
+    var h1sInBody = d5.querySelectorAll('h1');
+    if (h1sInBody.length > 0)
+      seoItems.push(makeItem('warn','H1 no corpo do post','O H1 já é o título do post. Remova os H1 do corpo e use H2/H3.'));
+    else
+      seoItems.push(makeItem('ok','H1 único','O título do post é o único H1 da página. Correto.'));
+
     // ── Aba Legibilidade ──
     var readItems = [];
     var sentences = getSentences(bodyText);
@@ -1324,23 +1356,63 @@
     else if (allHeadings.length >= 1)
       readItems.push(makeItem('ok', allHeadings.length + ' subtítulo(s) encontrado(s)','O conteúdo está dividido em seções. Boa estrutura.'));
 
-    // Palavras de transição
-    if (bodyText.length > 100) {
-      if (hasTransitionWords(bodyText))
-        readItems.push(makeItem('ok','Palavras de transição presentes','Conectivos como "portanto", "além disso", "no entanto" melhoram o fluxo do texto.'));
+    // Palavras de transição — Yoast: mín. 30% das frases
+    if (sentences.length >= 4) {
+      var tw = ['portanto','além disso','no entanto','por isso','assim','também','contudo','todavia','porém','embora','pois','logo','então','consequentemente','finalmente','em seguida','de fato','por exemplo','ou seja','em resumo','primeiro','segundo','terceiro','por outro lado','ao mesmo tempo','dessa forma','além disso','visto que','uma vez que','apesar de','mesmo assim','por fim','em primeiro lugar','em segundo lugar','sobretudo','especialmente','inclusive','acima de tudo','nesse sentido','com isso','diante disso'];
+      var sentWithTw = sentences.filter(function(s){
+        var sl = s.toLowerCase();
+        return tw.some(function(w){ return sl.indexOf(w) >= 0; });
+      }).length;
+      var pctTw = Math.round((sentWithTw / sentences.length) * 100);
+      if (pctTw >= 30)
+        readItems.push(makeItem('ok','Palavras de transição: ' + pctTw + '% das frases','Ótimo uso de conectivos. O texto flui bem.'));
+      else if (pctTw >= 20)
+        readItems.push(makeItem('warn','Palavras de transição: ' + pctTw + '% das frases','O Yoast recomenda ao menos 30%. Use mais conectivos como "portanto", "além disso", "por isso".'));
       else
-        readItems.push(makeItem('warn','Palavras de transição ausentes','Use conectivos para ligar parágrafos e melhorar o fluxo do texto.'));
+        readItems.push(makeItem('bad','Palavras de transição: ' + pctTw + '% das frases','Muito abaixo do ideal (30%). Adicione conectivos para ligar as ideias do texto.'));
     }
 
-    // Voz passiva — heurística simples
-    if (bodyText.length > 100) {
-      var passivePatterns = ['é feito','são feitos','foi feito','foram feitos','é realizado','são realizados','é indicado','é recomendado','é utilizado','é usado'];
-      var passiveCount = passivePatterns.filter(function(p){ return bodyText.toLowerCase().indexOf(p) >= 0; }).length;
-      if (passiveCount <= 1)
-        readItems.push(makeItem('ok','Pouca voz passiva','O texto usa predominantemente voz ativa. Mais dinâmico para o leitor.'));
+    // Voz passiva — Yoast: máx. 10% das frases
+    if (sentences.length >= 4) {
+      var passivePatterns = ['é feito','são feitos','foi feito','foram feitos','é realizado','são realizados','é indicado','é recomendado','é utilizado','é usado','é causado','são causados','é tratado','são tratados','é considerado','são considerados','é chamado','é conhecido','é dado','é aplicado','foi aplicado','são aplicados'];
+      var passiveSents = sentences.filter(function(s){
+        var sl = s.toLowerCase();
+        return passivePatterns.some(function(p){ return sl.indexOf(p) >= 0; });
+      }).length;
+      var pctPassive = Math.round((passiveSents / sentences.length) * 100);
+      if (pctPassive <= 10)
+        readItems.push(makeItem('ok','Voz passiva: ' + pctPassive + '% das frases','Dentro do ideal (máx. 10%). Texto ativo e dinâmico.'));
+      else if (pctPassive <= 15)
+        readItems.push(makeItem('warn','Voz passiva: ' + pctPassive + '% das frases','Um pouco acima do ideal (10%). Tente usar mais voz ativa.'));
       else
-        readItems.push(makeItem('warn','Voz passiva detectada','Tente usar mais voz ativa ("a médica recomenda" em vez de "é recomendado pela médica").'));
+        readItems.push(makeItem('bad','Voz passiva: ' + pctPassive + '% das frases','Acima de 15%. Use voz ativa: "a médica recomenda" em vez de "é recomendado".'));
     }
+
+    // Sentenças consecutivas com mesmo início — Yoast: alerta se 3+
+    if (sentences.length >= 3) {
+      var hasConsec = false;
+      for (var ci = 0; ci <= sentences.length - 3; ci++) {
+        var w1 = sentences[ci].split(/\s+/)[0] || '';
+        var w2 = sentences[ci+1].split(/\s+/)[0] || '';
+        var w3 = sentences[ci+2].split(/\s+/)[0] || '';
+        if (w1.length > 2 && w1.toLowerCase() === w2.toLowerCase() && w1.toLowerCase() === w3.toLowerCase()) {
+          hasConsec = true; break;
+        }
+      }
+      if (hasConsec)
+        readItems.push(makeItem('warn','Frases consecutivas com mesmo início','3 ou mais frases seguidas começam com a mesma palavra. Varie o início das frases.'));
+      else
+        readItems.push(makeItem('ok','Variedade no início das frases','Nenhuma sequência de 3 frases começa com a mesma palavra.'));
+    }
+
+    // Uso de listas
+    var d6 = document.createElement('div');
+    d6.innerHTML = bodyHtml;
+    var listsInBody = d6.querySelectorAll('ul, ol');
+    if (listsInBody.length >= 1)
+      readItems.push(makeItem('ok','Listas presentes','O post usa listas, facilitando a leitura.'));
+    else if (wordCount >= 300)
+      readItems.push(makeItem('warn','Sem listas','Considere usar listas para organizar informações em tópicos — melhora a legibilidade.'));
 
     // Comprimento do lead
     if (lead.length === 0)
