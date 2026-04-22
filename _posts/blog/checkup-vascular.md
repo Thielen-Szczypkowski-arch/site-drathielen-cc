@@ -25,20 +25,11 @@ O exame avalia tanto as artérias (risco de entupimento e isquemia) quanto as ve
 
 A periodicidade varia conforme o perfil de risco de cada pessoa:
 
-          Adultos saudáveis
-          A cada 2 anos
-
-Sem fatores de risco identificados
-
-          Com fatores de risco
-          Anual
-
-Obesidade, colesterol alto, tabagismo ou sedentarismo
-
-          Doenças crônicas
-          A cada 6 meses
-
-Hipertensão, diabetes, histórico de trombose
+| Perfil | Frequência | Observação |
+|---|---|---|
+| Adultos saudáveis | A cada 2 anos | Sem fatores de risco identificados |
+| Com fatores de risco | Anual | Obesidade, colesterol alto, tabagismo ou sedentarismo |
+| Doenças crônicas | A cada 6 meses | Hipertensão, diabetes, histórico de trombose |
 
 ## Quem deve fazer o check-up vascular?
 
