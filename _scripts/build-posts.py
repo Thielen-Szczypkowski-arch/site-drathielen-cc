@@ -268,6 +268,35 @@ def update_index(card_html, slug):
         f.write(content)
 
 
+SITEMAP_FILE = "sitemap.xml"
+
+
+def update_sitemap(post_paths):
+    """Insere ou atualiza entradas de posts novos no sitemap.xml."""
+    from datetime import date as _date
+    today = _date.today().strftime("%Y-%m-%d")
+
+    with open(SITEMAP_FILE, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    for post_path in post_paths:
+        slug = slugify(post_path)
+        url = f"{BASE_URL}/blog/{slug}.html"
+        entry = f"  <url>\n    <loc>{url}</loc>\n    <lastmod>{today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>"
+
+        if f"<loc>{url}</loc>" in content:
+            content = re.sub(
+                rf'(<loc>{re.escape(url)}</loc>\s*<lastmod>)[^<]*(</lastmod>)',
+                rf'\g<1>{today}\g<2>',
+                content
+            )
+        else:
+            content = content.replace("</urlset>", entry + "\n\n</urlset>")
+
+    with open(SITEMAP_FILE, "w", encoding="utf-8") as f:
+        f.write(content)
+
+
 CAT_ORDER = ["Saúde Vascular", "Tratamentos", "Estética", "Prevenção", "Dicas"]
 MESES_NUM = {"janeiro":1,"fevereiro":2,"março":3,"abril":4,"maio":5,"junho":6,
              "julho":7,"agosto":8,"setembro":9,"outubro":10,"novembro":11,"dezembro":12}
@@ -397,6 +426,40 @@ def main():
         card_html = build_card_html(meta, slug)
         update_index(card_html, slug)
         print(f"Card atualizado no index: {slug}")
+
+    update_sitemap(posts)
+    print("Sitemap atualizado")
+    """Insere ou atualiza entradas de posts novos no sitemap.xml."""
+    from datetime import date as _date
+
+    today = _date.today().strftime("%Y-%m-%d")
+
+    with open(SITEMAP_FILE, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    for post_path in post_paths:
+        slug = slugify(post_path)
+        url = f"{BASE_URL_SITEMAP}/blog/{slug}.html"
+        entry = f"""  <url>
+    <loc>{url}</loc>
+    <lastmod>{today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>"""
+
+        # Se já existe, atualiza lastmod
+        if f"<loc>{url}</loc>" in content:
+            content = re.sub(
+                rf'(<loc>{re.escape(url)}</loc>\s*<lastmod>)[^<]*(</lastmod>)',
+                rf'\g<1>{today}\g<2>',
+                content
+            )
+        else:
+            # Insere antes do fechamento </urlset>
+            content = content.replace("</urlset>", entry + "\n\n</urlset>")
+
+    with open(SITEMAP_FILE, "w", encoding="utf-8") as f:
+        f.write(content)
 
 
 if __name__ == "__main__":
