@@ -79,6 +79,16 @@
     .btn-delete:hover { background:#fff0f0; color:#c0392b; border-color:#f5c6cb }
     .empty-state { text-align:center; padding:60px 24px; color:var(--text-muted) }
     .empty-state p { font-size:0.9rem; margin-top:12px }
+    .posts-filters { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap }
+    .posts-filters input, .posts-filters select {
+      padding:9px 14px; border:1.5px solid rgba(172,146,115,0.25);
+      border-radius:var(--radius-pill); font-family:'Inter',sans-serif;
+      font-size:0.82rem; color:var(--text-dark); background:var(--white);
+      outline:none; transition:border-color 0.2s;
+    }
+    .posts-filters input { flex:1; min-width:180px }
+    .posts-filters input:focus, .posts-filters select:focus { border-color:var(--bronze) }
+    .posts-filters select { cursor:pointer }
 
     /* FORMULÁRIO */
     .editor-header { display:flex; align-items:center; gap:12px; margin-bottom:32px }
@@ -335,6 +345,17 @@
     <div id="view-list">
       <h1 class="view-title">Posts do blog</h1>
       <p class="view-sub" id="postsCount">Carregando…</p>
+      <div class="posts-filters">
+        <input type="text" id="filterSearch" placeholder="Buscar por título…">
+        <select id="filterCat">
+          <option value="">Todas as categorias</option>
+        </select>
+        <select id="filterOrder">
+          <option value="newest">Mais recente</option>
+          <option value="oldest">Mais antigo</option>
+          <option value="az">A–Z</option>
+        </select>
+      </div>
       <div class="posts-list" id="postsList"></div>
     </div>
 
@@ -500,10 +521,13 @@
   var taxFileSha     = null;
 
   // ── DOM refs ──
-  var viewList   = document.getElementById('view-list');
-  var viewEditor = document.getElementById('view-editor');
-  var postsList  = document.getElementById('postsList');
-  var postsCount = document.getElementById('postsCount');
+  var viewList    = document.getElementById('view-list');
+  var viewEditor  = document.getElementById('view-editor');
+  var postsList   = document.getElementById('postsList');
+  var postsCount  = document.getElementById('postsCount');
+  var filterSearch = document.getElementById('filterSearch');
+  var filterCat    = document.getElementById('filterCat');
+  var filterOrder  = document.getElementById('filterOrder');
   var editorTitle= document.getElementById('editorTitle');
   var richEditor = document.getElementById('richEditor');
   var imgArea    = document.getElementById('imgArea');
@@ -916,24 +940,61 @@
 
   function renderPosts(posts) {
     allPostsMeta = posts || [];
-    var count = posts.length;
-    postsCount.textContent = count === 0
-      ? 'Nenhum post publicado ainda.'
-      : count + ' post' + (count !== 1 ? 's' : '') + ' publicado' + (count !== 1 ? 's' : '') + '.';
+
+    // Popular dropdown de categorias
+    var cats = [];
+    allPostsMeta.forEach(function(p){ if (p.category && cats.indexOf(p.category) < 0) cats.push(p.category); });
+    cats.sort();
+    var currentCat = filterCat.value;
+    while (filterCat.options.length > 1) filterCat.remove(1);
+    cats.forEach(function(c){
+      var opt = document.createElement('option');
+      opt.value = c; opt.textContent = c;
+      if (c === currentCat) opt.selected = true;
+      filterCat.appendChild(opt);
+    });
+
+    renderFilteredPosts();
+  }
+
+  function renderFilteredPosts() {
+    var search = filterSearch.value.trim().toLowerCase();
+    var cat    = filterCat.value;
+    var order  = filterOrder.value;
+
+    var filtered = allPostsMeta.filter(function(p) {
+      if (search && (p.title || p.slug).toLowerCase().indexOf(search) < 0) return false;
+      if (cat && p.category !== cat) return false;
+      return true;
+    });
+
+    if (order === 'oldest') {
+      filtered.sort(function(a,b){ return (a.date||'').localeCompare(b.date||''); });
+    } else if (order === 'az') {
+      filtered.sort(function(a,b){ return (a.title||a.slug).localeCompare(b.title||b.slug,'pt-BR'); });
+    } else {
+      filtered.sort(function(a,b){ return (b.date||'').localeCompare(a.date||''); });
+    }
+
+    var total = allPostsMeta.length;
+    var shown = filtered.length;
+    postsCount.textContent = shown === total
+      ? total + ' post' + (total !== 1 ? 's' : '') + ' publicado' + (total !== 1 ? 's' : '') + '.'
+      : shown + ' de ' + total + ' posts encontrados.';
 
     while (postsList.firstChild) postsList.removeChild(postsList.firstChild);
 
-    if (count === 0) {
+    if (shown === 0) {
       var empty = document.createElement('div');
       empty.className = 'empty-state';
       var ep = document.createElement('p');
-      ep.textContent = 'Nenhum post ainda. Clique em "Novo post" para começar.';
+      ep.textContent = total === 0 ? 'Nenhum post ainda. Clique em "Novo post" para começar.' : 'Nenhum post encontrado com esses filtros.';
       empty.appendChild(ep);
       postsList.appendChild(empty);
       return;
     }
 
-    posts.forEach(function(p) {
+    filtered.forEach(function(p) {
       var dateStr = p.date
         ? new Date(p.date + 'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'})
         : '';
@@ -1524,6 +1585,10 @@
   imgInput.addEventListener('change', function(){ setTimeout(seoCheck, 100); });
 
   // ── Event listeners ──
+  filterSearch.addEventListener('input', renderFilteredPosts);
+  filterCat.addEventListener('change', renderFilteredPosts);
+  filterOrder.addEventListener('change', renderFilteredPosts);
+
   document.getElementById('btnNewPost').addEventListener('click', function(){ showEditor(null); });
   document.getElementById('btnBackList').addEventListener('click', showList);
   document.getElementById('btnCancel').addEventListener('click', showList);
