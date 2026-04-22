@@ -493,6 +493,7 @@
   var currentFileSha = null;
   var imgBase64      = null;
   var imgFileName    = null;
+  var currentImgPath = null;
   var taxonomias     = { categorias: [], tags: [] };
   var selectedTags   = [];
   var taxFileSha     = null;
@@ -797,26 +798,34 @@
 
       // Carrega preview da imagem existente
       resetImgArea();
-      imgBase64 = null; imgFileName = null;
+      imgBase64 = null; imgFileName = null; currentImgPath = null;
       var existingImg = (data.image || '').replace(/^(\.\.\/)?assets\//, '');
       if (existingImg) {
+        currentImgPath = existingImg;
+        document.getElementById('imgName').textContent = existingImg;
         api('/repos/' + REPO + '/contents/assets/' + existingImg + '?ref=' + BRANCH)
           .then(function(r){ return r.ok ? r.json() : null; })
           .then(function(d){
-            if (!d || !d.content) return;
-            var mime = existingImg.match(/\.webp$/i) ? 'image/webp'
-                     : existingImg.match(/\.png$/i)  ? 'image/png'
-                     : existingImg.match(/\.gif$/i)  ? 'image/gif' : 'image/jpeg';
-            var dataUrl = 'data:' + mime + ';base64,' + d.content.replace(/\n/g,'');
-            while (imgArea.firstChild) imgArea.removeChild(imgArea.firstChild);
-            imgArea.classList.add('has-image');
-            var previewImg = document.createElement('img');
-            previewImg.src = dataUrl; previewImg.alt = 'Preview'; previewImg.className = 'img-preview';
-            var changeBtn = document.createElement('button');
-            changeBtn.type = 'button'; changeBtn.className = 'img-change-btn'; changeBtn.textContent = 'Trocar imagem';
-            changeBtn.addEventListener('click', function(e){ e.stopPropagation(); imgInput.click(); });
-            imgArea.appendChild(previewImg); imgArea.appendChild(changeBtn);
-            document.getElementById('imgName').textContent = existingImg;
+            if (!d) return;
+            var showPreview = function(src) {
+              while (imgArea.firstChild) imgArea.removeChild(imgArea.firstChild);
+              imgArea.classList.add('has-image');
+              var previewImg = document.createElement('img');
+              previewImg.src = src; previewImg.alt = 'Preview'; previewImg.className = 'img-preview';
+              var changeBtn = document.createElement('button');
+              changeBtn.type = 'button'; changeBtn.className = 'img-change-btn'; changeBtn.textContent = 'Trocar imagem';
+              changeBtn.addEventListener('click', function(e){ e.stopPropagation(); imgInput.click(); });
+              imgArea.appendChild(previewImg); imgArea.appendChild(changeBtn);
+              setTimeout(seoCheck, 50);
+            };
+            if (d.content && d.content.trim()) {
+              var mime = existingImg.match(/\.webp$/i) ? 'image/webp'
+                       : existingImg.match(/\.png$/i)  ? 'image/png'
+                       : existingImg.match(/\.gif$/i)  ? 'image/gif' : 'image/jpeg';
+              showPreview('data:' + mime + ';base64,' + d.content.replace(/\n/g,''));
+            } else if (d.download_url) {
+              showPreview(d.download_url);
+            }
           }).catch(function(){});
       }
     } else {
@@ -835,7 +844,7 @@
       richEditor.innerHTML  = '';
       selectedTags = []; renderSelectedTags(); renderCatMenu(); renderTagMenu();
       resetImgArea();
-      imgBase64 = null; imgFileName = null;
+      imgBase64 = null; imgFileName = null; currentImgPath = null;
       currentSlug = null; currentFileSha = null;
     }
     setTimeout(seoCheck, 50);
@@ -1029,7 +1038,7 @@
 
     var slug    = currentSlug || slugify(title);
     var imgPath = imgFileName ? 'assets/' + slug + '-' + imgFileName
-               : (document.getElementById('imgName').textContent.trim() || '');
+               : (currentImgPath ? 'assets/' + currentImgPath : '');
 
     var kw = document.getElementById('fKw').value.trim();
 
@@ -1183,7 +1192,7 @@
     var kw       = (document.getElementById('fKw').value || '').trim().toLowerCase();
     var bodyHtml = richEditor.innerHTML;
     var bodyText = plainText(bodyHtml);
-    var hasImg   = !!imgBase64 || (document.getElementById('imgName').textContent.trim() !== '');
+    var hasImg   = !!imgBase64 || !!currentImgPath || (document.getElementById('imgName').textContent.trim() !== '');
     var slug     = currentSlug || slugify(title);
 
     var titleLen  = title.length;
