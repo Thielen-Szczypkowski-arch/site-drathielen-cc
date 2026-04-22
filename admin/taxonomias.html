@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Taxonomias — Blog Dra. Thielen</title>
+  <style>
+    @font-face { font-family:'Inter'; font-style:normal; font-weight:400 500; font-display:swap; src:url('/assets/fonts/inter-latin.woff2') format('woff2') }
+    @font-face { font-family:'Outfit'; font-style:normal; font-weight:400 700; font-display:swap; src:url('/assets/fonts/outfit-latin.woff2') format('woff2') }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0 }
+    :root {
+      --bronze:#ac9273; --bronze-dark:#8a7358; --bronze-light:#c4ab8e;
+      --bronze-pale:rgba(172,146,115,0.12); --brown:#524334;
+      --cream:#f4f0eb; --cream-light:#f9f7f4; --white:#fff;
+      --text-dark:#2a1f14; --text-muted:#7a6a5a; --text-light:#a89880;
+      --radius-sm:12px; --radius-pill:100px;
+      --shadow-sm:0 2px 10px rgba(82,67,52,0.05);
+      --shadow-md:0 8px 28px rgba(82,67,52,0.08);
+    }
+    html, body { height:100%; font-family:'Inter',sans-serif; background:var(--cream-light); color:var(--text-dark) }
+    .admin-header {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      background:var(--brown); height:60px;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 28px; box-shadow:0 2px 12px rgba(0,0,0,0.12);
+    }
+    .admin-header .logo { height:36px; width:auto; display:block }
+    .btn-back {
+      padding:8px 16px; background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.8);
+      border:1px solid rgba(255,255,255,0.2); border-radius:var(--radius-pill);
+      font-family:'Inter',sans-serif; font-size:0.75rem; cursor:pointer; transition:all 0.2s; text-decoration:none;
+      display:inline-flex; align-items:center; gap:6px;
+    }
+    .btn-back:hover { background:rgba(255,255,255,0.18); color:#fff }
+    .admin-body { padding-top:60px; min-height:100vh }
+    .admin-wrap { max-width:760px; margin:0 auto; padding:40px 24px }
+    .page-title { font-family:'Outfit',sans-serif; font-size:1.5rem; font-weight:700; margin-bottom:6px }
+    .page-sub { font-size:0.82rem; color:var(--text-muted); margin-bottom:36px }
+    .tax-section { background:var(--white); border-radius:var(--radius-sm); padding:28px; border:1px solid rgba(172,146,115,0.12); box-shadow:var(--shadow-sm); margin-bottom:24px }
+    .tax-section-title { font-family:'Outfit',sans-serif; font-size:1.05rem; font-weight:700; margin-bottom:4px }
+    .tax-section-sub { font-size:0.78rem; color:var(--text-muted); margin-bottom:20px }
+    .chips-list { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; min-height:32px }
+    .chip {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:6px 10px 6px 14px; border-radius:100px;
+      font-size:0.78rem; font-weight:500;
+    }
+    .chip.cat { background:var(--bronze); color:#fff }
+    .chip.tag { background:var(--bronze-pale); color:var(--bronze); border:1px solid rgba(172,146,115,0.3) }
+    .chip-del {
+      background:none; border:none; cursor:pointer; padding:0; line-height:1;
+      color:inherit; opacity:0.6; font-size:1rem; display:flex; align-items:center;
+      transition:opacity 0.2s;
+    }
+    .chip-del:hover { opacity:1 }
+    .add-row { display:flex; gap:10px }
+    .add-input {
+      flex:1; padding:10px 14px; border:1.5px solid rgba(172,146,115,0.25);
+      border-radius:var(--radius-sm); font-family:'Inter',sans-serif;
+      font-size:0.88rem; color:var(--text-dark); outline:none; transition:border-color 0.2s;
+    }
+    .add-input:focus { border-color:var(--bronze); box-shadow:0 0 0 3px rgba(172,146,115,0.12) }
+    .add-btn {
+      padding:10px 22px; background:var(--bronze); color:#fff; border:none;
+      border-radius:var(--radius-sm); font-family:'Inter',sans-serif;
+      font-size:0.85rem; font-weight:600; cursor:pointer; transition:background 0.2s; white-space:nowrap;
+    }
+    .add-btn:hover { background:var(--bronze-dark) }
+    .toast {
+      position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px);
+      background:var(--brown); color:#fff; padding:12px 24px; border-radius:var(--radius-pill);
+      font-size:0.84rem; font-weight:500; opacity:0; transition:all 0.3s; pointer-events:none; z-index:999;
+    }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(0) }
+    .toast.error { background:#c0392b }
+    .loading-overlay {
+      display:none; position:fixed; inset:0; background:rgba(249,247,244,0.85);
+      backdrop-filter:blur(4px); z-index:200; align-items:center; justify-content:center; flex-direction:column; gap:16px;
+    }
+    .loading-overlay.show { display:flex }
+    .spinner { width:36px; height:36px; border:3px solid rgba(172,146,115,0.2); border-top-color:var(--bronze); border-radius:50%; animation:spin 0.8s linear infinite }
+    @keyframes spin { to { transform:rotate(360deg) } }
+    .loading-text { font-size:0.85rem; color:var(--text-muted) }
+    @media (max-width:480px) { .admin-wrap { padding:28px 16px } }
+  </style>
+</head>
+<body>
+
+<header class="admin-header">
+  <img src="/assets/logo-branco.webp" alt="Dra. Thielen" class="logo" width="529" height="226">
+  <a href="/admin/editor.html" class="btn-back">← Voltar ao editor</a>
+</header>
+
+<div class="admin-body">
+  <div class="admin-wrap">
+    <h1 class="page-title">Categorias e Tags</h1>
+    <p class="page-sub">Gerencie as categorias e tags disponíveis para os posts do blog.</p>
+
+    <!-- CATEGORIAS -->
+    <div class="tax-section">
+      <p class="tax-section-title">Categorias</p>
+      <p class="tax-section-sub">Cada post pertence a uma única categoria.</p>
+      <div class="chips-list" id="catList"></div>
+      <div class="add-row">
+        <input type="text" class="add-input" id="newCatInput" placeholder="Nome da nova categoria…">
+        <button type="button" class="add-btn" id="btnAddCat">+ Adicionar</button>
+      </div>
+    </div>
+
+    <!-- TAGS -->
+    <div class="tax-section">
+      <p class="tax-section-title">Tags</p>
+      <p class="tax-section-sub">Um post pode ter várias tags. Use letras minúsculas.</p>
+      <div class="chips-list" id="tagList"></div>
+      <div class="add-row">
+        <input type="text" class="add-input" id="newTagInput" placeholder="Nome da nova tag…">
+        <button type="button" class="add-btn" id="btnAddTag">+ Adicionar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <p class="loading-text">Salvando…</p>
+</div>
+
+<script>
+(function(){
+  var REPO   = 'Thielen-Szczypkowski-arch/site-drathielen-cc';
+  var BRANCH = 'main';
+  var token  = sessionStorage.getItem('gh_token');
+  if (!token) { window.location.href = '/admin/'; return; }
+
+  var taxonomias = { categorias: [], tags: [] };
+  var fileSha    = null;
+  var toastEl    = document.getElementById('toast');
+  var loadingEl  = document.getElementById('loadingOverlay');
+
+  function api(path, opts) {
+    return fetch('https://api.github.com' + path, Object.assign({
+      headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' }
+    }, opts || {}));
+  }
+
+  function b64encode(str) { return btoa(unescape(encodeURIComponent(str))); }
+
+  function showToast(msg, isErr) {
+    toastEl.textContent = msg;
+    toastEl.className = 'toast show' + (isErr ? ' error' : '');
+    setTimeout(function(){ toastEl.className = 'toast'; }, 2500);
+  }
+
+  function setLoading(on) { loadingEl.className = 'loading-overlay' + (on ? ' show' : ''); }
+
+  function save() {
+    setLoading(true);
+    var payload = { message: 'Atualiza taxonomias', content: b64encode(JSON.stringify(taxonomias, null, 2)), branch: BRANCH };
+    if (fileSha) payload.sha = fileSha;
+    return api('/repos/' + REPO + '/contents/_data/taxonomias.json', { method:'PUT', body:JSON.stringify(payload) })
+      .then(function(r){ return r.json(); })
+      .then(function(d){ if (d.content) fileSha = d.content.sha; setLoading(false); showToast('Salvo!'); })
+      .catch(function(){ setLoading(false); showToast('Erro ao salvar.', true); });
+  }
+
+  function renderCats() {
+    var list = document.getElementById('catList');
+    while (list.firstChild) list.removeChild(list.firstChild);
+    taxonomias.categorias.forEach(function(cat){
+      var chip = document.createElement('span');
+      chip.className = 'chip cat';
+      chip.textContent = cat;
+      var btn = document.createElement('button');
+      btn.className = 'chip-del'; btn.type = 'button'; btn.title = 'Excluir'; btn.textContent = '×';
+      btn.addEventListener('click', function(){
+        if (!confirm('Excluir a categoria "' + cat + '"?')) return;
+        taxonomias.categorias = taxonomias.categorias.filter(function(c){ return c !== cat; });
+        save().then(renderCats);
+      });
+      chip.appendChild(btn);
+      list.appendChild(chip);
+    });
+    if (!taxonomias.categorias.length) {
+      var p = document.createElement('p');
+      p.style.cssText = 'font-size:0.8rem;color:var(--text-light)';
+      p.textContent = 'Nenhuma categoria cadastrada.';
+      list.appendChild(p);
+    }
+  }
+
+  function renderTags() {
+    var list = document.getElementById('tagList');
+    while (list.firstChild) list.removeChild(list.firstChild);
+    taxonomias.tags.forEach(function(tag){
+      var chip = document.createElement('span');
+      chip.className = 'chip tag';
+      chip.textContent = tag;
+      var btn = document.createElement('button');
+      btn.className = 'chip-del'; btn.type = 'button'; btn.title = 'Excluir'; btn.textContent = '×';
+      btn.addEventListener('click', function(){
+        if (!confirm('Excluir a tag "' + tag + '"?')) return;
+        taxonomias.tags = taxonomias.tags.filter(function(t){ return t !== tag; });
+        save().then(renderTags);
+      });
+      chip.appendChild(btn);
+      list.appendChild(chip);
+    });
+    if (!taxonomias.tags.length) {
+      var p = document.createElement('p');
+      p.style.cssText = 'font-size:0.8rem;color:var(--text-light)';
+      p.textContent = 'Nenhuma tag cadastrada.';
+      list.appendChild(p);
+    }
+  }
+
+  document.getElementById('btnAddCat').addEventListener('click', function(){
+    var val = document.getElementById('newCatInput').value.trim();
+    if (!val) return;
+    if (taxonomias.categorias.indexOf(val) >= 0) { showToast('Categoria já existe.', true); return; }
+    taxonomias.categorias.push(val);
+    document.getElementById('newCatInput').value = '';
+    save().then(renderCats);
+  });
+
+  document.getElementById('newCatInput').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') document.getElementById('btnAddCat').click();
+  });
+
+  document.getElementById('btnAddTag').addEventListener('click', function(){
+    var val = document.getElementById('newTagInput').value.trim().toLowerCase();
+    if (!val) return;
+    if (taxonomias.tags.indexOf(val) >= 0) { showToast('Tag já existe.', true); return; }
+    taxonomias.tags.push(val);
+    document.getElementById('newTagInput').value = '';
+    save().then(renderTags);
+  });
+
+  document.getElementById('newTagInput').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') document.getElementById('btnAddTag').click();
+  });
+
+  // Init
+  api('/repos/' + REPO + '/contents/_data/taxonomias.json?ref=' + BRANCH)
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      fileSha    = data.sha;
+      taxonomias = JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g,'')))));
+      renderCats(); renderTags();
+    }).catch(function(){ renderCats(); renderTags(); });
+})();
+</script>
+</body>
+</html>

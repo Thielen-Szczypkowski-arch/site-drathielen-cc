@@ -155,6 +155,67 @@
     .rich-editor blockquote { border-left:3px solid var(--bronze); padding:10px 16px; margin:16px 0; background:var(--cream-light); border-radius:0 8px 8px 0; font-style:italic }
     .section-sep { grid-column:1/-1; border:none; border-top:1px solid rgba(172,146,115,0.15); margin:8px 0 4px }
     .section-label-row { grid-column:1/-1; font-size:0.7rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--bronze) }
+
+    /* Taxonomias */
+    .tax-box {
+      border:1.5px solid rgba(172,146,115,0.25); border-radius:var(--radius-sm);
+      padding:12px 14px; background:var(--white); display:flex; flex-wrap:wrap; gap:8px; min-height:44px;
+    }
+    .tax-chip {
+      display:inline-flex; align-items:center; gap:5px;
+      padding:4px 10px 4px 12px; border-radius:100px;
+      font-size:0.75rem; font-weight:500; cursor:default; user-select:none;
+    }
+    .tax-chip.cat { background:var(--bronze); color:#fff }
+    .tax-chip.tag { background:var(--bronze-pale); color:var(--bronze); border:1px solid rgba(172,146,115,0.3) }
+    .tax-chip.tag.selected { background:var(--bronze); color:#fff }
+    .tax-chip button {
+      background:none; border:none; cursor:pointer; padding:0; line-height:1;
+      color:inherit; opacity:0.7; font-size:0.85rem; display:flex; align-items:center;
+    }
+    .tax-chip button:hover { opacity:1 }
+    .tax-dropdown {
+      position:relative; display:inline-block;
+    }
+    .tax-dropdown-menu {
+      display:none; position:absolute; top:calc(100% + 6px); left:0; z-index:50;
+      background:var(--white); border:1.5px solid rgba(172,146,115,0.2);
+      border-radius:var(--radius-sm); box-shadow:var(--shadow-md);
+      min-width:200px; padding:6px 0; max-height:220px; overflow-y:auto;
+    }
+    .tax-dropdown-menu.open { display:block }
+    .tax-dropdown-item {
+      padding:8px 14px; font-size:0.82rem; color:var(--text-dark); cursor:pointer;
+      transition:background 0.15s; display:flex; align-items:center; gap:8px;
+    }
+    .tax-dropdown-item:hover { background:var(--cream-light) }
+    .tax-dropdown-item.selected { color:var(--bronze); font-weight:600 }
+    .tax-dropdown-item.selected::before { content:'✓'; font-size:0.75rem }
+    .tax-dropdown-item:not(.selected)::before { content:''; width:0.75rem; display:inline-block }
+    .tax-new-row { padding:6px 8px; border-top:1px solid rgba(172,146,115,0.1); display:flex; gap:6px }
+    .tax-new-input {
+      flex:1; padding:6px 10px; border:1.5px solid rgba(172,146,115,0.25);
+      border-radius:8px; font-size:0.8rem; font-family:'Inter',sans-serif; outline:none; color:var(--text-dark);
+    }
+    .tax-new-input:focus { border-color:var(--bronze) }
+    .tax-new-btn {
+      padding:6px 12px; background:var(--bronze); color:#fff; border:none;
+      border-radius:8px; font-size:0.78rem; font-weight:600; cursor:pointer; white-space:nowrap;
+    }
+    .tax-new-btn:hover { background:var(--bronze-dark) }
+    .btn-tax-open {
+      display:inline-flex; align-items:center; gap:6px; padding:4px 12px 4px 10px;
+      border:1.5px dashed rgba(172,146,115,0.4); border-radius:100px;
+      font-size:0.75rem; color:var(--bronze); background:none; cursor:pointer; font-family:'Inter',sans-serif;
+      transition:border-color 0.2s, background 0.2s;
+    }
+    .btn-tax-open:hover { border-color:var(--bronze); background:var(--bronze-pale) }
+    .btn-manage-tax {
+      display:inline-flex; align-items:center; gap:5px; font-size:0.72rem;
+      color:var(--text-light); background:none; border:none; cursor:pointer;
+      font-family:'Inter',sans-serif; padding:2px 0; text-decoration:underline; text-underline-offset:2px;
+    }
+    .btn-manage-tax:hover { color:var(--bronze) }
     .form-actions { grid-column:1/-1; display:flex; gap:12px; justify-content:flex-end; padding-top:8px }
     .btn-save {
       padding:13px 36px; background:var(--bronze); color:var(--white);
@@ -236,14 +297,32 @@
           <input type="date" id="fDate">
         </div>
         <div class="field">
-          <label for="fCategory">Categoria *</label>
-          <select id="fCategory">
-            <option value="Saúde Vascular">Saúde Vascular</option>
-            <option value="Tratamentos">Tratamentos</option>
-            <option value="Estética">Estética</option>
-            <option value="Prevenção">Prevenção</option>
-            <option value="Dicas">Dicas</option>
-          </select>
+          <label>Categoria *</label>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <div class="tax-dropdown" id="catDropdown">
+              <button type="button" class="btn-tax-open" id="btnOpenCat">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Escolher categoria
+              </button>
+              <div class="tax-dropdown-menu" id="catMenu"></div>
+            </div>
+            <span id="catSelected" style="font-size:0.82rem;color:var(--text-muted)"></span>
+          </div>
+          <input type="hidden" id="fCategory">
+        </div>
+        <div class="field form-full">
+          <label>Tags</label>
+          <div style="display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap">
+            <div id="tagsSelected" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center"></div>
+            <div class="tax-dropdown" id="tagDropdown">
+              <button type="button" class="btn-tax-open" id="btnOpenTag">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Adicionar tag
+              </button>
+              <div class="tax-dropdown-menu" id="tagMenu"></div>
+            </div>
+          </div>
+          <button type="button" class="btn-manage-tax" onclick="window.open('/admin/taxonomias.html','_blank')">⚙ Gerenciar categorias e tags</button>
         </div>
         <div class="field form-full">
           <label for="fLead">Lead / subtítulo *</label>
@@ -324,6 +403,9 @@
   var currentFileSha = null;
   var imgBase64      = null;
   var imgFileName    = null;
+  var taxonomias     = { categorias: [], tags: [] };
+  var selectedTags   = [];
+  var taxFileSha     = null;
 
   // ── DOM refs ──
   var viewList   = document.getElementById('view-list');
@@ -459,6 +541,140 @@
     descCount.textContent = this.value.length + ' / 150 caracteres';
   });
 
+  // ── Taxonomias ──
+  function loadTaxonomias() {
+    return api('/repos/' + REPO + '/contents/_data/taxonomias.json?ref=' + BRANCH)
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        taxFileSha = data.sha;
+        taxonomias = JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g,'')))));
+        renderCatMenu();
+        renderTagMenu();
+      }).catch(function(){});
+  }
+
+  function saveTaxonomias() {
+    var content = JSON.stringify(taxonomias, null, 2);
+    var payload = { message: 'Atualiza taxonomias', content: b64encode(content), branch: BRANCH };
+    if (taxFileSha) payload.sha = taxFileSha;
+    return api('/repos/' + REPO + '/contents/_data/taxonomias.json', {
+      method: 'PUT', body: JSON.stringify(payload)
+    }).then(function(r){ return r.json(); }).then(function(d){ if (d.content) taxFileSha = d.content.sha; });
+  }
+
+  function renderCatMenu() {
+    var menu = document.getElementById('catMenu');
+    while (menu.firstChild) menu.removeChild(menu.firstChild);
+    var current = document.getElementById('fCategory').value;
+    taxonomias.categorias.forEach(function(cat){
+      var item = document.createElement('div');
+      item.className = 'tax-dropdown-item' + (cat === current ? ' selected' : '');
+      item.textContent = cat;
+      item.addEventListener('click', function(){
+        document.getElementById('fCategory').value = cat;
+        document.getElementById('catSelected').textContent = cat;
+        document.getElementById('btnOpenCat').querySelector('svg').style.display = cat ? 'none' : '';
+        renderCatMenu();
+        document.getElementById('catMenu').classList.remove('open');
+      });
+      menu.appendChild(item);
+    });
+    // Nova categoria
+    var newRow = document.createElement('div');
+    newRow.className = 'tax-new-row';
+    var inp = document.createElement('input');
+    inp.type = 'text'; inp.className = 'tax-new-input'; inp.placeholder = 'Nova categoria…';
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'tax-new-btn'; btn.textContent = '+ Criar';
+    btn.addEventListener('click', function(){
+      var val = inp.value.trim();
+      if (!val || taxonomias.categorias.indexOf(val) >= 0) return;
+      taxonomias.categorias.push(val);
+      saveTaxonomias();
+      renderCatMenu();
+      inp.value = '';
+    });
+    newRow.appendChild(inp); newRow.appendChild(btn);
+    menu.appendChild(newRow);
+  }
+
+  function renderTagMenu() {
+    var menu = document.getElementById('tagMenu');
+    while (menu.firstChild) menu.removeChild(menu.firstChild);
+    taxonomias.tags.forEach(function(tag){
+      var item = document.createElement('div');
+      var sel  = selectedTags.indexOf(tag) >= 0;
+      item.className = 'tax-dropdown-item' + (sel ? ' selected' : '');
+      item.textContent = tag;
+      item.addEventListener('click', function(){
+        var idx = selectedTags.indexOf(tag);
+        if (idx >= 0) selectedTags.splice(idx, 1); else selectedTags.push(tag);
+        renderTagMenu();
+        renderSelectedTags();
+      });
+      menu.appendChild(item);
+    });
+    // Nova tag
+    var newRow = document.createElement('div');
+    newRow.className = 'tax-new-row';
+    var inp = document.createElement('input');
+    inp.type = 'text'; inp.className = 'tax-new-input'; inp.placeholder = 'Nova tag…';
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'tax-new-btn'; btn.textContent = '+ Criar';
+    btn.addEventListener('click', function(){
+      var val = inp.value.trim().toLowerCase();
+      if (!val || taxonomias.tags.indexOf(val) >= 0) return;
+      taxonomias.tags.push(val);
+      selectedTags.push(val);
+      saveTaxonomias();
+      renderTagMenu();
+      renderSelectedTags();
+      inp.value = '';
+    });
+    newRow.appendChild(inp); newRow.appendChild(btn);
+    menu.appendChild(newRow);
+  }
+
+  function renderSelectedTags() {
+    var container = document.getElementById('tagsSelected');
+    while (container.firstChild) container.removeChild(container.firstChild);
+    selectedTags.forEach(function(tag){
+      var chip = document.createElement('span');
+      chip.className = 'tax-chip tag selected';
+      chip.textContent = tag;
+      var x = document.createElement('button');
+      x.type = 'button'; x.textContent = '×';
+      x.addEventListener('click', function(){
+        var idx = selectedTags.indexOf(tag);
+        if (idx >= 0) selectedTags.splice(idx, 1);
+        renderSelectedTags();
+        renderTagMenu();
+      });
+      chip.appendChild(x);
+      container.appendChild(chip);
+    });
+  }
+
+  // Fecha dropdowns ao clicar fora
+  document.addEventListener('click', function(e){
+    if (!document.getElementById('catDropdown').contains(e.target))
+      document.getElementById('catMenu').classList.remove('open');
+    if (!document.getElementById('tagDropdown').contains(e.target))
+      document.getElementById('tagMenu').classList.remove('open');
+  });
+
+  document.getElementById('btnOpenCat').addEventListener('click', function(e){
+    e.stopPropagation();
+    document.getElementById('catMenu').classList.toggle('open');
+    document.getElementById('tagMenu').classList.remove('open');
+  });
+
+  document.getElementById('btnOpenTag').addEventListener('click', function(e){
+    e.stopPropagation();
+    document.getElementById('tagMenu').classList.toggle('open');
+    document.getElementById('catMenu').classList.remove('open');
+  });
+
   // ── Navegação ──
   function showList() {
     viewList.style.display   = 'block';
@@ -474,7 +690,8 @@
       editorTitle.textContent = 'Editar post';
       document.getElementById('fTitle').value    = data.title    || '';
       document.getElementById('fDate').value     = data.date     || '';
-      document.getElementById('fCategory').value = data.category || 'Saúde Vascular';
+      document.getElementById('fCategory').value = data.category || '';
+      document.getElementById('catSelected').textContent = data.category || '';
       document.getElementById('fLead').value     = data.lead     || '';
       descInput.value                            = data.description || '';
       document.getElementById('fImgAlt').value   = data.image_alt || '';
@@ -482,13 +699,16 @@
       document.getElementById('fCtaText').value  = data.cta_text  || '';
       descCount.textContent = (data.description || '').length + ' / 150 caracteres';
       setEditorContent(data.body || '');
+      selectedTags = data.tags ? data.tags.split(',').map(function(t){ return t.trim(); }).filter(Boolean) : [];
+      renderSelectedTags(); renderTagMenu(); renderCatMenu();
       currentSlug    = data.slug;
       currentFileSha = data.sha;
     } else {
       editorTitle.textContent = 'Novo post';
       document.getElementById('fTitle').value    = '';
       document.getElementById('fDate').value     = new Date().toISOString().slice(0,10);
-      document.getElementById('fCategory').value = 'Saúde Vascular';
+      document.getElementById('fCategory').value = '';
+      document.getElementById('catSelected').textContent = '';
       document.getElementById('fLead').value     = '';
       descInput.value = '';
       document.getElementById('fImgAlt').value   = '';
@@ -496,6 +716,7 @@
       document.getElementById('fCtaText').value  = 'Agende uma avaliação vascular e descubra o melhor tratamento para você.';
       descCount.textContent = '0 / 150 caracteres';
       richEditor.innerHTML  = '';
+      selectedTags = []; renderSelectedTags(); renderCatMenu(); renderTagMenu();
       resetImgArea();
       imgBase64 = null; imgFileName = null;
       currentSlug = null; currentFileSha = null;
@@ -695,6 +916,7 @@
       '---',
       'title: "' + title.replace(/"/g,'\\"') + '"',
       'date: ' + date,
+      'tags: "' + selectedTags.join(', ') + '"',
       'category: "' + category + '"',
       'lead: "' + lead.replace(/"/g,'\\"') + '"',
       'description: "' + desc.replace(/"/g,'\\"') + '"',
@@ -752,6 +974,7 @@
   });
 
   // ── Init ──
+  loadTaxonomias();
   loadPosts();
 })();
 </script>
