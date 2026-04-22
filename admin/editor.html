@@ -422,7 +422,7 @@
           <button type="button" class="btn-manage-tax" onclick="window.open('/admin/taxonomias.html','_blank')">⚙ Gerenciar categorias e tags</button>
         </div>
         <div class="field form-full">
-          <label for="fLead">Lead / subtítulo *</label>
+          <label for="fLead">Resumo *</label>
           <input type="text" id="fLead" placeholder="1-2 frases que resumem o post">
         </div>
         <div class="field form-full">
@@ -1411,9 +1411,9 @@
     // 4. Palavra-chave no lead (introdução)
     if (kw) {
       if (leadLow.indexOf(kw) >= 0)
-        seoItems.push(makeItem('ok','Palavra-chave no lead','A palavra-chave aparece nos primeiros parágrafos.'));
+        seoItems.push(makeItem('ok','Palavra-chave no resumo','A palavra-chave aparece nos primeiros parágrafos.'));
       else
-        seoItems.push(makeItem('warn','Palavra-chave ausente no lead','O Yoast recomenda usar a palavra-chave na introdução do post.'));
+        seoItems.push(makeItem('warn','Palavra-chave ausente no resumo','O Yoast recomenda usar a palavra-chave na introdução do post.'));
     }
 
     // 5. Palavra-chave no corpo
@@ -1669,11 +1669,11 @@
 
     // Comprimento do lead
     if (lead.length === 0)
-      readItems.push(makeItem('bad','Lead vazio','Preencha o lead com 1–2 frases que resumem o post.'));
+      readItems.push(makeItem('bad','Resumo vazio','Preencha o resumo com 1–2 frases que apresentam o post.'));
     else if (lead.length <= 160)
-      readItems.push(makeItem('ok','Lead com bom comprimento','Conciso e direto ao ponto.'));
+      readItems.push(makeItem('ok','Resumo com bom comprimento','Conciso e direto ao ponto.'));
     else
-      readItems.push(makeItem('warn','Lead muito longo','Tente manter o lead em até 160 caracteres.'));
+      readItems.push(makeItem('warn','Resumo muito longo','Tente manter o resumo em até 160 caracteres.'));
 
     // ── Score combinado ──
     var allItems = seoItems.concat(readItems);
