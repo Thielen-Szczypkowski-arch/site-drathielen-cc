@@ -1,3 +1,4 @@
 User-agent: *
+Disallow: /admin/
 Allow: /
 Sitemap: https://www.drathielen.com.br/sitemap.xml
