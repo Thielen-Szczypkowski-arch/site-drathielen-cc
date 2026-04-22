@@ -796,37 +796,26 @@
       currentSlug    = data.slug;
       currentFileSha = data.sha;
 
-      // Carrega preview da imagem existente
+      // Carrega preview da imagem existente via URL pública
       resetImgArea();
       imgBase64 = null; imgFileName = null; currentImgPath = null;
       var existingImg = (data.image || '').replace(/^(\.\.\/)?assets\//, '');
       if (existingImg) {
         currentImgPath = existingImg;
         document.getElementById('imgName').textContent = existingImg;
-        api('/repos/' + REPO + '/contents/assets/' + existingImg + '?ref=' + BRANCH)
-          .then(function(r){ return r.ok ? r.json() : null; })
-          .then(function(d){
-            if (!d) return;
-            var showPreview = function(src) {
-              while (imgArea.firstChild) imgArea.removeChild(imgArea.firstChild);
-              imgArea.classList.add('has-image');
-              var previewImg = document.createElement('img');
-              previewImg.src = src; previewImg.alt = 'Preview'; previewImg.className = 'img-preview';
-              var changeBtn = document.createElement('button');
-              changeBtn.type = 'button'; changeBtn.className = 'img-change-btn'; changeBtn.textContent = 'Trocar imagem';
-              changeBtn.addEventListener('click', function(e){ e.stopPropagation(); imgInput.click(); });
-              imgArea.appendChild(previewImg); imgArea.appendChild(changeBtn);
-              setTimeout(seoCheck, 50);
-            };
-            if (d.content && d.content.trim()) {
-              var mime = existingImg.match(/\.webp$/i) ? 'image/webp'
-                       : existingImg.match(/\.png$/i)  ? 'image/png'
-                       : existingImg.match(/\.gif$/i)  ? 'image/gif' : 'image/jpeg';
-              showPreview('data:' + mime + ';base64,' + d.content.replace(/\n/g,''));
-            } else if (d.download_url) {
-              showPreview(d.download_url);
-            }
-          }).catch(function(){});
+        var publicUrl = 'https://www.drathielen.com.br/assets/' + existingImg;
+        while (imgArea.firstChild) imgArea.removeChild(imgArea.firstChild);
+        imgArea.classList.add('has-image');
+        var previewImg = document.createElement('img');
+        previewImg.src = publicUrl;
+        previewImg.alt = 'Preview';
+        previewImg.className = 'img-preview';
+        previewImg.onerror = function() { resetImgArea(); currentImgPath = existingImg; document.getElementById('imgName').textContent = existingImg; };
+        var changeBtn = document.createElement('button');
+        changeBtn.type = 'button'; changeBtn.className = 'img-change-btn'; changeBtn.textContent = 'Trocar imagem';
+        changeBtn.addEventListener('click', function(e){ e.stopPropagation(); imgInput.click(); });
+        imgArea.appendChild(previewImg);
+        imgArea.appendChild(changeBtn);
       }
     } else {
       editorTitle.textContent = 'Novo post';
