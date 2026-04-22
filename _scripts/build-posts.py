@@ -119,7 +119,7 @@ def build_post_html(meta, body_md, slug, sidebar_html_str="", post_nav_html=""):
     date_val    = meta.get("date", "")
     date_br     = format_date_br(date_val) if date_val else ""
     date_iso    = format_date_iso(date_val) if date_val else ""
-    post_url    = f"{BASE_URL}/blog/{slug}.html"
+    post_url    = f"{BASE_URL}/blog/{slug}"
 
     # Imagem: remove caminho relativo se vier com ../assets/ ou /assets/
     image_path  = re.sub(r'^(\.\.\/)?assets\/', '', image) if image else ""
@@ -234,7 +234,7 @@ def build_card_html(meta, slug):
     img_tag = f'<img src="{image_src}" alt="{title_esc}" loading="lazy">' if image_src else ""
 
     return f"""<!-- POST:{slug} -->
-<a href="/blog/{slug}.html" class="blog-card fade-up">
+<a href="/blog/{slug}" class="blog-card fade-up">
   <div class="blog-thumb">{img_tag}</div>
   <div class="blog-body">
     <div class="blog-meta">
@@ -282,7 +282,7 @@ def update_sitemap(post_paths):
 
     for post_path in post_paths:
         slug = slugify(post_path)
-        url = f"{BASE_URL}/blog/{slug}.html"
+        url = f"{BASE_URL}/blog/{slug}"
         entry = f"  <url>\n    <loc>{url}</loc>\n    <lastmod>{today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>"
 
         if f"<loc>{url}</loc>" in content:
@@ -386,8 +386,8 @@ def build_post_nav_html(all_posts, slug):
 
     def shorten(t): return t[:60] + "…" if len(t) > 60 else t
 
-    prev_html = f'<a href="/blog/{prev_p["slug"]}.html" class="post-nav-item prev"><span class="post-nav-label">Anterior</span><span class="post-nav-title">{shorten(prev_p["title"])}</span></a>' if prev_p else '<div></div>'
-    next_html = f'<a href="/blog/{next_p["slug"]}.html" class="post-nav-item next"><span class="post-nav-label">Próximo</span><span class="post-nav-title">{shorten(next_p["title"])}</span></a>' if next_p else ''
+    prev_html = f'<a href="/blog/{prev_p["slug"]}" class="post-nav-item prev"><span class="post-nav-label">Anterior</span><span class="post-nav-title">{shorten(prev_p["title"])}</span></a>' if prev_p else '<div></div>'
+    next_html = f'<a href="/blog/{next_p["slug"]}" class="post-nav-item next"><span class="post-nav-label">Próximo</span><span class="post-nav-title">{shorten(next_p["title"])}</span></a>' if next_p else ''
 
     return f'<nav class="post-nav" aria-label="Navegação entre posts">{prev_html}{next_html}</nav>'
 
