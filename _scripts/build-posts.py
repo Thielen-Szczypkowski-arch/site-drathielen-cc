@@ -21,6 +21,7 @@ except ImportError:
 POSTS_DIR   = "_posts/blog"
 BLOG_DIR    = "blog"
 INDEX_FILE  = "blog/index.html"
+HOME_FILE   = "index.html"
 BASE_URL    = "https://www.drathielen.com.br"
 
 MESES = {
@@ -269,6 +270,67 @@ def update_index(card_html, slug):
         f.write(content)
 
 
+def build_home_card_html(meta, slug, delay):
+    title    = meta.get("title", "Post")
+    lead     = meta.get("lead", "")
+    category = meta.get("category", "Saúde Vascular")
+    image    = meta.get("image", "")
+
+    image_path = re.sub(r'^(\.\.\/)?assets\/', '', image) if image else ""
+    image_src  = f"/assets/{image_path}" if image_path else ""
+    title_esc  = title.replace('"', '&quot;')
+    lead_esc   = lead[:140] + "…" if len(lead) > 140 else lead
+
+    img_tag = f'<img src="{image_src}" alt="{title_esc}" loading="lazy">' if image_src else ""
+
+    return f"""      <a href="/blog/{slug}" class="blog-card fade-up" style="text-decoration:none;transition-delay:{delay}s">
+        <div class="blog-thumb">
+          {img_tag}
+        </div>
+        <div class="blog-body">
+          <p class="blog-date">{category}</p>
+          <h3>{title}</h3>
+          <p>{lead_esc}</p>
+          <span class="blog-read">Ler artigo →</span>
+        </div>
+      </a>"""
+
+
+def update_home_cards(all_posts_meta):
+    """Regenera os 4 cards da home com os posts mais recentes."""
+    if not os.path.exists(HOME_FILE):
+        return
+    # all_posts_meta vem ordenado por data asc — inverte e pega os 4 mais recentes com lead+image
+    posts = [p for p in all_posts_meta if p.get("title") and p.get("lead") and p.get("image")]
+    posts = list(reversed(posts))
+    top4 = posts[:4]
+
+    delays = ["0.08", "0.16", "0.24", "0.32"]
+    cards = []
+    for i, p in enumerate(top4):
+        meta = {
+            "title":    p.get("title", ""),
+            "lead":     p.get("lead", ""),
+            "category": p.get("cat", p.get("category", "Saúde Vascular")),
+            "image":    p.get("image", ""),
+        }
+        cards.append(build_home_card_html(meta, p["slug"], delays[i] if i < 4 else "0.32"))
+
+    block = "<!-- HOME-CARDS-START -->\n" + "\n".join(cards) + "\n      <!-- HOME-CARDS-END -->"
+
+    with open(HOME_FILE, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    pattern = r'<!-- HOME-CARDS-START -->.*?<!-- HOME-CARDS-END -->'
+    if re.search(pattern, content, re.DOTALL):
+        content = re.sub(pattern, block, content, flags=re.DOTALL)
+        with open(HOME_FILE, "w", encoding="utf-8") as f:
+            f.write(content)
+        print(f"Home: cards atualizados com {len(top4)} posts mais recentes")
+    else:
+        print("Home: marcadores HOME-CARDS-START/END não encontrados, pulando")
+
+
 SITEMAP_FILE = "sitemap.xml"
 
 
@@ -320,7 +382,8 @@ def collect_all_posts_meta():
         tags = [t.strip() for t in tags_raw.split(",")] if isinstance(tags_raw, str) else [str(t) for t in tags_raw]
         all_posts.append({
             "slug": slug, "title": meta.get("title",""), "date": str(meta.get("date","")),
-            "cat": meta.get("category",""), "tags": [t for t in tags if t]
+            "cat": meta.get("category",""), "tags": [t for t in tags if t],
+            "lead": meta.get("lead",""), "image": meta.get("image","")
         })
 
     # Posts HTML existentes
@@ -430,6 +493,8 @@ def main():
 
     update_sitemap(posts)
     print("Sitemap atualizado")
+
+    update_home_cards(all_posts_meta)
 
 
 if __name__ == "__main__":
