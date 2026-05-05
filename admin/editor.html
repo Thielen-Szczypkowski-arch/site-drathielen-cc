@@ -308,6 +308,21 @@
     .toast.show { opacity:1; transform:translateX(-50%) translateY(0) }
     .toast.error { background:#c0392b }
 
+    /* Deploy status banner */
+    #deployBanner {
+      margin: 4px 0 20px;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #deployBanner.deploying { background:#fff8ed; color:#8a5c00; border:1px solid #f5d98a }
+    #deployBanner.success   { background:#edf7ed; color:#1a6b1a; border:1px solid #a3d8a3 }
+    #deployBanner.error     { background:#fff0f0; color:#c0392b; border:1px solid #f5b8b8 }
+
     /* Loading */
     .loading-overlay {
       display:none; position:fixed; inset:0; background:rgba(249,247,244,0.85);
@@ -345,6 +360,7 @@
     <div id="view-list">
       <h1 class="view-title">Posts do blog</h1>
       <p class="view-sub" id="postsCount">Carregando…</p>
+      <div id="deployBanner" style="display:none"></div>
       <div class="posts-filters">
         <input type="text" id="filterSearch" placeholder="Buscar por título…">
         <select id="filterCat">
@@ -894,10 +910,52 @@
   });
 
   // ── Navegação ──
+  var deployPollTimer = null;
+
+  function setDeployBanner(state) {
+    var banner = document.getElementById('deployBanner');
+    clearTimeout(deployPollTimer);
+    if (state === 'hide') { banner.style.display = 'none'; return; }
+    var msgs  = { deploying: 'Site atualizando… aguarde alguns minutos.', success: 'Site atualizado com sucesso.', error: 'Erro no deploy. Verifique o GitHub Actions.' };
+    var icons = { deploying: '⟳', success: '✓', error: '✕' };
+    banner.className = state;
+    banner.style.display = 'flex';
+    banner.textContent = '';
+    var icon = document.createElement('span');
+    icon.textContent = icons[state];
+    if (state === 'deploying') icon.style.cssText = 'animation:spin 1s linear infinite;display:inline-block';
+    var txt = document.createElement('span');
+    txt.textContent = msgs[state];
+    banner.appendChild(icon);
+    banner.appendChild(txt);
+  }
+
+  function checkDeployStatus() {
+    api('/repos/' + REPO + '/actions/runs?event=push&per_page=10')
+      .then(function(data) {
+        var run = (data.workflow_runs || []).find(function(r) {
+          return r.name === 'pages build and deployment';
+        });
+        if (!run) return;
+        var status = run.status;
+        var conclusion = run.conclusion;
+        if (status === 'queued' || status === 'in_progress') {
+          setDeployBanner('deploying');
+          deployPollTimer = setTimeout(checkDeployStatus, 12000);
+        } else if (status === 'completed' && conclusion === 'success') {
+          setDeployBanner('success');
+          setTimeout(function() { setDeployBanner('hide'); }, 30000);
+        } else if (status === 'completed' && conclusion !== 'success') {
+          setDeployBanner('error');
+        }
+      });
+  }
+
   function showList() {
     viewList.style.display   = 'block';
     viewEditor.style.display = 'none';
     currentSlug = null; currentFileSha = null;
+    checkDeployStatus();
   }
 
   function showEditor(data) {
@@ -1260,7 +1318,7 @@
     chain.then(function(){
       setLoading(false);
       btnSave.disabled = false;
-      showToast('Post publicado! O site será atualizado em ~1 minuto.');
+      showToast('Post publicado!');
       imgBase64 = null; imgFileName = null;
       setTimeout(function(){ showList(); loadPosts(); }, 1500);
     }).catch(function(err){
