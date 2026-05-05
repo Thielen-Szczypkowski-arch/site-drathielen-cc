@@ -312,7 +312,8 @@
 
     /* RESPONSIVE HOME */
     @media (max-width: 1024px) {
-      #main { grid-template-columns: 1fr; overflow-x: clip; overflow-y: visible; }
+      #main { grid-template-columns: 1fr; overflow: hidden; }
+      .hero-bg-orb { right: -40px !important; width: clamp(180px, 60vw, 360px) !important; height: clamp(180px, 60vw, 360px) !important; }
       #main > .container { grid-column: 1 !important; order: 1; }
       .hero-text-col { padding: 140px 0 40px; }
       .hero-img-outer { grid-column: 1 !important; min-height: 520px; height: 520px; position: relative; order: 2; border-radius: 0; overflow: hidden; }
