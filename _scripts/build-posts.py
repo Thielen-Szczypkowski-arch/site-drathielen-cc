@@ -270,46 +270,42 @@ def update_index(card_html, slug):
         f.write(content)
 
 
-def reorder_blog_index_by_date(all_posts_meta):
-    """Reordena os cards de blog/index.html para data desc (mais recentes primeiro)."""
+def regenerate_blog_grid(all_posts_meta):
+    """Reescreve toda a <div class='blog-grid'> de blog/index.html com cards ordenados por data desc."""
     if not os.path.exists(INDEX_FILE):
         return
     with open(INDEX_FILE, "r", encoding="utf-8") as f:
         content = f.read()
 
-    # Captura cada bloco POST:slug...END
-    pattern = re.compile(r'<!-- POST:([^\s]+) -->.*?<!-- /POST:\1 -->', re.DOTALL)
-    blocks = pattern.findall(content)
-    if not blocks:
-        return
-
     # all_posts_meta vem ordenado por data asc — inverte para desc
-    order = [p["slug"] for p in reversed(all_posts_meta)]
-    # slugs presentes no HTML mas ausentes do meta (legacy) ficam ao final na ordem original
-    seen = set()
-    final_slugs = []
-    for s in order:
-        if s in blocks and s not in seen:
-            final_slugs.append(s); seen.add(s)
-    for s in blocks:
-        if s not in seen:
-            final_slugs.append(s); seen.add(s)
+    posts_desc = list(reversed(all_posts_meta))
 
-    # Extrai os blocos por slug
-    block_map = {}
-    for m in pattern.finditer(content):
-        block_map[m.group(1)] = m.group(0)
+    # Gera card para cada post
+    cards = []
+    for p in posts_desc:
+        if not p.get("title"):
+            continue
+        meta = {
+            "title":    p.get("title", ""),
+            "lead":     p.get("lead", ""),
+            "category": p.get("cat", ""),
+            "image":    p.get("image", ""),
+            "date":     p.get("date", ""),
+        }
+        cards.append(build_card_html(meta, p["slug"]))
 
-    # Remove todos os blocos do conteúdo e insere na ordem correta antes de <!-- /BLOG-GRID -->
-    cleaned = pattern.sub("", content)
-    cleaned = re.sub(r'\n{3,}', '\n\n', cleaned)
-    ordered_html = "\n".join(block_map[s] for s in final_slugs if s in block_map)
+    inner = "\n".join(cards) + "\n<!-- /BLOG-GRID -->"
 
-    if "<!-- /BLOG-GRID -->" in cleaned:
-        cleaned = cleaned.replace("<!-- /BLOG-GRID -->", ordered_html + "\n<!-- /BLOG-GRID -->")
-        with open(INDEX_FILE, "w", encoding="utf-8") as f:
-            f.write(cleaned)
-        print(f"Blog index: {len(final_slugs)} posts reordenados por data desc")
+    # Substitui todo conteúdo entre <div class="blog-grid"> e </div> que fecha o grid
+    pattern = re.compile(r'(<div class="blog-grid">)(.*?)(</div>\s*<div class="load-more-wrap")', re.DOTALL)
+    if not pattern.search(content):
+        print("Blog index: padrão da blog-grid não encontrado")
+        return
+    new_content = pattern.sub(rf'\1\n{inner}\n      </div>\n      <div class="load-more-wrap"', content)
+
+    with open(INDEX_FILE, "w", encoding="utf-8") as f:
+        f.write(new_content)
+    print(f"Blog index: grid regenerada com {len(cards)} posts ordenados por data desc")
 
 
 def build_home_card_html(meta, slug, delay):
@@ -442,9 +438,15 @@ def collect_all_posts_meta():
         tags = _re.findall(r'<span class="article-tag-secondary">([^<]+)</span>', content)
         m3 = _re.search(r'<h1[^>]*>([^<]+)</h1>', content)
         title = m3.group(1).strip() if m3 else s
+        # Extrai lead e image das meta tags do HTML legacy
+        m4 = _re.search(r'<meta\s+name="description"\s+content="([^"]+)"', content)
+        lead = m4.group(1) if m4 else ""
+        m5 = _re.search(r'<meta\s+property="og:image"\s+content="([^"]+)"', content)
+        image = m5.group(1) if m5 else ""
         # Evita duplicar post que já existe como .md
         if not any(x["slug"] == s for x in all_posts):
-            all_posts.append({"slug": s, "title": title, "date": date_str, "cat": cat, "tags": tags})
+            all_posts.append({"slug": s, "title": title, "date": date_str, "cat": cat, "tags": tags,
+                              "lead": lead, "image": image})
 
     def sort_key(p):
         import re as _r
@@ -536,7 +538,7 @@ def main():
     update_sitemap(posts)
     print("Sitemap atualizado")
 
-    reorder_blog_index_by_date(all_posts_meta)
+    regenerate_blog_grid(all_posts_meta)
     update_home_cards(all_posts_meta)
 
 
