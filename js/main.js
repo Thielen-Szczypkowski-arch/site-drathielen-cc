@@ -26,13 +26,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileMenu = document.getElementById('mobileMenu');
   const mobileClose = document.getElementById('mobileClose');
   if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', () => {
+    hamburger.addEventListener('click', (e) => {
       mobileMenu.classList.add('open');
       hamburger.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
-      // Focus first link for keyboard users
-      const firstLink = mobileMenu.querySelector('a');
-      if (firstLink) setTimeout(() => firstLink.focus(), 50);
+      // Focus first link only for keyboard users (e.detail === 0 means keyboard click)
+      if (e.detail === 0) {
+        const firstLink = mobileMenu.querySelector('a');
+        if (firstLink) setTimeout(() => firstLink.focus(), 50);
+      }
     });
   }
   if (mobileClose && mobileMenu) {
