@@ -24,7 +24,9 @@
     /* ── HOME-SPECIFIC ── */
     /* HERO */
     #main {
-      min-height: 100vh; background: var(--cream-light); position: relative;
+      min-height: clamp(560px, 100vh, 900px);
+      min-height: clamp(560px, 100svh, 900px);
+      background: var(--cream-light); position: relative;
       display: grid; grid-template-columns: 1fr 1fr;
       overflow: hidden;
     }
@@ -40,7 +42,8 @@
     .hero-img-outer {
       position: relative;
       height: 100%;
-      min-height: 100vh;
+      min-height: clamp(560px, 100vh, 900px);
+      min-height: clamp(560px, 100svh, 900px);
     }
     .hero-img-wrap {
       position: absolute; inset: 0;
@@ -669,7 +672,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- HOME-CARDS-START -->
       <a href="/blog/lipedema-sintomas-e-tratamento-guia-completo-da-doenca" class="blog-card fade-up" style="text-decoration:none;transition-delay:0.08s">
         <div class="blog-thumb">
-          <img src="/assets/lipedema-sintomas-e-tratamento-guia-completo-da-doenca-ultrasound-vessels-thick-leg.jpg" alt="Lipedema Sintomas e Tratamento: Guia Completo da Doença" loading="lazy">
+          <img src="/assets/lipedema-sintomas-e-tratamento-guia-completo-da-doenca-ultrasound-vessels-thick-leg.jpg" alt="Lipedema Sintomas e Tratamento: Guia Completo da Doença" loading="lazy" decoding="async" width="680" height="453">
         </div>
         <div class="blog-body">
           <p class="blog-date">Saúde Vascular</p>
@@ -680,7 +683,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </a>
       <a href="/blog/uso-meias" class="blog-card fade-up" style="text-decoration:none;transition-delay:0.16s">
         <div class="blog-thumb">
-          <img src="/assets/blog-meias.webp" alt="Uso de meias de compressão na atividade física" loading="lazy">
+          <img src="/assets/blog-meias.webp" alt="Uso de meias de compressão na atividade física" loading="lazy" decoding="async" width="680" height="453">
         </div>
         <div class="blog-body">
           <p class="blog-date">Prevenção</p>
@@ -691,7 +694,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </a>
       <a href="/blog/anticoncepcional" class="blog-card fade-up" style="text-decoration:none;transition-delay:0.24s">
         <div class="blog-thumb">
-          <img src="/assets/blog-anticoncepcional.webp" alt="Afinal, o anticoncepcional pode causar ou não as temidas varizes?" loading="lazy">
+          <img src="/assets/blog-anticoncepcional.webp" alt="Afinal, o anticoncepcional pode causar ou não as temidas varizes?" loading="lazy" decoding="async" width="680" height="453">
         </div>
         <div class="blog-body">
           <p class="blog-date">Saúde Vascular</p>
@@ -702,7 +705,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </a>
       <a href="/blog/varizes-verao" class="blog-card fade-up" style="text-decoration:none;transition-delay:0.32s">
         <div class="blog-thumb">
-          <img src="/assets/blog-verao.webp" alt="Varizes: 5 dicas para evitar incômodos e aproveitar o verão" loading="lazy">
+          <img src="/assets/blog-verao.webp" alt="Varizes: 5 dicas para evitar incômodos e aproveitar o verão" loading="lazy" decoding="async" width="680" height="453">
         </div>
         <div class="blog-body">
           <p class="blog-date">Dicas</p>

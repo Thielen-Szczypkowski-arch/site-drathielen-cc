@@ -188,7 +188,7 @@ def build_post_html(meta, body_md, slug, sidebar_html_str="", post_nav_html=""):
         <h1 class="fade-up">{title}</h1>
         <p class="lead fade-up" style="margin-top:20px;">{lead}</p>
       </div>
-      {("<div class='article-hero-img-wrap fade-right'><div class='article-hero-img'><img src='" + image_src + "' alt='" + image_alt + "'></div></div>") if image_src else "<div></div>"}
+      {("<div class='article-hero-img-wrap fade-right'><div class='article-hero-img'><img src='" + image_src + "' alt='" + image_alt + "' width='1200' height='800' decoding='async'></div></div>") if image_src else "<div></div>"}
     </div>
   </div>
   <div class="page-hero-wave wave"><svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#ffffff"/></svg></div>
@@ -232,7 +232,7 @@ def build_card_html(meta, slug):
     title_esc  = title.replace('"', '&quot;')
     lead_esc   = lead[:100] + "…" if len(lead) > 100 else lead
 
-    img_tag = f'<img src="{image_src}" alt="{title_esc}" loading="lazy">' if image_src else ""
+    img_tag = f'<img src="{image_src}" alt="{title_esc}" loading="lazy" decoding="async" width="680" height="453">' if image_src else ""
 
     return f"""<!-- POST:{slug} -->
 <a href="/blog/{slug}" class="blog-card fade-up">
@@ -319,7 +319,7 @@ def build_home_card_html(meta, slug, delay):
     title_esc  = title.replace('"', '&quot;')
     lead_esc   = lead[:140] + "…" if len(lead) > 140 else lead
 
-    img_tag = f'<img src="{image_src}" alt="{title_esc}" loading="lazy">' if image_src else ""
+    img_tag = f'<img src="{image_src}" alt="{title_esc}" loading="lazy" decoding="async" width="680" height="453">' if image_src else ""
 
     return f"""      <a href="/blog/{slug}" class="blog-card fade-up" style="text-decoration:none;transition-delay:{delay}s">
         <div class="blog-thumb">
