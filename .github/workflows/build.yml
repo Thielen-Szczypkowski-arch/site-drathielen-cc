@@ -1,20 +1,27 @@
-name: Build Blog Posts
+name: Build and Deploy
 
 on:
   push:
-    paths:
-      - '_posts/blog/**.md'
-      - '_scripts/build-posts.py'
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -32,5 +39,14 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add blog/
-          git diff --cached --quiet || git commit -m "Build: atualiza posts gerados pelo CMS"
+          git diff --cached --quiet || git commit -m "Build: atualiza posts gerados pelo CMS [skip ci]"
           git push
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
