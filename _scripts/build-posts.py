@@ -239,6 +239,18 @@ def build_post_html(meta, body_md, slug, sidebar_html_str="", post_nav_html=""):
     return html
 
 
+def _normalize_img(image):
+    """Normaliza qualquer formato de imagem para /assets/filename."""
+    if not image:
+        return ""
+    if image.startswith('http'):
+        return f"/assets/{image.split('/')[-1]}"
+    if image.startswith('/assets/'):
+        return image
+    strip = re.sub(r'^(\.\.\/)?assets\/', '', image)
+    return f"/assets/{strip}"
+
+
 def build_card_html(meta, slug):
     title    = meta.get("title", "Post")
     lead     = meta.get("lead", "")
@@ -247,8 +259,7 @@ def build_card_html(meta, slug):
     date_val = meta.get("date", "")
     date_br  = format_date_br(date_val) if date_val else ""
 
-    image_path = re.sub(r'^(\.\.\/)?assets\/', '', image) if image else ""
-    image_src  = f"/assets/{image_path}" if image_path else ""
+    image_src = _normalize_img(image)
     title_esc  = title.replace('"', '&quot;')
     lead_esc   = lead[:100] + "…" if len(lead) > 100 else lead
 
@@ -334,8 +345,7 @@ def build_home_card_html(meta, slug, delay):
     category = meta.get("category", "Saúde Vascular")
     image    = meta.get("image", "")
 
-    image_path = re.sub(r'^(\.\.\/)?assets\/', '', image) if image else ""
-    image_src  = f"/assets/{image_path}" if image_path else ""
+    image_src = _normalize_img(image)
     title_esc  = title.replace('"', '&quot;')
     lead_esc   = lead[:140] + "…" if len(lead) > 140 else lead
 
@@ -546,9 +556,14 @@ def main():
         sidebar = build_sidebar_html(all_posts_meta, meta.get("category", ""), tags_list)
         post_nav = build_post_nav_html(all_posts_meta, slug)
 
-        # Gera HTML do post
+        # Gera HTML do post — nunca sobrescreve redirect existente
         post_html = build_post_html(meta, body_md, slug, sidebar_html_str=sidebar, post_nav_html=post_nav)
         out_path  = os.path.join(BLOG_DIR, f"{slug}.html")
+        if os.path.exists(out_path):
+            with open(out_path, encoding="utf-8") as _chk:
+                if 'http-equiv="refresh"' in _chk.read():
+                    print(f"AVISO: {out_path} é redirect — pulando para não sobrescrever")
+                    continue
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(post_html)
         print(f"Gerado: {out_path}")
