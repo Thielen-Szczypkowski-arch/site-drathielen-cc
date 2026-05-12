@@ -1,4 +1,9 @@
 User-agent: *
 Disallow: /admin/
+Disallow: /*?r=
+Disallow: /*?mod=
+Disallow: /*?uri=
+Disallow: /*?elementor_library=
+Disallow: /*?et_core_page_resource=
 Allow: /
 Sitemap: https://www.drathielen.com.br/sitemap.xml

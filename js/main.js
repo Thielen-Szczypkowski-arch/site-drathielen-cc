@@ -2,6 +2,14 @@
    Dra. Thielen — Shared JS
    ═══════════════════════════════════════════ */
 
+// Bloqueia parâmetros de spam antes de qualquer renderização
+(function () {
+  var blocked = ['r', 'mod', 'uri', 'elementor_library', 'et_core_page_resource'];
+  var params = new URLSearchParams(window.location.search);
+  var dirty = blocked.some(function (p) { return params.has(p); });
+  if (dirty) { window.location.replace(window.location.pathname); }
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
 
   // ── HEADER SCROLL ──
