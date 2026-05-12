@@ -451,6 +451,9 @@ def collect_all_posts_meta():
             continue
         with open(p, encoding="utf-8") as f:
             content = f.read()
+        # Ignorar páginas de redirect (meta refresh) — não são posts reais
+        if 'http-equiv="refresh"' in content:
+            continue
         m = _re.search(r'<span class="article-date">([^<]+)</span>', content)
         date_str = m.group(1) if m else ""
         m2 = _re.search(r'<span class="article-tag">([^<]+)</span>', content)
