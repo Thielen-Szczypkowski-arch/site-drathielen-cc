@@ -83,6 +83,20 @@ def slugify(filename):
     return os.path.splitext(os.path.basename(filename))[0]
 
 
+STOP_WORDS = {'de','da','do','das','dos','e','o','a','os','as','em','com','para','que','se','um','uma','nos','nas','no','na','por','ao','aos'}
+
+def make_slug(title, max_words=4):
+    """Gera slug SEO-friendly: 2-4 palavras, sem stop words, sem acentos."""
+    s = title.lower()
+    for a, b in [('àáâãä','a'),('èéêë','e'),('ìíîï','i'),('òóôõö','o'),('ùúûü','u')]:
+        for c in a: s = s.replace(c, b)
+    s = s.replace('ç','c').replace('ñ','n')
+    s = re.sub(r'[^\w\s-]', '', s)
+    s = re.sub(r'[\s_]+', ' ', s).strip()
+    words = [w for w in s.split(' ') if w and w not in STOP_WORDS]
+    return '-'.join(words[:max_words])
+
+
 def format_date_br(date_val):
     """Converte date/string para '22 de abril de 2026'."""
     if isinstance(date_val, str):

@@ -614,10 +614,14 @@
   }
 
   function slugify(str) {
-    return str.toLowerCase()
+    var stopWords = new Set(['de','da','do','das','dos','e','o','a','os','as','em','com','para','que','se','um','uma','nos','nas','no','na','por','ao','aos']);
+    var words = str.toLowerCase()
       .normalize('NFD').replace(/[̀-ͯ]/g, '')
       .replace(/[^a-z0-9\s-]/g, '').trim()
-      .replace(/\s+/g, '-').slice(0, 60);
+      .replace(/\s+/g, ' ').split(' ')
+      .filter(function(w){ return w && !stopWords.has(w); })
+      .slice(0, 4);
+    return words.join('-');
   }
 
   function b64encode(str) {
