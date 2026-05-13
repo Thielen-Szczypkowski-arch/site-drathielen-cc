@@ -18,6 +18,12 @@ except ImportError:
     import yaml
     import markdown as md_lib
 
+try:
+    from PIL import Image as _PIL_Image
+    _PILLOW_OK = True
+except ImportError:
+    _PILLOW_OK = False
+
 POSTS_DIR   = "_posts/blog"
 BLOG_DIR    = "blog"
 INDEX_FILE  = "blog/index.html"
@@ -95,6 +101,72 @@ def make_slug(title, max_words=4):
     s = re.sub(r'[\s_]+', ' ', s).strip()
     words = [w for w in s.split(' ') if w and w not in STOP_WORDS]
     return '-'.join(words[:max_words])
+
+
+IMG_MAX_BYTES  = 200 * 1024   # 200KB — acima disso, otimiza
+IMG_TARGET_W   = 1360          # 2× retina do card (680px)
+IMG_TARGET_H   = 907           # proporção 3:2
+IMG_QUALITY    = 82
+
+
+def optimize_post_image(image_field, slug, md_path):
+    """Converte imagem do post para WebP otimizado com nome padronizado.
+
+    Roda somente se Pillow estiver disponível e a imagem precisar de otimização
+    (não-WebP OU arquivo > IMG_MAX_BYTES OU nome != blog-{slug}.webp).
+    Atualiza o campo `image:` no .md e retorna o novo caminho relativo.
+    """
+    if not _PILLOW_OK or not image_field:
+        return image_field
+
+    # Resolve caminho no disco
+    raw = re.sub(r'^(\.\.\/)?assets\/', '', image_field)
+    src_path = os.path.join("assets", raw)
+    if not os.path.exists(src_path):
+        return image_field
+
+    target_name = f"blog-{slug}.webp"
+    target_path = os.path.join("assets", target_name)
+    target_field = f"assets/{target_name}"
+
+    already_ok = (
+        src_path == target_path
+        and os.path.getsize(src_path) <= IMG_MAX_BYTES
+    )
+    if already_ok:
+        return image_field
+
+    try:
+        img = _PIL_Image.open(src_path).convert("RGB")
+        orig_w, orig_h = img.size
+        # Redimensiona apenas se maior que o alvo
+        if orig_w > IMG_TARGET_W or orig_h > IMG_TARGET_H:
+            img.thumbnail((IMG_TARGET_W, IMG_TARGET_H), _PIL_Image.LANCZOS)
+        img.save(target_path, format="WEBP", quality=IMG_QUALITY, method=6)
+
+        orig_kb = os.path.getsize(src_path) // 1024
+        new_kb  = os.path.getsize(target_path) // 1024
+        print(f"  [img] {raw} ({orig_kb}KB) → {target_name} ({new_kb}KB)")
+
+        # Apaga original se for diferente do destino
+        if src_path != target_path:
+            os.remove(src_path)
+
+        # Atualiza campo image: no .md
+        with open(md_path, encoding="utf-8") as f:
+            md_content = f.read()
+        md_content = re.sub(
+            r'^(image:\s*["\']?).*?(["\']?\s*)$',
+            lambda m: f'{m.group(1)}{target_field}{m.group(2)}',
+            md_content, flags=re.MULTILINE
+        )
+        with open(md_path, "w", encoding="utf-8") as f:
+            f.write(md_content)
+
+        return target_field
+    except Exception as e:
+        print(f"  [img] aviso: não foi possível otimizar {src_path}: {e}")
+        return image_field
 
 
 def format_date_br(date_val):
@@ -550,6 +622,15 @@ def main():
             print(f"Pulando {post_path} — sem título no frontmatter")
             continue
 
+        # Otimiza imagem do post (converte para WebP, renomeia, redimensiona)
+        if meta.get("image"):
+            new_image = optimize_post_image(meta["image"], slug, post_path)
+            if new_image != meta["image"]:
+                meta["image"] = new_image
+                # Relê o arquivo para sincronizar os metadados atualizados
+                with open(post_path, encoding="utf-8") as f:
+                    meta, body_md = parse_frontmatter(f.read())
+
         # Monta sidebar e navegação
         tags_raw = meta.get("tags", "")
         tags_list = [t.strip() for t in tags_raw.split(",")] if isinstance(tags_raw, str) else [str(t) for t in tags_raw]
@@ -576,6 +657,8 @@ def main():
     update_sitemap(posts)
     print("Sitemap atualizado")
 
+    # Re-coleta metadados após otimização de imagens (nomes podem ter mudado)
+    all_posts_meta = collect_all_posts_meta()
     regenerate_blog_grid(all_posts_meta)
     update_home_cards(all_posts_meta)
 
