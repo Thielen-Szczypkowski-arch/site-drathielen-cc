@@ -172,6 +172,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (email)    txt += `\n*E-mail:* ${email}`;
       if (telefone) txt += `\n*Telefone:* ${telefone}`;
 
+      if (typeof gtag !== 'undefined') {
+        const userData = {};
+        if (email) userData.email = email;
+        if (telefone) userData.phone_number = telefone.replace(/\D/g, '');
+        if (Object.keys(userData).length) gtag('set', 'user_data', userData);
+        gtag('event', 'conversion', { send_to: 'AW-10784797832/0x6aCLjQsKwDEIjpy5Yo' });
+      }
       window.open(`https://web.whatsapp.com/send?phone=5511943211890&text=${encodeURIComponent(txt)}`, '_blank');
     });
   }
