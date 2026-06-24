@@ -58,6 +58,31 @@
       font-size:0.67rem; color:var(--text-light); letter-spacing:0.08em; text-transform:uppercase; font-weight:500;
     }
     .badge::before, .badge::after { content:''; display:block; width:22px; height:1px; background:rgba(172,146,115,0.25) }
+    .forgot-link {
+      display:block; margin-top:14px; font-size:0.75rem; color:var(--text-light);
+      cursor:pointer; background:none; border:none; font-family:'Inter',sans-serif;
+      text-decoration:underline; text-underline-offset:3px;
+    }
+    .forgot-link:hover { color:var(--text-muted) }
+    /* Painel de recuperação — oculto por padrão */
+    .recovery-panel {
+      display:none; margin-top:20px; padding:20px; background:var(--cream);
+      border-radius:16px; border:1px solid rgba(172,146,115,0.2); text-align:left;
+    }
+    .recovery-panel.visible { display:block }
+    .recovery-panel .rec-title {
+      font-family:'Outfit',sans-serif; font-size:0.9rem; font-weight:700;
+      color:var(--text-dark); margin-bottom:12px; text-align:center;
+    }
+    .recovery-panel .field { margin-bottom:12px }
+    .btn-rec {
+      width:100%; padding:11px; background:var(--bronze); color:var(--white);
+      border:none; border-radius:var(--radius-pill); font-family:'Inter',sans-serif;
+      font-size:0.82rem; font-weight:600; cursor:pointer; transition:background 0.2s;
+    }
+    .btn-rec:hover { background:var(--bronze-dark) }
+    .rec-token-field { display:none }
+    .rec-token-field.visible { display:block }
   </style>
 </head>
 <body>
@@ -74,11 +99,38 @@
 
     <button class="btn-entrar" id="btnEntrar">Entrar</button>
     <div class="error-msg" id="errorMsg">Senha incorreta. Tente novamente.</div>
+
+    <button class="forgot-link" id="btnForgot">Esqueci o token</button>
+
+    <!-- Painel de recuperação -->
+    <div class="recovery-panel" id="recoveryPanel">
+      <div class="rec-title">Recuperar acesso</div>
+
+      <!-- Passo 1: pergunta secreta -->
+      <div id="recStep1">
+        <div class="field">
+          <label>Em qual cidade foi desenvolvido o site?</label>
+          <input type="text" id="recAnswer" placeholder="Digite a resposta" autocomplete="off">
+        </div>
+        <button class="btn-rec" id="btnRecVerify">Verificar</button>
+        <div class="error-msg" id="recErrorMsg" style="margin-top:10px">Resposta incorreta.</div>
+      </div>
+
+      <!-- Passo 2: colar novo token -->
+      <div class="rec-token-field" id="recStep2">
+        <div class="field">
+          <label>Cole o novo token do GitHub</label>
+          <input type="text" id="recToken" placeholder="github_pat_..." autocomplete="off">
+        </div>
+        <button class="btn-rec" id="btnRecSave">Salvar e entrar</button>
+        <div class="error-msg" id="recErrorMsg2" style="margin-top:10px">Token inválido. Verifique e tente novamente.</div>
+      </div>
+    </div>
+
     <div class="badge">Blog · Dra. Thielen Szczypkowski</div>
   </div>
 
   <script>
-    // Se já está autenticado, vai direto para o editor
     if (sessionStorage.getItem('gh_token')) {
       window.location.href = '/admin/editor.html';
     }
@@ -86,7 +138,6 @@
     function tryLogin() {
       var val = document.getElementById('tokenInput').value.trim();
       if (!val) return;
-      // Verifica o token na API do GitHub
       fetch('https://api.github.com/repos/Thielen-Szczypkowski-arch/site-drathielen-cc', {
         headers: { 'Authorization': 'token ' + val }
       }).then(function(r) {
@@ -104,6 +155,51 @@
     document.getElementById('btnEntrar').addEventListener('click', tryLogin);
     document.getElementById('tokenInput').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') tryLogin();
+    });
+
+    // Recuperação
+    document.getElementById('btnForgot').addEventListener('click', function() {
+      var panel = document.getElementById('recoveryPanel');
+      panel.classList.toggle('visible');
+    });
+
+    function normalize(s) {
+      return s.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    }
+
+    document.getElementById('btnRecVerify').addEventListener('click', function() {
+      var ans = document.getElementById('recAnswer').value;
+      if (normalize(ans) === 'maceio') {
+        document.getElementById('recStep1').style.display = 'none';
+        document.getElementById('recStep2').classList.add('visible');
+      } else {
+        document.getElementById('recErrorMsg').classList.add('visible');
+      }
+    });
+
+    document.getElementById('recAnswer').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') document.getElementById('btnRecVerify').click();
+    });
+
+    document.getElementById('btnRecSave').addEventListener('click', function() {
+      var token = document.getElementById('recToken').value.trim();
+      if (!token) return;
+      fetch('https://api.github.com/repos/Thielen-Szczypkowski-arch/site-drathielen-cc', {
+        headers: { 'Authorization': 'token ' + token }
+      }).then(function(r) {
+        if (r.ok) {
+          sessionStorage.setItem('gh_token', token);
+          window.location.href = '/admin/editor.html';
+        } else {
+          document.getElementById('recErrorMsg2').classList.add('visible');
+        }
+      }).catch(function() {
+        document.getElementById('recErrorMsg2').classList.add('visible');
+      });
+    });
+
+    document.getElementById('recToken').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') document.getElementById('btnRecSave').click();
     });
   </script>
 </body>
