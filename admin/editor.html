@@ -747,30 +747,50 @@
   imgInput.addEventListener('change', function () {
     var file = this.files[0];
     if (!file) return;
+
+    var originalName = file.name;
+    var originalSize = file.size;
+
     var reader = new FileReader();
     reader.onload = function (ev) {
-      imgBase64    = ev.target.result.split(',')[1];
-      imgFileName  = file.name.replace(/\s+/g,'-').toLowerCase();
+      var img = new Image();
+      img.onload = function () {
+        // Redimensiona para máx 680px de largura mantendo proporção
+        var maxW = 680, maxH = 453;
+        var w = img.width, h = img.height;
+        if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+        if (h > maxH) { w = Math.round(w * maxH / h); h = maxH; }
 
-      // Limpa a área e adiciona preview usando DOM (sem innerHTML de dados externos)
-      while (imgArea.firstChild) imgArea.removeChild(imgArea.firstChild);
-      imgArea.classList.add('has-image');
+        var canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
 
-      var previewImg = document.createElement('img');
-      previewImg.src       = ev.target.result;
-      previewImg.alt       = 'Preview';
-      previewImg.className = 'img-preview';
+        var webpDataUrl = canvas.toDataURL('image/webp', 0.82);
+        imgBase64   = webpDataUrl.split(',')[1];
+        imgFileName = originalName.replace(/\.[^.]+$/, '').replace(/\s+/g, '-').toLowerCase() + '.webp';
 
-      var changeBtn = document.createElement('button');
-      changeBtn.type      = 'button';
-      changeBtn.className = 'img-change-btn';
-      changeBtn.textContent = 'Trocar imagem';
-      changeBtn.addEventListener('click', function(e){ e.stopPropagation(); imgInput.click(); });
+        // Limpa a área e adiciona preview usando DOM (sem innerHTML de dados externos)
+        while (imgArea.firstChild) imgArea.removeChild(imgArea.firstChild);
+        imgArea.classList.add('has-image');
 
-      imgArea.appendChild(previewImg);
-      imgArea.appendChild(changeBtn);
+        var previewImg = document.createElement('img');
+        previewImg.src       = webpDataUrl;
+        previewImg.alt       = 'Preview';
+        previewImg.className = 'img-preview';
 
-      document.getElementById('imgName').textContent = file.name + ' (' + (file.size/1024).toFixed(0) + ' kb)';
+        var changeBtn = document.createElement('button');
+        changeBtn.type      = 'button';
+        changeBtn.className = 'img-change-btn';
+        changeBtn.textContent = 'Trocar imagem';
+        changeBtn.addEventListener('click', function(e){ e.stopPropagation(); imgInput.click(); });
+
+        imgArea.appendChild(previewImg);
+        imgArea.appendChild(changeBtn);
+
+        var newSizeKb = Math.round(atob(imgBase64).length / 1024);
+        document.getElementById('imgName').textContent = originalName + ' → ' + imgFileName + ' (' + newSizeKb + ' kb)';
+      };
+      img.src = ev.target.result;
     };
     reader.readAsDataURL(file);
   });
@@ -1275,7 +1295,7 @@
     }
 
     var slug    = currentSlug || slugify(title);
-    var imgPath = imgFileName ? 'assets/' + slug + '-' + imgFileName
+    var imgPath = imgFileName ? 'assets/blog-' + slug + '.webp'
                : (currentImgPath ? 'assets/' + currentImgPath : '');
 
     var kw = document.getElementById('fKw').value.trim();
