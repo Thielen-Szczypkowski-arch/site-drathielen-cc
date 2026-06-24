@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin — Blog Dra. Thielen</title>
+  <style>
+    @font-face { font-family:'Inter'; font-style:normal; font-weight:400 500; font-display:swap; src:url('/assets/fonts/inter-latin.woff2') format('woff2') }
+    @font-face { font-family:'Outfit'; font-style:normal; font-weight:400 700; font-display:swap; src:url('/assets/fonts/outfit-latin.woff2') format('woff2') }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0 }
+    :root {
+      --bronze:#ac9273; --bronze-dark:#8a7358; --bronze-light:#c4ab8e;
+      --bronze-pale:rgba(172,146,115,0.12); --brown:#524334;
+      --cream:#f4f0eb; --cream-light:#f9f7f4; --white:#ffffff;
+      --text-dark:#2a1f14; --text-muted:#7a6a5a; --text-light:#a89880;
+      --radius-sm:12px; --radius-pill:100px;
+    }
+    html, body { height:100%; font-family:'Inter',sans-serif; background:var(--cream-light); color:var(--text-dark) }
+    body {
+      display:flex; align-items:center; justify-content:center; min-height:100vh; padding:24px;
+      background-image:
+        radial-gradient(ellipse at 80% 15%, rgba(172,146,115,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse at 15% 85%, rgba(172,146,115,0.08) 0%, transparent 55%);
+    }
+    .card {
+      background:var(--white); border-radius:28px; padding:52px 44px 44px;
+      width:100%; max-width:420px; text-align:center;
+      box-shadow:0 12px 48px rgba(82,67,52,0.10), 0 1px 0 rgba(172,146,115,0.18);
+      border:1px solid rgba(172,146,115,0.14);
+    }
+    .logo { height:68px; width:auto; display:block; margin:0 auto 28px }
+    .divider { width:36px; height:2px; background:var(--bronze-pale); margin:0 auto 24px; border-radius:2px }
+    h1 { font-family:'Outfit',sans-serif; font-size:1.3rem; font-weight:700; color:var(--text-dark); margin-bottom:8px; letter-spacing:-0.01em }
+    .sub { font-size:0.82rem; color:var(--text-muted); line-height:1.65; margin-bottom:28px }
+    .field { display:flex; flex-direction:column; gap:6px; text-align:left; margin-bottom:16px }
+    .field label { font-size:0.72rem; font-weight:600; color:var(--text-muted); letter-spacing:0.05em; text-transform:uppercase }
+    .field input {
+      padding:11px 14px; border:1.5px solid rgba(172,146,115,0.25);
+      border-radius:var(--radius-sm); font-family:'Inter',sans-serif;
+      font-size:0.88rem; color:var(--text-dark); background:var(--white);
+      transition:border-color 0.2s, box-shadow 0.2s; outline:none;
+    }
+    .field input:focus { border-color:var(--bronze); box-shadow:0 0 0 3px rgba(172,146,115,0.12) }
+    .btn-entrar {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:100%; padding:14px 28px; background:var(--brown); color:var(--white);
+      border:none; border-radius:var(--radius-pill); font-family:'Inter',sans-serif;
+      font-size:0.88rem; font-weight:600; cursor:pointer;
+      transition:background 0.2s, transform 0.2s, box-shadow 0.2s; letter-spacing:0.02em;
+    }
+    .btn-entrar:hover { background:#3d3025; transform:translateY(-2px); box-shadow:0 8px 20px rgba(82,67,52,0.18) }
+    .btn-entrar:active { transform:scale(0.97) }
+    .error-msg { display:none; margin-top:14px; padding:10px 16px; background:#fff0f0; border-radius:10px; font-size:0.8rem; color:#c0392b; text-align:center }
+    .error-msg.visible { display:block }
+    .success-box { display:none; margin-top:20px; padding:16px; background:#f0fff4; border-radius:14px; border:1px solid rgba(39,174,96,0.2) }
+    .success-box.visible { display:block }
+    .success-box .token-label { font-size:0.72rem; font-weight:600; color:var(--text-muted); letter-spacing:0.05em; text-transform:uppercase; margin-bottom:8px }
+    .success-box input {
+      width:100%; padding:10px 12px; border:1.5px solid rgba(172,146,115,0.3);
+      border-radius:10px; font-family:'Inter',sans-serif; font-size:0.8rem;
+      color:var(--text-dark); background:var(--white); outline:none; margin-bottom:10px;
+    }
+    .btn-copy {
+      width:100%; padding:10px; background:var(--bronze); color:var(--white);
+      border:none; border-radius:var(--radius-pill); font-family:'Inter',sans-serif;
+      font-size:0.82rem; font-weight:600; cursor:pointer; transition:background 0.2s;
+    }
+    .btn-copy:hover { background:var(--bronze-dark) }
+    .badge {
+      display:inline-flex; align-items:center; gap:8px; margin-top:24px;
+      font-size:0.67rem; color:var(--text-light); letter-spacing:0.08em; text-transform:uppercase; font-weight:500;
+    }
+    .badge::before, .badge::after { content:''; display:block; width:22px; height:1px; background:rgba(172,146,115,0.25) }
+    .step2 { display:none }
+    .step2.visible { display:block }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="/assets/logo-original.webp" alt="Dra. Thielen Szczypkowski" class="logo" width="800" height="277">
+    <div class="divider"></div>
+
+    <!-- Passo 1: pergunta secreta -->
+    <div id="step1">
+      <h1>Recuperar acesso</h1>
+      <p class="sub">Responda a pergunta de segurança<br>para visualizar o token salvo.</p>
+      <div class="field">
+        <label for="secretAnswer">Em qual cidade foi desenvolvido o site?</label>
+        <input type="text" id="secretAnswer" placeholder="Digite a resposta" autocomplete="off">
+      </div>
+      <button class="btn-entrar" id="btnVerify">Verificar</button>
+      <div class="error-msg" id="errorMsg">Resposta incorreta. Tente novamente.</div>
+    </div>
+
+    <!-- Passo 2: exibe / atualiza token -->
+    <div id="step2" class="step2">
+      <h1>Token de acesso</h1>
+      <p class="sub">Cole o token do GitHub abaixo para<br>salvar e entrar no painel.</p>
+      <div class="success-box visible">
+        <div class="token-label">Token GitHub</div>
+        <input type="text" id="tokenDisplay" placeholder="Cole o novo token aqui" autocomplete="off">
+        <button class="btn-copy" id="btnSave">Salvar e entrar no painel</button>
+      </div>
+      <div class="error-msg" id="errorMsg2">Token inválido. Verifique e tente novamente.</div>
+    </div>
+
+    <div class="badge">Blog · Dra. Thielen Szczypkowski</div>
+  </div>
+
+  <script>
+    var ANSWER = 'maceio';
+
+    document.getElementById('btnVerify').addEventListener('click', verify);
+    document.getElementById('secretAnswer').addEventListener('keydown', function(e){ if (e.key === 'Enter') verify(); });
+
+    function normalize(s) {
+      return s.trim().toLowerCase()
+        .normalize('NFD').replace(/[̀-ͯ]/g, '');
+    }
+
+    function verify() {
+      var val = document.getElementById('secretAnswer').value;
+      if (normalize(val) === ANSWER) {
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').classList.add('visible');
+        // Pré-preenche com token salvo na sessão, se houver
+        var saved = sessionStorage.getItem('gh_token');
+        if (saved) document.getElementById('tokenDisplay').value = saved;
+      } else {
+        document.getElementById('errorMsg').classList.add('visible');
+      }
+    }
+
+    document.getElementById('btnSave').addEventListener('click', function() {
+      var token = document.getElementById('tokenDisplay').value.trim();
+      if (!token) return;
+      fetch('https://api.github.com/repos/Thielen-Szczypkowski-arch/site-drathielen-cc', {
+        headers: { 'Authorization': 'token ' + token }
+      }).then(function(r) {
+        if (r.ok) {
+          sessionStorage.setItem('gh_token', token);
+          window.location.href = '/admin/editor.html';
+        } else {
+          document.getElementById('errorMsg2').classList.add('visible');
+        }
+      }).catch(function() {
+        document.getElementById('errorMsg2').classList.add('visible');
+      });
+    });
+
+    document.getElementById('tokenDisplay').addEventListener('keydown', function(e){
+      if (e.key === 'Enter') document.getElementById('btnSave').click();
+    });
+  </script>
+</body>
+</html>
