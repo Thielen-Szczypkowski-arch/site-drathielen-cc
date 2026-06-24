@@ -231,6 +231,7 @@ def build_post_html(meta, body_md, slug, sidebar_html_str="", post_nav_html=""):
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8"><meta name="theme-color" content="#ac9273">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="{description}">
   <title>{title} | Blog Dra. Thielen</title>
