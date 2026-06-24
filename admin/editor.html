@@ -576,6 +576,7 @@
   var imgBase64      = null;
   var imgFileName    = null;
   var currentImgPath = null;
+  var currentImgSha  = null;
   var taxonomias     = { categorias: [], tags: [] };
   var allPostsMeta   = [];
   var selectedTags   = [];
@@ -1007,10 +1008,15 @@
 
       // Carrega preview da imagem existente via URL pública
       resetImgArea();
-      imgBase64 = null; imgFileName = null; currentImgPath = null;
+      imgBase64 = null; imgFileName = null; currentImgPath = null; currentImgSha = null;
       var existingImg = (data.image || '').replace(/^(\.\.\/)?assets\//, '');
       if (existingImg) {
         currentImgPath = existingImg;
+        // Busca SHA da imagem para permitir substituição via API
+        api('/repos/' + REPO + '/contents/assets/' + existingImg)
+          .then(function(r){ return r.json(); })
+          .then(function(d){ currentImgSha = d.sha || null; })
+          .catch(function(){ currentImgSha = null; });
         document.getElementById('imgName').textContent = existingImg;
         var publicUrl = 'https://www.drathielen.com.br/assets/' + existingImg;
         while (imgArea.firstChild) imgArea.removeChild(imgArea.firstChild);
@@ -1042,7 +1048,7 @@
       richEditor.innerHTML  = '';
       selectedTags = []; renderSelectedTags(); renderCatMenu(); renderTagMenu();
       resetImgArea();
-      imgBase64 = null; imgFileName = null; currentImgPath = null;
+      imgBase64 = null; imgFileName = null; currentImgPath = null; currentImgSha = null;
       currentSlug = null; currentFileSha = null;
     }
     setTimeout(seoCheck, 50);
@@ -1323,9 +1329,11 @@
 
     if (imgBase64 && imgFileName) {
       chain = chain.then(function(){
+        var imgPayload = { message: 'Upload imagem: ' + imgPath, content: imgBase64, branch: BRANCH };
+        if (currentImgSha) imgPayload.sha = currentImgSha;
         return api('/repos/' + REPO + '/contents/' + imgPath, {
           method: 'PUT',
-          body: JSON.stringify({ message: 'Upload imagem: ' + imgPath, content: imgBase64, branch: BRANCH })
+          body: JSON.stringify(imgPayload)
         }).then(function(r){ if (!r.ok) return r.json().then(function(d){ throw new Error(d.message); }); });
       });
     }
