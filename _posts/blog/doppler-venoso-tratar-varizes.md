@@ -43,12 +43,19 @@ Esse processo é chamado de **insuficiência venosa crônica**.
 Dependendo do caso, podem surgir sinais e sintomas como:
 
 - Varizes;
+
 - Vasinhos;
+
 - Sensação de peso ou cansaço nas pernas;
+
 - Dor ou desconforto;
+
 - Inchaço, principalmente no final do dia;
+
 - Coceira;
+
 - Cãibras;
+
 - Alterações na coloração ou na textura da pele.
 
 Nem toda pessoa apresenta os mesmos sintomas. Algumas têm veias bastante visíveis e pouco desconforto. Outras sentem peso, dor ou inchaço mesmo sem grandes varizes aparentes.
@@ -64,10 +71,15 @@ Diferentemente de uma avaliação baseada apenas no aspecto externo das pernas, 
 Durante o exame, é possível avaliar:
 
 - O trajeto das veias;
+
 - A direção do fluxo sanguíneo;
+
 - O funcionamento das válvulas venosas;
+
 - A presença e a localização de refluxo;
+
 - Quais veias apresentam insuficiência;
+
 - A relação entre as veias internas e as alterações visíveis na pele.
 
 Em determinados casos, o exame também auxilia na investigação de outras alterações vasculares.
@@ -159,12 +171,19 @@ Essas etapas não são independentes. Elas fazem parte do mesmo cuidado.
 Uma avaliação pode ser indicada quando existem:
 
 - Varizes ou vasinhos que aumentaram;
+
 - Dor, peso ou cansaço nas pernas;
+
 - Inchaço frequente;
+
 - Veias endurecidas, doloridas ou avermelhadas;
+
 - Coceira ou alterações na pele;
+
 - Histórico familiar importante de doença venosa;
+
 - Dúvidas sobre tratamentos anteriores;
+
 - Interesse em tratar varizes ou vasinhos com planejamento individualizado.
 
 Mesmo quando a principal queixa é estética, a avaliação vascular ajuda a compreender se existe alguma alteração circulatória associada.
