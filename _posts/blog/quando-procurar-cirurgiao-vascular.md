@@ -2,12 +2,12 @@
 title: "Quando procurar um cirurgião vascular? 7 sinais nas pernas que merecem atenção"
 date: 2026-08-25
 tags: "vasinhos, cirurgia vascular, inchaço nas pernas, dor nas pernas, trombose"
-category: ""
+category: "Prevenção"
 lead: "Nem todo problema vascular começa com uma variz visível. Inchaço, dor, peso, assimetria entre as pernas e histórico familiar também podem indicar que é hora de procurar um cirurgião vascular."
 description: "Quando procurar um cirurgião vascular? Conheça 7 sinais nas pernas que merecem avaliação, mesmo sem varizes aparentes."
-image: ""
+image: "assets/blog-quando-procurar-cirurgiao-vascular.webp"
 image_alt: "Mulher observando as pernas antes de uma avaliação com cirurgião vascular"
-focus_keyword: "quando procurar um cirurgião vascular"
+focus_keyword: "Quando procurar um cirurgião vascular"
 cta_title: "Quer avaliar seu caso?"
 cta_text: "Agende uma avaliação vascular e descubra o melhor tratamento para você."
 ---
