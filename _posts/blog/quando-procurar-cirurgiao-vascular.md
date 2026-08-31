@@ -1,5 +1,5 @@
 ---
-title: "Quando procurar um cirurgião vascular? 7 sinais nas pernas que merecem atenção"
+title: "Quando procurar um cirurgião vascular? 7 sinais"
 date: 2026-08-25
 tags: "vasinhos, cirurgia vascular, inchaço nas pernas, dor nas pernas, trombose"
 category: "Prevenção"
